@@ -81,9 +81,9 @@ const refreshAccessToken = () => {
   );
 };
 
-export const isAccessTokenActive = () => !!getAccessToken();
+export const isAccessTokenActive = async () => !!(await getAccessToken());
 export const isAuthenticated = async () =>
-  isAccessTokenActive() ? true : await isAccessTokenRefreshed();
+  (await isAccessTokenActive()) ? true : await isAccessTokenRefreshed();
 
 const storeUser = async (user: LoginResponseDTO) => {
   try {
@@ -137,7 +137,6 @@ export const getAccessToken = async (): Promise<string | undefined> => {
     if (jsonValue !== null) {
       const token = JSON.parse(jsonValue) as Token;
       if (token.value && token.value !== "") {
-        debugger;
         if (
           new Date(new Date().toUTCString()).getTime() -
             new Date(token.created).getTime() <

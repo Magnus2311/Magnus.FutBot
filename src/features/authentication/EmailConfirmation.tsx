@@ -1,7 +1,7 @@
 import Login from "./Login";
 import { useSearchParams } from "react-router-dom";
 
-const EmailConfirmationPage = () => {
+const EmailConfirmation = () => {
   const [searchParams] = useSearchParams();
   const username = searchParams.get("username");
 
@@ -12,4 +12,4 @@ const EmailConfirmationPage = () => {
   );
 };
 
-export default EmailConfirmationPage;
+export default EmailConfirmation;

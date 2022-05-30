@@ -6,9 +6,9 @@ import { LoginUserDTO } from "./models";
 import TextBox from "../common/TextBox";
 import { useNavigate } from "react-router";
 import Logo from "../common/Logo";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
-  returnAfterLogin?: any;
   username?: string;
   isConfirmation?: boolean;
 }
@@ -18,7 +18,9 @@ const emptyLogin = {
   username: "",
 } as LoginUserDTO;
 
-const Login = ({ returnAfterLogin, username, isConfirmation }: Props) => {
+const Login = ({ username, isConfirmation }: Props) => {
+  const [searchParams] = useSearchParams();
+  const returnAfterLogin = searchParams.get("returnAfterLogin");
   const [logged, setLogged] = useState(false);
   const [isWrongCredentials, setIsWrongCredentials] = useState(false);
   const [isLoginActive, setIsLoginActive] = useState(false);
@@ -35,11 +37,14 @@ const Login = ({ returnAfterLogin, username, isConfirmation }: Props) => {
       tempUser.email = currentUser.username;
     }
 
-    login(tempUser).then(isLoginSuccessful => {
-      if (isLoginSuccessful) {
-        setUser(currentUser);
+    login(tempUser).then(isLoginSuccessfulDTO => {
+      if (isLoginSuccessfulDTO) {
+        setUser({
+          username: isLoginSuccessfulDTO.username,
+          email: isLoginSuccessfulDTO.email,
+        });
         setLogged(true);
-        navigate("/");
+        navigate(returnAfterLogin ?? "/");
       } else {
         setIsWrongCredentials(true);
         setCurrentUser(emptyLogin);
@@ -77,7 +82,7 @@ const Login = ({ returnAfterLogin, username, isConfirmation }: Props) => {
   };
 
   return logged && returnAfterLogin ? (
-    returnAfterLogin
+    <>{navigate(returnAfterLogin)}</>
   ) : (
     <>
       <Logo style={{ height: "64px", width: "64px" }} />

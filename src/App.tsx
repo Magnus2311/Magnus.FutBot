@@ -15,7 +15,6 @@ function App() {
   useEffect(() => {
     const getUserData = async () => {
       const userData = await initUser();
-      debugger;
       setUser(userData);
     };
     getUserData();

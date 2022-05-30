@@ -6,6 +6,7 @@ import * as usersService from "../authentication/authenticationService";
 import { RegisterUserDTO, SenderType } from "./models";
 import { FUTBOT_WEB_ADDRESS } from "../../helpers/constants";
 import Logo from "../common/Logo";
+import { createSearchParams } from "react-router-dom";
 
 enum RegistrationEnum {
   Email,
@@ -105,7 +106,12 @@ const Registration = () => {
       senderType: SenderType.Futbot,
     } as RegisterUserDTO;
     usersService.add(userToInsert);
-    navigate(`/auth/emailsent/${username}`);
+    navigate({
+      pathname: "/auth/email-sent",
+      search: createSearchParams({
+        email: email,
+      }).toString(),
+    });
   };
 
   return (
