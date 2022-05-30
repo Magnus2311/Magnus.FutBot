@@ -249,7 +249,7 @@ form {
   place-items: center;
   width: clamp(250px, 80%, 750px);
   margin: 0 auto;
-  margin-top: 80px;
+  margin-top: 30px;
 }
 
 .mag-item {
