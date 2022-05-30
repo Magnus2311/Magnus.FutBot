@@ -7,7 +7,7 @@ interface Props {
 }
 
 const AuthenticateBeforeRender = ({ render }: Props) => {
-  const { username, email } = useContext(AuthContext);
+  const { username, email } = useContext(AuthContext)?.user;
 
   return username || email ? render() : <Login returnAfterLogin={render()} />;
 };

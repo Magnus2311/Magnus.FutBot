@@ -204,5 +204,3 @@ const deleteDataOnLogout = () => {
 };
 
 export const sendResetPasswordEmail = (username: string) => {};
-
-export const changePassword = (oldPassword: string, newPassword: string) => {};
