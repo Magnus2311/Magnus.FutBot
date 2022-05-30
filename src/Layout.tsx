@@ -35,11 +35,12 @@ const Layout = () => {
             style={{
               height: "30px",
               width: "30px",
-              paddingBottom: "5px",
               marginLeft: "10px",
             }}
           />
-          <p style={{ paddingLeft: "10px" }}>Magnus Fut Bot</p>
+          <p style={{ paddingLeft: "10px", margin: "0 auto" }}>
+            Magnus Fut Bot
+          </p>
         </div>
       </Link>
       <Navbar.Toggle
