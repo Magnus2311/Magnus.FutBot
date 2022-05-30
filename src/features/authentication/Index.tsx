@@ -4,7 +4,7 @@ import TextBox from "../common/TextBox";
 import { AuthContext } from "./AuthContext";
 import { changePassword, logout } from "./authenticationService";
 
-const Index = () => {
+const AuthIndex = () => {
   const { user, setUser } = useContext(AuthContext);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -80,6 +80,16 @@ const Index = () => {
             placeholder="Username"
           />
         )}
+        {user && user.email && (
+          <TextBox
+            label="E-mail"
+            value={user.email.toLowerCase()}
+            disabled
+            handleChange={() => {}}
+            name="Email"
+            placeholder="Email"
+          />
+        )}
         <div
           className={`expandable ${
             isChangePasswordActive ? "expanded" : "collapsed"
@@ -151,4 +161,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default AuthIndex;

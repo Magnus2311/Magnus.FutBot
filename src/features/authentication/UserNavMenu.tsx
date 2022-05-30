@@ -8,7 +8,7 @@ const UserNavMenu = () => {
   return (
     <div
       className="mr-auto navbar-nav"
-      style={{ position: "fixed", right: "4rem", top: "0.5rem" }}
+      style={{ position: "fixed", right: "4rem" }}
     >
       <div className="dropdown nav-item" style={{ display: "inline-flex" }}>
         {user.username ? <LoggedNavMenu /> : <NotLoggedNavMenu />}

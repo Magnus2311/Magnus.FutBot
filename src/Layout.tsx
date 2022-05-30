@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UserNavMenu from "./features/authentication/UserNavMenu";
+import logo from "./assets/logos/fut-bot-logo.png";
 
 const Layout = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -22,16 +23,24 @@ const Layout = () => {
         position: "fixed",
         top: "0",
         width: "100%",
+        height: "50px",
       }}
       expanded={isExpanded}
     >
       <Link className="navbar-brand" to="/" onClick={handleClick}>
-        <img
-          src="/images/logos/logo_transparent_no_text.png"
-          alt="Life Mode logo"
-          style={{ height: "30px", width: "30px", paddingBottom: "5px" }}
-        />
-        Magnus Fut Bot
+        <div style={{ display: "flex", placeItems: "center" }}>
+          <img
+            src={logo}
+            alt="Life Mode logo"
+            style={{
+              height: "30px",
+              width: "30px",
+              paddingBottom: "5px",
+              marginLeft: "10px",
+            }}
+          />
+          <p style={{ paddingLeft: "10px" }}>Magnus Fut Bot</p>
+        </div>
       </Link>
       <Navbar.Toggle
         aria-controls="basic-navbar-nav"

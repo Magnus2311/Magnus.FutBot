@@ -4,6 +4,7 @@ import AppRouter from "./AppRouter";
 import { AuthContext, User } from "./features/authentication/AuthContext";
 import { initUser } from "./features/authentication/authenticationService";
 import Layout from "./Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [user, setUser] = useState<User>({

@@ -32,7 +32,7 @@ const TextBox: FunctionComponent<TextBoxProps> = ({
   isValid,
 }) => {
   return (
-    <div className="form-group">
+    <div className="form-group" style={{ marginBottom: "10px" }}>
       <label>{label}</label>
       <input
         className={`form-control${isValid ? "" : " invalid-content"}`}
