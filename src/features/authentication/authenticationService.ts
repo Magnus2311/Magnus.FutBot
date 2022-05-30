@@ -55,11 +55,11 @@ export function changePassword(oldPassword: string, newPassword: string) {
       newPassword,
     },
     true
-  ).then(async (response) => {});
+  ).then(async response => {});
 }
 
 export const resetPassword = (token: string, newPassword: string) => {
-  return post("/users/resetPassword", { token, newPassword }, true);
+  return post<boolean>("/users/resetPassword", { token, newPassword }, true);
 };
 
 export const initUser = async () => {

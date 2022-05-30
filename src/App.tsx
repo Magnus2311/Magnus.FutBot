@@ -1,57 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import AppRouter from "./AppRouter";
+import { AuthContext, User } from "./features/authentication/AuthContext";
+import { initUser } from "./features/authentication/authenticationService";
+import Layout from "./Layout";
 
 function App() {
+  const [user, setUser] = useState<User>({
+    username: undefined,
+    email: undefined,
+  });
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userData = await initUser();
+      debugger;
+      setUser(userData);
+    };
+    getUserData();
+  }, [setUser]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <AuthContext.Provider value={{ user: user, setUser: setUser }}>
+      <Layout />
+      <div className="container App-container">
+        <AppRouter />
+      </div>
+    </AuthContext.Provider>
   );
 }
 

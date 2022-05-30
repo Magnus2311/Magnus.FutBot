@@ -5,12 +5,12 @@ export interface User {
   email: string | undefined;
 }
 
-interface UserState {
+interface UserContextType {
   user: User;
   setUser: (user: User) => void;
 }
 
-export const AuthContext = createContext<UserState>({
+export const AuthContext = createContext<UserContextType>({
   user: { username: undefined, email: undefined },
-  setUser: () => {},
+  setUser: (user: User) => {},
 });

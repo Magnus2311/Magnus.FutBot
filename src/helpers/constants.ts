@@ -4,8 +4,9 @@ enum Environments {
   Production,
 }
 
-const futbotEnvironment = Environments.Production;
+const futbotEnvironment = Environments.Dev;
 const ssoEnvironment = Environments.Production;
+const futbotWebEnvironment = Environments.Dev;
 
 const futbotApi = (environment: Environments) => {
   switch (environment) {
@@ -29,5 +30,17 @@ const ssoApi = (environment: Environments) => {
   }
 };
 
+const futbotWebAddress = (environment: Environments) => {
+  switch (environment) {
+    case Environments.Dev:
+      return "http://192.168.0.129:19006";
+    case Environments.Testing:
+      return "";
+    case Environments.Production:
+      return "";
+  }
+};
+
 export const API_PATH = futbotApi(futbotEnvironment);
 export const SSO_API_PATH = ssoApi(ssoEnvironment);
+export const FUTBOT_WEB_ADDRESS = futbotWebAddress(futbotWebEnvironment);

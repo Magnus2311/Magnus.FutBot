@@ -4,6 +4,7 @@ import { AuthContext } from "./AuthContext";
 import { login, sendResetPasswordEmail } from "./authenticationService";
 import { LoginUserDTO } from "./models";
 import TextBox from "../common/TextBox";
+import { useNavigate } from "react-router";
 
 interface Props {
   returnAfterLogin?: any;
@@ -18,17 +19,26 @@ const emptyLogin = {
 
 const Login = ({ returnAfterLogin, username, isConfirmation }: Props) => {
   const [logged, setLogged] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(true);
   const [isWrongCredentials, setIsWrongCredentials] = useState(false);
   const [isLoginActive, setIsLoginActive] = useState(false);
   const [currentUser, setCurrentUser] = useState<LoginUserDTO>(emptyLogin);
   const { setUser } = useContext(AuthContext)!;
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    login(currentUser).then((isLoginSuccessful) => {
+    e.preventDefault();
+
+    const tempUser = currentUser;
+    if (emailsService.isValidEmail(currentUser.username)) {
+      tempUser.username = "";
+      tempUser.email = currentUser.username;
+    }
+
+    login(tempUser).then(isLoginSuccessful => {
       if (isLoginSuccessful) {
         setUser(currentUser);
         setLogged(true);
+        navigate("/");
       } else {
         setIsWrongCredentials(true);
         setCurrentUser(emptyLogin);
@@ -45,18 +55,15 @@ const Login = ({ returnAfterLogin, username, isConfirmation }: Props) => {
   const changeIsLoginActive = (propName: string, propValue: string) => {
     switch (propName) {
       case "username":
-        const isEmail = emailsService.isValidEmail(propValue);
-        setIsValidEmail(isEmail);
         setIsLoginActive(
           !!propValue &&
             propValue !== "" &&
-            isEmail &&
             currentUser &&
             !!currentUser.password
         );
         break;
       case "password":
-        setIsLoginActive(!!propValue && propValue !== "" && isValidEmail);
+        setIsLoginActive(!!propValue && propValue !== "");
         break;
       default:
         break;
@@ -91,11 +98,11 @@ const Login = ({ returnAfterLogin, username, isConfirmation }: Props) => {
       )}
       <form onSubmit={handleSubmit} className="add-form">
         <TextBox
-          type="email"
-          name="email"
+          type="text"
+          name="username"
           placeholder="Enter your username or email"
           handleChange={handleChange}
-          label="E-mail"
+          label="Username or E-mail"
           value={currentUser.username}
           autoFocus={!isWrongCredentials && !isConfirmation}
         />
@@ -118,10 +125,7 @@ const Login = ({ returnAfterLogin, username, isConfirmation }: Props) => {
         <button
           className="btn btn-secondary"
           disabled={
-            !currentUser ||
-            !currentUser.username ||
-            currentUser.username === "" ||
-            !isValidEmail
+            !currentUser || !currentUser.username || currentUser.username === ""
           }
           style={{ width: "100%", marginTop: "1rem" }}
           onClick={handleResetPassword}

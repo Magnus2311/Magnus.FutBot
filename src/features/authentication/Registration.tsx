@@ -1,8 +1,10 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import * as emailService from "../../services/emailsService";
 import TextBox from "../common/TextBox";
 import { useNavigate } from "react-router";
 import * as usersService from "../authentication/authenticationService";
+import { RegisterUserDTO, SenderType } from "./models";
+import { FUTBOT_WEB_ADDRESS } from "../../helpers/constants";
 
 enum RegistrationEnum {
   Email,
@@ -92,14 +94,16 @@ const Registration = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userToInsert = {
       password: password,
       username: username,
       email: email,
-    };
-    usersDb.add(userToInsert);
+      callbackUrl: `${FUTBOT_WEB_ADDRESS}/registration/email-confirmed`,
+      senderType: SenderType.Futbot,
+    } as RegisterUserDTO;
+    usersService.add(userToInsert);
     navigate(`/auth/emailsent/${username}`);
   };
 
@@ -116,8 +120,18 @@ const Registration = () => {
         <TextBox
           handleChange={handleUsernameChange}
           value={username}
-          label="E-mail"
+          label="Username"
           name="username"
+          placeholder="Enter your username"
+          type="text"
+          autoFocus
+          isValid={isUsernameAvailable}
+        />
+        <TextBox
+          handleChange={handleEmailChange}
+          value={email}
+          label="E-mail"
+          name="email"
           placeholder="Enter your email"
           type="email"
           autoFocus
