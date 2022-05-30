@@ -13,9 +13,14 @@ const EmailSent = () => {
         margin: "0 auto",
       }}
     >
-      <Logo />
+      <Logo
+        style={{
+          height: "64px",
+          width: "64px",
+        }}
+      />
       <h3>Confirmation e-mail sent to: {searchParams.get("email")}</h3>
-      <div>"You will be able to sign-in as soon as e-mail is confirmed."</div>
+      <h5>You will be able to sign-in as soon as e-mail is confirmed.</h5>
     </div>
   );
 };
