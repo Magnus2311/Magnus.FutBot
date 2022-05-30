@@ -5,6 +5,7 @@ import { login, sendResetPasswordEmail } from "./authenticationService";
 import { LoginUserDTO } from "./models";
 import TextBox from "../common/TextBox";
 import { useNavigate } from "react-router";
+import Logo from "../common/Logo";
 
 interface Props {
   returnAfterLogin?: any;
@@ -79,11 +80,7 @@ const Login = ({ returnAfterLogin, username, isConfirmation }: Props) => {
     returnAfterLogin
   ) : (
     <>
-      <img
-        alt="Life Mode logo"
-        src="/images/logos/logo_transparent.png"
-        style={{ height: "20rem", width: "20rem", alignSelf: "baseline" }}
-      />
+      <Logo style={{ height: "64px", width: "64px" }} />
       {isConfirmation ? (
         <h5 style={{ color: "#97db48" }}>Email confirmed successfully!</h5>
       ) : (

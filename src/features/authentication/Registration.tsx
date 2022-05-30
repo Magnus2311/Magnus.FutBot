@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import * as usersService from "../authentication/authenticationService";
 import { RegisterUserDTO, SenderType } from "./models";
 import { FUTBOT_WEB_ADDRESS } from "../../helpers/constants";
+import Logo from "../common/Logo";
 
 enum RegistrationEnum {
   Email,
@@ -109,11 +110,7 @@ const Registration = () => {
 
   return (
     <>
-      <img
-        alt="Life Mode logo"
-        src="/images/logos/logo_transparent.png"
-        style={{ height: "20rem", width: "20rem", alignSelf: "baseline" }}
-      />
+      <Logo style={{ height: "64px", width: "64px" }} />
       <h3>Let's get started</h3>
       <h5>Sign up for free and get a lot of perks!</h5>
       <form onSubmit={handleSubmit} className="add-form">
