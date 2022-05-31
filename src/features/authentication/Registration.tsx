@@ -28,38 +28,31 @@ const Registration = () => {
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
-    changeIsRegisterActive(RegistrationEnum.Username, e.target.value);
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    changeIsRegisterActive(RegistrationEnum.Email, e.target.value);
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     if (e.target.value === "" && confirmPassword === "")
       setIsPasswordMatching(true);
-    changeIsRegisterActive(RegistrationEnum.Password, e.target.value);
   };
 
   const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
-    setIsPasswordMatching(e.target.value === password);
-    changeIsRegisterActive(RegistrationEnum.ConfirmPassword, e.target.value);
+    if (e.target.value === password) setIsPasswordMatching(true);
   };
 
-  const changeIsRegisterActive = (
-    field: RegistrationEnum,
-    propValue: string
-  ) => {
+  const changeIsRegisterActive = (field: RegistrationEnum) => {
     switch (field) {
       case RegistrationEnum.Email:
-        const isEmail = emailService.isValidEmail(propValue);
+        const isEmail = emailService.isValidEmail(email) || email === "";
         setIsValidEmail(isEmail);
         setIsRegisterActive(
-          !!propValue &&
-            propValue !== "" &&
+          !!email &&
+            email !== "" &&
             isEmail &&
             !!password &&
             password !== "" &&
@@ -69,23 +62,23 @@ const Registration = () => {
         break;
       case RegistrationEnum.Username:
         usersService
-          .isUsernameAvailable(propValue)
+          .isUsernameAvailable(username)
           .then((isAvailable: boolean) => setIsUsernameAvailable(isAvailable));
         break;
       case RegistrationEnum.Password:
         setIsRegisterActive(
-          !!propValue &&
+          !!password &&
             !!confirmPassword &&
-            propValue === confirmPassword &&
+            password === confirmPassword &&
             isValidEmail &&
             isUsernameAvailable
         );
         break;
       case RegistrationEnum.ConfirmPassword:
         setIsRegisterActive(
-          !!propValue &&
+          !!confirmPassword &&
             !!password &&
-            propValue === password &&
+            confirmPassword === password &&
             username !== "" &&
             isValidEmail &&
             isUsernameAvailable
@@ -128,7 +121,11 @@ const Registration = () => {
           placeholder="Enter your username"
           type="text"
           autoFocus
-          isValid={isUsernameAvailable}
+          validation={{
+            isValid: isUsernameAvailable,
+            alertMessage: "This username is not available",
+          }}
+          handleBlur={() => changeIsRegisterActive(RegistrationEnum.Username)}
         />
         <TextBox
           handleChange={handleEmailChange}
@@ -138,7 +135,11 @@ const Registration = () => {
           placeholder="Enter your email"
           type="email"
           autoFocus
-          isValid={isValidEmail}
+          validation={{
+            isValid: isValidEmail,
+            alertMessage: "This is not a valid E-mail",
+          }}
+          handleBlur={() => changeIsRegisterActive(RegistrationEnum.Email)}
         />
         <div
           style={{
@@ -154,6 +155,7 @@ const Registration = () => {
             name="password"
             placeholder="Enter your password"
             type="password"
+            handleBlur={() => changeIsRegisterActive(RegistrationEnum.Password)}
           />
           <TextBox
             handleChange={handleConfirmPasswordChange}
@@ -162,7 +164,14 @@ const Registration = () => {
             name="confirmPassword"
             placeholder="Confirm your password"
             type="password"
-            isValid={isPasswordMatching}
+            validation={{
+              isValid: isPasswordMatching,
+              alertMessage: "Passwords are different",
+            }}
+            handleBlur={() => {
+              changeIsRegisterActive(RegistrationEnum.ConfirmPassword);
+              setIsPasswordMatching(confirmPassword === password);
+            }}
           />
         </div>
         <button

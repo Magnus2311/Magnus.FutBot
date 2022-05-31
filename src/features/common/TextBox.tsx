@@ -16,7 +16,11 @@ interface TextBoxProps {
     | undefined;
   autoFocus?: boolean;
   disabled?: boolean;
-  isValid?: boolean;
+  validation?: {
+    isValid: boolean;
+    alertMessage: string;
+  };
+  handleBlur?: () => void;
 }
 
 const TextBox: FunctionComponent<TextBoxProps> = ({
@@ -29,13 +33,16 @@ const TextBox: FunctionComponent<TextBoxProps> = ({
   ref,
   autoFocus,
   disabled,
-  isValid,
+  validation,
+  handleBlur,
 }) => {
   return (
-    <div className="form-group" style={{ marginBottom: "10px" }}>
+    <div className={`form-group`} style={{ marginBottom: "10px" }}>
       <label>{label}</label>
       <input
-        className={`form-control${isValid ? "" : " invalid-content"}`}
+        className={`form-control${
+          validation?.isValid ? "" : " invalid-content"
+        }`}
         type={type ? type : "text"}
         name={name}
         ref={ref}
@@ -44,7 +51,19 @@ const TextBox: FunctionComponent<TextBoxProps> = ({
         value={value}
         autoFocus={autoFocus}
         disabled={disabled}
+        onBlur={handleBlur}
       />
+      {validation?.isValid === false && (
+        <div
+          className="alert alert-danger alert-sm"
+          style={{
+            height: "36px",
+            padding: "5px 12px",
+          }}
+        >
+          {validation.alertMessage}
+        </div>
+      )}
     </div>
   );
 };
