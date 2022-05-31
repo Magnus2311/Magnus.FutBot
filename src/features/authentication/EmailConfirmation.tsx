@@ -6,7 +6,7 @@ const EmailConfirmation = () => {
   const username = searchParams.get("username");
 
   return !!username ? (
-    <Login username={username} isConfirmation={true} />
+    <Login username={username} />
   ) : (
     <>Expired Token. Resend new one!</>
   );

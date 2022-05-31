@@ -33,7 +33,7 @@ const ssoApi = (environment: Environments) => {
 const futbotWebAddress = (environment: Environments) => {
   switch (environment) {
     case Environments.Dev:
-      return "http://192.168.0.129:19006";
+      return "http://localhost:3000";
     case Environments.Testing:
       return "";
     case Environments.Production:

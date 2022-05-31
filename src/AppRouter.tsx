@@ -20,7 +20,7 @@ const AppRouter = () => {
         <Route path="/auth/index" element={<AuthIndex />} />
       </Route>
       <Route
-        path="/registration/email-confirmed/:email"
+        path="/registration/email-confirmed"
         element={<EmailConfirmation />}
       />
       <Route path="/auth/email-sent/" element={<EmailSent />} />

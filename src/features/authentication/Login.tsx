@@ -10,7 +10,6 @@ import { useSearchParams } from "react-router-dom";
 
 interface Props {
   username?: string;
-  isConfirmation?: boolean;
 }
 
 const emptyLogin = {
@@ -18,13 +17,21 @@ const emptyLogin = {
   username: "",
 } as LoginUserDTO;
 
-const Login = ({ username, isConfirmation }: Props) => {
+const Login = ({ username }: Props) => {
   const [searchParams] = useSearchParams();
   const returnAfterLogin = searchParams.get("returnAfterLogin");
   const [logged, setLogged] = useState(false);
   const [isWrongCredentials, setIsWrongCredentials] = useState(false);
   const [isLoginActive, setIsLoginActive] = useState(false);
-  const [currentUser, setCurrentUser] = useState<LoginUserDTO>(emptyLogin);
+  const [currentUser, setCurrentUser] = useState<LoginUserDTO>(
+    username
+      ? {
+          username: username,
+          email: "",
+          password: "",
+        }
+      : emptyLogin
+  );
   const { setUser } = useContext(AuthContext)!;
   const navigate = useNavigate();
 
@@ -37,7 +44,7 @@ const Login = ({ username, isConfirmation }: Props) => {
       tempUser.email = currentUser.username;
     }
 
-    login(tempUser).then(isLoginSuccessfulDTO => {
+    login(tempUser).then((isLoginSuccessfulDTO) => {
       if (isLoginSuccessfulDTO) {
         setUser({
           username: isLoginSuccessfulDTO.username,
@@ -86,7 +93,7 @@ const Login = ({ username, isConfirmation }: Props) => {
   ) : (
     <>
       <Logo style={{ height: "64px", width: "64px" }} />
-      {isConfirmation ? (
+      {username ? (
         <h5 style={{ color: "#97db48" }}>Email confirmed successfully!</h5>
       ) : (
         <>
@@ -106,7 +113,7 @@ const Login = ({ username, isConfirmation }: Props) => {
           handleChange={handleChange}
           label="Username or E-mail"
           value={currentUser.username}
-          autoFocus={!isWrongCredentials && !isConfirmation}
+          autoFocus={!isWrongCredentials}
         />
         <TextBox
           type="password"
@@ -115,7 +122,7 @@ const Login = ({ username, isConfirmation }: Props) => {
           handleChange={handleChange}
           label="Password"
           value={currentUser.password}
-          autoFocus={isWrongCredentials || isConfirmation || !!username}
+          autoFocus={isWrongCredentials || !!username}
         />
         <button
           className="btn btn-primary btn-xl"
