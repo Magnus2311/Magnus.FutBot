@@ -40,8 +40,8 @@ const Login = ({ username }: Props) => {
 
     const tempUser = currentUser;
     if (emailsService.isValidEmail(currentUser.username)) {
-      tempUser.username = "";
       tempUser.email = currentUser.username;
+      tempUser.username = "";
     }
 
     login(tempUser).then((isLoginSuccessfulDTO) => {
