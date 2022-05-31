@@ -134,7 +134,6 @@ const Registration = () => {
           name="email"
           placeholder="Enter your email"
           type="email"
-          autoFocus
           validation={{
             isValid: isValidEmail,
             alertMessage: "This is not a valid E-mail",
