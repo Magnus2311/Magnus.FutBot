@@ -6,6 +6,9 @@ import { changePassword, logout } from "./authenticationService";
 
 const AuthIndex = () => {
   const { user, setUser } = useContext(AuthContext);
+  const [isPasswordChangedSuccessfully, setIsPasswordChanged] = useState<
+    boolean | undefined
+  >(undefined);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -48,12 +51,17 @@ const AuthIndex = () => {
 
   const handleSubmitChangePassword = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    changePassword(oldPassword, newPassword).then(() => {
-      setIsChangePasswordActive(false);
-      setOldPassword("");
-      setNewPassword("");
-      setConfirmNewPassword("");
-      setIsSumbitChangePasswordActive(false);
+    changePassword(oldPassword, newPassword).then((changePasswordResponse) => {
+      if (changePasswordResponse.isChangeSuccessful) {
+        setIsChangePasswordActive(false);
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmNewPassword("");
+        setIsSumbitChangePasswordActive(false);
+        setIsPasswordChanged(true);
+      } else {
+        setIsPasswordChanged(false);
+      }
     });
   };
 
@@ -69,7 +77,17 @@ const AuthIndex = () => {
     <>
       <h4>Basic settings for account</h4>
       <hr />
-      <div className="add-form">
+      {isPasswordChangedSuccessfully !== undefined &&
+        (isPasswordChangedSuccessfully ? (
+          <div className="alert alert-success" role="alert">
+            Password was changed successfully
+          </div>
+        ) : (
+          <div className="alert alert-danger" role="alert">
+            Could not change password! Try again.
+          </div>
+        ))}
+      <form className="add-form">
         {user && user.username && (
           <TextBox
             label="Username"
@@ -153,7 +171,7 @@ const AuthIndex = () => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
       <button onClick={handleSignOutClick} className="btn btn-primary">
         Sign out
       </button>

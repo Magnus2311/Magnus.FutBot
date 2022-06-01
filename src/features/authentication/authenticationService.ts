@@ -17,7 +17,9 @@ import {
 import { get, post } from "../../services/communication/connectionServices";
 import { FUTBOT_WEB_ADDRESS } from "../../helpers/constants";
 
-interface ChangePasswordResponse {}
+interface ChangePasswordResponse {
+  isChangeSuccessful: boolean;
+}
 
 export function add(user: RegisterUserDTO) {
   return post(
@@ -57,16 +59,21 @@ export const logout = () => {
   return post("/users/logout", { refreshToken: getRefreshToken() }, true);
 };
 
-export function changePassword(oldPassword: string, newPassword: string) {
+export const changePassword = async (
+  oldPassword: string,
+  newPassword: string
+) => {
   return post<ChangePasswordResponse>(
-    "/users/changePassword",
+    "/users/change-password",
     {
       oldPassword,
       newPassword,
+      accessToken: await getAccessToken(),
+      refreshToken: getRefreshToken(),
     },
     true
-  ).then(async (response) => {});
-}
+  );
+};
 
 export const resetPassword = (token: string, newPassword: string) => {
   return post("/users/change-password-by-token", { token, newPassword }, true);
