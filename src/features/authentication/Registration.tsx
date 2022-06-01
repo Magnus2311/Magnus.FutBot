@@ -95,8 +95,6 @@ const Registration = () => {
       password: password,
       username: username,
       email: email,
-      callbackUrl: `${FUTBOT_WEB_ADDRESS}/registration/email-confirmed`,
-      senderType: SenderType.Futbot,
     } as RegisterUserDTO;
     usersService.add(userToInsert);
     navigate({

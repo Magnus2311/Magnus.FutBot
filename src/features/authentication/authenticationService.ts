@@ -2,6 +2,7 @@ import {
   LoginResponseDTO,
   LoginUserDTO,
   RegisterUserDTO,
+  SenderType,
   Token,
   TryLoginDTO,
   UserState,
@@ -14,11 +15,20 @@ import {
   USER_STORAGE_VARIABLE,
 } from "./constants";
 import { get, post } from "../../services/communication/connectionServices";
+import { FUTBOT_WEB_ADDRESS } from "../../helpers/constants";
 
 interface ChangePasswordResponse {}
 
 export function add(user: RegisterUserDTO) {
-  return post("/users/register", user, true);
+  return post(
+    "/users/register",
+    {
+      ...user,
+      callbackUrl: `${FUTBOT_WEB_ADDRESS}/registration/email-confirmed`,
+      senderType: SenderType.Futbot,
+    },
+    true
+  );
 }
 
 export function isUsernameAvailable(username: string) {
@@ -55,11 +65,11 @@ export function changePassword(oldPassword: string, newPassword: string) {
       newPassword,
     },
     true
-  ).then(async response => {});
+  ).then(async (response) => {});
 }
 
 export const resetPassword = (token: string, newPassword: string) => {
-  return post<boolean>("/users/resetPassword", { token, newPassword }, true);
+  return post("/users/change-password-by-token", { token, newPassword }, true);
 };
 
 export const initUser = async () => {
@@ -202,4 +212,15 @@ const deleteDataOnLogout = () => {
   localStorage.removeItem(USER_STORAGE_REFRESH_TOKEN);
 };
 
-export const sendResetPasswordEmail = (username: string) => {};
+export const sendResetPasswordEmail = (username: string, email: string) => {
+  return post(
+    "/users/reset-password",
+    {
+      username,
+      senderType: SenderType.Futbot,
+      email,
+      callbackUrl: `${FUTBOT_WEB_ADDRESS}/auth/reset-password`,
+    },
+    true
+  );
+};

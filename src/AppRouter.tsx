@@ -6,6 +6,7 @@ import AuthIndex from "./features/authentication/Index";
 import Login from "./features/authentication/Login";
 import PrivateOutlet from "./features/authentication/PrivateOutlet";
 import Registration from "./features/authentication/Registration";
+import ResetPassword from "./features/authentication/ResetPassword";
 import Home from "./features/Home";
 
 const AppRouter = () => {
@@ -24,6 +25,7 @@ const AppRouter = () => {
         element={<EmailConfirmation />}
       />
       <Route path="/auth/email-sent/" element={<EmailSent />} />
+      <Route path="/auth/reset-password" element={<ResetPassword />} />
     </Routes>
   );
 };

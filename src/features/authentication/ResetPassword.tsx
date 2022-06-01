@@ -6,7 +6,7 @@ import Login from "./Login";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
-  const [email] = useState(searchParams.get("email") ?? undefined);
+  const [email] = useState(searchParams.get("username") ?? undefined);
   const [token] = useState(searchParams.get("token") ?? "");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -16,10 +16,8 @@ const ResetPassword = () => {
 
   const handleSubmitChangePassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    resetPassword(token, newPassword).then(isSuccessful => {
-      if (isSuccessful) {
-        setIsPasswordChanged(isSuccessful);
-      }
+    resetPassword(token, newPassword).then(() => {
+      setIsPasswordChanged(true);
     });
   };
 
@@ -44,6 +42,15 @@ const ResetPassword = () => {
   } else {
     content = (
       <form className="add-form" onSubmit={handleSubmitChangePassword}>
+        <TextBox
+          type="email"
+          name="email"
+          placeholder="Email"
+          handleChange={() => {}}
+          label="Reset password for"
+          value={email}
+          disabled
+        />
         <TextBox
           type="password"
           name="newPassword"

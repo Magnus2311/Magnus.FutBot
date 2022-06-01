@@ -85,7 +85,7 @@ const Login = ({ username }: Props) => {
 
   const handleResetPassword = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    sendResetPasswordEmail(currentUser.username);
+    sendResetPasswordEmail(currentUser.username, currentUser.email);
   };
 
   return logged && returnAfterLogin ? (
