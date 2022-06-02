@@ -3,8 +3,7 @@ import * as emailService from "../../services/emailsService";
 import TextBox from "../common/TextBox";
 import { useNavigate } from "react-router";
 import * as usersService from "../authentication/authenticationService";
-import { RegisterUserDTO, SenderType } from "./models";
-import { FUTBOT_WEB_ADDRESS } from "../../helpers/constants";
+import { RegisterUserDTO } from "./models";
 import Logo from "../common/Logo";
 import { createSearchParams } from "react-router-dom";
 

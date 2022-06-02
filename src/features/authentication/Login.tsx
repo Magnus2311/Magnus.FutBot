@@ -1,7 +1,11 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import * as emailsService from "../../services/emailsService";
 import { AuthContext } from "./AuthContext";
-import { login, sendResetPasswordEmail } from "./authenticationService";
+import {
+  login,
+  resendConfirmationEmail,
+  sendResetPasswordEmail,
+} from "./authenticationService";
 import { LoginUserDTO } from "./models";
 import TextBox from "../common/TextBox";
 import { useNavigate } from "react-router";
@@ -35,6 +39,29 @@ const Login = ({ username }: Props) => {
   const { setUser } = useContext(AuthContext)!;
   const navigate = useNavigate();
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCurrentUser({ ...currentUser, [e.target.name]: e.target.value });
+    changeIsLoginActive(e.target.name, e.target.value);
+  };
+
+  const changeIsLoginActive = (propName: string, propValue: string) => {
+    switch (propName) {
+      case "username":
+        setIsLoginActive(
+          !!propValue &&
+            propValue !== "" &&
+            currentUser &&
+            !!currentUser.password
+        );
+        break;
+      case "password":
+        setIsLoginActive(!!propValue && propValue !== "");
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -60,32 +87,20 @@ const Login = ({ username }: Props) => {
     });
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCurrentUser({ ...currentUser, [e.target.name]: e.target.value });
-    changeIsLoginActive(e.target.name, e.target.value);
-  };
-
-  const changeIsLoginActive = (propName: string, propValue: string) => {
-    switch (propName) {
-      case "username":
-        setIsLoginActive(
-          !!propValue &&
-            propValue !== "" &&
-            currentUser &&
-            !!currentUser.password
-        );
-        break;
-      case "password":
-        setIsLoginActive(!!propValue && propValue !== "");
-        break;
-      default:
-        break;
-    }
-  };
-
   const handleResetPassword = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    const tempUser = currentUser;
+    if (emailsService.isValidEmail(currentUser.username)) {
+      tempUser.email = currentUser.username;
+      tempUser.username = "";
+    }
     sendResetPasswordEmail(currentUser.username, currentUser.email);
+  };
+
+  const handleResendConfirmationEmail = (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    resendConfirmationEmail(currentUser.username, currentUser.email);
   };
 
   return logged && returnAfterLogin ? (
@@ -140,6 +155,16 @@ const Login = ({ username }: Props) => {
           onClick={handleResetPassword}
         >
           Reset your password
+        </button>
+        <button
+          className="btn btn-secondary"
+          disabled={
+            !currentUser || !currentUser.username || currentUser.username === ""
+          }
+          style={{ width: "100%", marginTop: "1rem" }}
+          onClick={handleResendConfirmationEmail}
+        >
+          Resend confirmation email
         </button>
       </form>
     </>

@@ -231,3 +231,16 @@ export const sendResetPasswordEmail = (username: string, email: string) => {
     true
   );
 };
+
+export const resendConfirmationEmail = (username: string, email: string) => {
+  return post(
+    "/users/resend-confirmation-email",
+    {
+      username,
+      senderType: SenderType.Futbot,
+      email,
+      callbackUrl: `${FUTBOT_WEB_ADDRESS}/registration/email-confirmed`,
+    },
+    true
+  );
+};
