@@ -5,7 +5,7 @@ enum Environments {
 }
 
 const futbotEnvironment = Environments.Dev;
-const ssoEnvironment = Environments.Dev;
+const ssoEnvironment = Environments.Production;
 const futbotWebEnvironment = Environments.Dev;
 
 const futbotApi = (environment: Environments) => {

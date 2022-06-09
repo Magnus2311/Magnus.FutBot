@@ -100,6 +100,12 @@ const Login = ({ username }: Props) => {
 
   const handleResendConfirmationEmail = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    const tempUser = currentUser;
+    if (emailsService.isValidEmail(currentUser.username)) {
+      tempUser.email = currentUser.username;
+      tempUser.username = "";
+    }
     resendConfirmationEmail(currentUser.username, currentUser.email);
   };
 
