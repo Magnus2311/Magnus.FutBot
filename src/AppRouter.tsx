@@ -8,17 +8,23 @@ import PrivateOutlet from "./features/authentication/PrivateOutlet";
 import Registration from "./features/authentication/Registration";
 import ResetPassword from "./features/authentication/ResetPassword";
 import Home from "./features/Home";
+import { IndexProfiles } from "./features/profiles/IndexProfiles";
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
-
       <Route path="/auth/registration" element={<Registration />} />
       <Route path="/auth/login" element={<Login />} />
       <Route path="/auth/index" element={<PrivateOutlet path="/auth/index" />}>
         <Route path="/auth/index" element={<AuthIndex />} />
+      </Route>
+      <Route
+        path="/profile/index"
+        element={<PrivateOutlet path="/profile/index" />}
+      >
+        <Route path="/profile/index" element={<IndexProfiles />} />
       </Route>
       <Route
         path="/registration/email-confirmed"

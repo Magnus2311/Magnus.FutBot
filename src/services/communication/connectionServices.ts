@@ -1,3 +1,4 @@
+import { getAccessToken } from "../../features/authentication/authenticationService";
 import { API_PATH, SSO_API_PATH } from "../../helpers/constants";
 
 export async function get<T>(url: string, isSSO = false): Promise<T> {
@@ -66,3 +67,44 @@ export async function deletee(url: string, id: string): Promise<boolean> {
 
   return response.ok;
 }
+
+export async function authenticatedPost<T>(url: string, data: any): Promise<T> {
+  const requestHeaders: HeadersInit = new Headers();
+  requestHeaders.append("content-type", "application/json");
+  requestHeaders.append("Access-Token", (await getAccessToken()) ?? "");
+
+  const response = await fetch(`${API_PATH}${url}`, {
+    method: "POST",
+    credentials: "omit",
+    cache: "no-cache",
+    body: JSON.stringify(data),
+    headers: requestHeaders,
+  });
+
+  if (response.ok) {
+    try {
+      return (await response.json()) as T;
+    } catch (ex) {
+      throw ex;
+    }
+  }
+
+  return {} as T;
+}
+
+export const authenticatedGet = async <T>(url: string) => {
+  const searchParams = new URLSearchParams({
+    accessToken: (await getAccessToken()) ?? "",
+  });
+
+  const response = await fetch(`${API_PATH}${url}` + searchParams);
+  if (response.ok) {
+    try {
+      return (await response.json()) as T;
+    } catch (ex) {
+      throw ex;
+    }
+  }
+
+  return [] as unknown as T;
+};

@@ -11,7 +11,7 @@ const futbotWebEnvironment = Environments.Dev;
 const futbotApi = (environment: Environments) => {
   switch (environment) {
     case Environments.Dev:
-      return "https://localhost:5001/";
+      return "http://localhost:8080/";
     case Environments.Testing:
       return "https://warehouse-magnus-testing.azurewebsites.net/";
     case Environments.Production:
