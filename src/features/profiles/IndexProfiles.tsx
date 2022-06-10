@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { RedirectToAdd } from "./RedirectToAdd";
 import { getAllProfilesAsync, selectProfiles } from "./profileSlice";
 
 export const IndexProfiles = () => {
@@ -12,8 +13,9 @@ export const IndexProfiles = () => {
 
   return (
     <>
+      <RedirectToAdd />
       {profiles.map((profile) => {
-        return <div>{profile.email}</div>;
+        return <div key={profile.email}>{profile.email}</div>;
       })}
     </>
   );

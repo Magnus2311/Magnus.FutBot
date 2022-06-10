@@ -69,16 +69,14 @@ export async function deletee(url: string, id: string): Promise<boolean> {
 }
 
 export async function authenticatedPost<T>(url: string, data: any): Promise<T> {
-  const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.append("content-type", "application/json");
-  requestHeaders.append("Access-Token", (await getAccessToken()) ?? "");
-
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Access-Token", (await getAccessToken()) ?? "");
   const response = await fetch(`${API_PATH}${url}`, {
     method: "POST",
-    credentials: "omit",
-    cache: "no-cache",
+    mode: "cors",
+    headers: headers,
     body: JSON.stringify(data),
-    headers: requestHeaders,
   });
 
   if (response.ok) {

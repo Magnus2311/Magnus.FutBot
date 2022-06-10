@@ -8,6 +8,7 @@ import PrivateOutlet from "./features/authentication/PrivateOutlet";
 import Registration from "./features/authentication/Registration";
 import ResetPassword from "./features/authentication/ResetPassword";
 import Home from "./features/Home";
+import { AddProfile } from "./features/profiles/AddProfile";
 import { IndexProfiles } from "./features/profiles/IndexProfiles";
 
 const AppRouter = () => {
@@ -25,6 +26,12 @@ const AppRouter = () => {
         element={<PrivateOutlet path="/profile/index" />}
       >
         <Route path="/profile/index" element={<IndexProfiles />} />
+      </Route>
+      <Route
+        path="/profile/add"
+        element={<PrivateOutlet path="/profile/add" />}
+      >
+        <Route path="/profile/add" element={<AddProfile />} />
       </Route>
       <Route
         path="/registration/email-confirmed"

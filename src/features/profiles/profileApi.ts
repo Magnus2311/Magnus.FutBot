@@ -5,7 +5,7 @@ import {
 } from "../../services/communication/connectionServices";
 
 export const addProfile = (profileDTO: ProfileDTO): Promise<ProfileDTO> => {
-  return authenticatedPost("/profiles/add-profile", profileDTO);
+  return authenticatedPost("profiles/add-profile", profileDTO);
 };
 
 export const getProfiles = (): Promise<ProfileDTO[]> => {

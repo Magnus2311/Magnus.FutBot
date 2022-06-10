@@ -11,6 +11,7 @@ import TextBox from "../common/TextBox";
 import { useNavigate } from "react-router";
 import Logo from "../common/Logo";
 import { useSearchParams } from "react-router-dom";
+import { Button } from "../common/Button";
 
 interface Props {
   username?: string;
@@ -145,13 +146,7 @@ const Login = ({ username }: Props) => {
           value={currentUser.password}
           autoFocus={isWrongCredentials || !!username}
         />
-        <button
-          className="btn btn-primary btn-xl"
-          style={{ width: "100%" }}
-          disabled={!isLoginActive}
-        >
-          Login
-        </button>
+        <Button disabled={!isLoginActive}>Login</Button>
         <button
           className="btn btn-secondary"
           disabled={

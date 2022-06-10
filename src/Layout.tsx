@@ -42,8 +42,8 @@ const Layout = () => {
       />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Link className="nav-link" to="/about" onClick={handleClick}>
-            About
+          <Link className="nav-link" to="/profile/index" onClick={handleClick}>
+            Profiles
           </Link>
         </Nav>
       </Navbar.Collapse>

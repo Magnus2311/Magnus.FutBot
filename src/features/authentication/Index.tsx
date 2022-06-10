@@ -67,9 +67,8 @@ const AuthIndex = () => {
 
   const handleSignOutClick = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    logout().then(() => {
-      setUser({ username: undefined, email: undefined });
-    });
+    logout();
+    setUser({ username: undefined, email: undefined });
     navigate("/");
   };
 
