@@ -1,11 +1,16 @@
-import { ProfileDTO } from "../../models/models";
+import { ProfileDTO, ProfileLoginResponseDTO } from "../../models/models";
 import {
   authenticatedGet,
   authenticatedPost,
 } from "../../services/communication/connectionServices";
 
-export const addProfile = (profileDTO: ProfileDTO): Promise<ProfileDTO> => {
-  return authenticatedPost("profiles/add-profile", profileDTO);
+export const addProfile = (
+  profileDTO: ProfileDTO
+): Promise<ProfileLoginResponseDTO> => {
+  return authenticatedPost<ProfileLoginResponseDTO>(
+    "profiles/add-profile",
+    profileDTO
+  );
 };
 
 export const getProfiles = (): Promise<ProfileDTO[]> => {

@@ -1,20 +1,20 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { getAllProfiles, selectProfiles } from "./profileActions";
 import { RedirectToAdd } from "./RedirectToAdd";
-import { getAllProfilesAsync, selectProfiles } from "./profileSlice";
 
 export const IndexProfiles = () => {
-  const profiles = useAppSelector(selectProfiles);
+  const profilesState = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getAllProfilesAsync());
+    dispatch(getAllProfiles());
   }, [dispatch]);
 
   return (
     <>
       <RedirectToAdd />
-      {profiles.map((profile) => {
+      {profilesState.profiles.map((profile) => {
         return <div key={profile.email}>{profile.email}</div>;
       })}
     </>

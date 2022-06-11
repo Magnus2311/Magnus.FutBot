@@ -1,12 +1,14 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { Alert } from "../common/Alert";
 import { Button } from "../common/Button";
 import TextBox from "../common/TextBox";
-import { addProfileAsync } from "./profileSlice";
+import { addProfile, selectProfiles } from "./profileActions";
 
 export const AddProfile = () => {
   const navigate = useNavigate();
+  const profilesState = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("iavor.orlyov1@gmail.com");
   const [password, setPassword] = useState("A123123123a");
@@ -15,7 +17,7 @@ export const AddProfile = () => {
     e.preventDefault();
 
     dispatch(
-      addProfileAsync({
+      addProfile({
         email: email,
         password: password,
       })
@@ -26,6 +28,9 @@ export const AddProfile = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      {profilesState.status === "wrong-credentials" && (
+        <Alert content="Wrong credentials" type="danger" />
+      )}
       <TextBox
         handleChange={(e) => setEmail(e.target.value)}
         value={email}

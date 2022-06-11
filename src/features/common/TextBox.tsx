@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FunctionComponent } from "react";
+import { Alert } from "./Alert";
 import "./TextBox.css";
 
 interface TextBoxProps {
@@ -54,15 +55,7 @@ const TextBox: FunctionComponent<TextBoxProps> = ({
         onBlur={handleBlur}
       />
       {validation?.isValid === false && (
-        <div
-          className="alert alert-danger alert-sm"
-          style={{
-            height: "36px",
-            padding: "5px 12px",
-          }}
-        >
-          {validation.alertMessage}
-        </div>
+        <Alert content={validation.alertMessage} type="danger" />
       )}
     </div>
   );
