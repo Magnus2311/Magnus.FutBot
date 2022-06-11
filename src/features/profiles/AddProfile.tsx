@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router";
+import { Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Alert } from "../common/Alert";
 import { Button } from "../common/Button";
@@ -7,7 +7,6 @@ import TextBox from "../common/TextBox";
 import { addProfile, selectProfiles } from "./profileActions";
 
 export const AddProfile = () => {
-  const navigate = useNavigate();
   const profilesState = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("iavor.orlyov1@gmail.com");
@@ -22,8 +21,6 @@ export const AddProfile = () => {
         password: password,
       })
     );
-
-    navigate(-1);
   };
 
   return (
@@ -31,6 +28,7 @@ export const AddProfile = () => {
       {profilesState.status === "wrong-credentials" && (
         <Alert content="Wrong credentials" type="danger" />
       )}
+      {profilesState.status === "pending" && <Spinner animation="border" />}
       <TextBox
         handleChange={(e) => setEmail(e.target.value)}
         value={email}

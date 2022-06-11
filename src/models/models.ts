@@ -11,5 +11,5 @@ export enum LoginStatusType {
 }
 
 export interface ProfileLoginResponseDTO {
-  loginStatusType: LoginStatusType;
+  loginStatus: LoginStatusType;
 }

@@ -36,12 +36,17 @@ interface UnknownErrorAction {
   type: "UNKNOWN_ERROR_ACTION";
 }
 
+interface PendingAction {
+  type: "PENDING_ACTION";
+}
+
 export type KnownAction =
   | AddProfileAction
   | GetAllProfilesAction
   | WrongCredentialsAction
   | ConfirmationKeyRequiredAction
-  | UnknownErrorAction;
+  | UnknownErrorAction
+  | PendingAction;
 
 export const addProfileAction = (profile: ProfileDTO): AddProfileAction => ({
   type: "ADD_PROFILE",
@@ -68,17 +73,18 @@ export const unknownErrorAction = (): UnknownErrorAction => ({
   type: "UNKNOWN_ERROR_ACTION",
 });
 
+export const pendingAction = (): PendingAction => ({ type: "PENDING_ACTION" });
+
 export const actionCreators = {
   addProfile: (profile: ProfileDTO): AppThunk<void, KnownAction> => {
     return async (dispatch: any) => {
+      dispatch(pendingAction());
       const response = await profileApi.addProfile(profile);
-      if (response.loginStatusType === LoginStatusType.Successful)
+      if (response.loginStatus === LoginStatusType.Successful)
         dispatch(addProfileAction(profile));
-      else if (response.loginStatusType === LoginStatusType.WrongCredentials)
+      else if (response.loginStatus === LoginStatusType.WrongCredentials)
         dispatch(wrongCredentialsAction());
-      else if (
-        response.loginStatusType === LoginStatusType.ConfirmationKeyRequired
-      )
+      else if (response.loginStatus === LoginStatusType.ConfirmationKeyRequired)
         dispatch(confirmationKeyRequiredAction());
       else dispatch(unknownErrorAction());
     };
@@ -116,6 +122,8 @@ export const reducer: Reducer<ProfilesState> = (
       return { ...state, status: "unknown-error" };
     case "WRONG_CREDENTIALS_ON_PROFILE_CREATION":
       return { ...state, status: "wrong-credentials" };
+    case "PENDING_ACTION":
+      return { ...state, status: "pending" };
     default:
       return state;
   }
