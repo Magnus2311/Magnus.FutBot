@@ -16,7 +16,7 @@ export const AddProfile = () => {
   const profilesState = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("iavor.orlyov1@gmail.com");
-  const [password, setPassword] = useState("A123123123a");
+  const [password, setPassword] = useState("A23112019a$");
   const [code, setCode] = useState("");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

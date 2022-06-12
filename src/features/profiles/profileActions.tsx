@@ -129,9 +129,9 @@ export const actionCreators = {
   ): AppThunk<void, KnownAction> => {
     return async (dispatch: any) => {
       dispatch(pendingAction());
-      const response = await profileApi.sendConfirmationCode(code);
+      const response = await profileApi.sendConfirmationCode(profile, code);
       if (response.status === ConfirmationCodeStatusType.Successful)
-        dispatch(confirmationCodeSuccessfulAction(profile));
+        dispatch(addProfileAction(profile));
       if (response.status === ConfirmationCodeStatusType.WrongCode)
         dispatch(wrongConfirmationCodeAction());
     };
@@ -165,12 +165,6 @@ export const reducer: Reducer<ProfilesState> = (
       return { ...state, status: "wrong-credentials" };
     case "PENDING_ACTION":
       return { ...state, status: "pending" };
-    case "CONFIRMATION_CODE_SUCCESSFUL_ACTION":
-      return {
-        ...state,
-        profiles: [...state.profiles, action.profile],
-        status: "confirmation-code-successful",
-      };
     case "WRONG_CONFIRMATION_CODE_ACTION":
       return {
         ...state,

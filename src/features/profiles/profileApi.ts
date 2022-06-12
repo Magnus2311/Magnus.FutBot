@@ -22,7 +22,11 @@ export const getProfiles = (): Promise<ProfileDTO[]> => {
 };
 
 export const sendConfirmationCode = (
+  profileDTO: ProfileDTO,
   code: String
 ): Promise<ConfirmationCodeResponseDTO> => {
-  return authenticatedPost("profiles/confirm-code", code);
+  return authenticatedPost("profiles/submit-code", {
+    email: profileDTO.email,
+    code,
+  });
 };
