@@ -1,6 +1,10 @@
 import { Action, Reducer } from "redux";
 import { AppThunk, RootState } from "../../app/store";
-import { LoginStatusType, ProfileDTO } from "../../models/models";
+import {
+  ConfirmationCodeStatusType,
+  LoginStatusType,
+  ProfileDTO,
+} from "../../models/models";
 import * as profileApi from "./profileApi";
 
 export interface ProfilesState {
@@ -11,7 +15,9 @@ export interface ProfilesState {
     | "wrong-credentials"
     | "confirmation-key-required"
     | "unknown-error"
-    | "successfully-added";
+    | "successfully-added"
+    | "confirmation-code-successful"
+    | "wrong-confirmation-code";
 }
 
 interface AddProfileAction {
@@ -40,13 +46,24 @@ interface PendingAction {
   type: "PENDING_ACTION";
 }
 
+interface ConfirmationCodeSuccessfulAction {
+  type: "CONFIRMATION_CODE_SUCCESSFUL_ACTION";
+  profile: ProfileDTO;
+}
+
+interface WrongConfirmationCodeAction {
+  type: "WRONG_CONFIRMATION_CODE_ACTION";
+}
+
 export type KnownAction =
   | AddProfileAction
   | GetAllProfilesAction
   | WrongCredentialsAction
   | ConfirmationKeyRequiredAction
   | UnknownErrorAction
-  | PendingAction;
+  | PendingAction
+  | ConfirmationCodeSuccessfulAction
+  | WrongConfirmationCodeAction;
 
 export const addProfileAction = (profile: ProfileDTO): AddProfileAction => ({
   type: "ADD_PROFILE",
@@ -73,6 +90,17 @@ export const unknownErrorAction = (): UnknownErrorAction => ({
   type: "UNKNOWN_ERROR_ACTION",
 });
 
+export const confirmationCodeSuccessfulAction = (
+  profile: ProfileDTO
+): ConfirmationCodeSuccessfulAction => ({
+  type: "CONFIRMATION_CODE_SUCCESSFUL_ACTION",
+  profile,
+});
+
+export const wrongConfirmationCodeAction = (): WrongConfirmationCodeAction => ({
+  type: "WRONG_CONFIRMATION_CODE_ACTION",
+});
+
 export const pendingAction = (): PendingAction => ({ type: "PENDING_ACTION" });
 
 export const actionCreators = {
@@ -93,6 +121,19 @@ export const actionCreators = {
     return async (dispatch: any) => {
       const response = await profileApi.getProfiles();
       dispatch(getAllProfilesAction(response));
+    };
+  },
+  sendConfirmationCode: (
+    profile: ProfileDTO,
+    code: string
+  ): AppThunk<void, KnownAction> => {
+    return async (dispatch: any) => {
+      dispatch(pendingAction());
+      const response = await profileApi.sendConfirmationCode(code);
+      if (response.status === ConfirmationCodeStatusType.Successful)
+        dispatch(confirmationCodeSuccessfulAction(profile));
+      if (response.status === ConfirmationCodeStatusType.WrongCode)
+        dispatch(wrongConfirmationCodeAction());
     };
   },
 };
@@ -124,11 +165,23 @@ export const reducer: Reducer<ProfilesState> = (
       return { ...state, status: "wrong-credentials" };
     case "PENDING_ACTION":
       return { ...state, status: "pending" };
+    case "CONFIRMATION_CODE_SUCCESSFUL_ACTION":
+      return {
+        ...state,
+        profiles: [...state.profiles, action.profile],
+        status: "confirmation-code-successful",
+      };
+    case "WRONG_CONFIRMATION_CODE_ACTION":
+      return {
+        ...state,
+        status: "wrong-confirmation-code",
+      };
     default:
       return state;
   }
 };
 
-export const { addProfile, getAllProfiles } = actionCreators;
+export const { addProfile, getAllProfiles, sendConfirmationCode } =
+  actionCreators;
 
 export const selectProfiles = (state: RootState) => state.profiles;

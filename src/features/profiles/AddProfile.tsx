@@ -1,26 +1,39 @@
 import { FormEvent, useState } from "react";
 import { Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Alert } from "../common/Alert";
 import { Button } from "../common/Button";
 import TextBox from "../common/TextBox";
-import { addProfile, selectProfiles } from "./profileActions";
+import {
+  addProfile,
+  selectProfiles,
+  sendConfirmationCode,
+} from "./profileActions";
 
 export const AddProfile = () => {
+  const navigate = useNavigate();
   const profilesState = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("iavor.orlyov1@gmail.com");
   const [password, setPassword] = useState("A123123123a");
+  const [code, setCode] = useState("");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(
       addProfile({
-        email: email,
-        password: password,
+        email,
+        password,
       })
     );
+  };
+
+  const handleSendCode = (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    dispatch(sendConfirmationCode({ password, email }, code));
   };
 
   return (
@@ -28,7 +41,34 @@ export const AddProfile = () => {
       {profilesState.status === "wrong-credentials" && (
         <Alert content="Wrong credentials" type="danger" />
       )}
-      {profilesState.status === "pending" && <Spinner animation="border" />}
+      {profilesState.status === "pending" && (
+        <div style={{ width: "100%", display: "grid" }}>
+          <Spinner
+            animation="border"
+            variant="primary"
+            style={{ margin: "0 auto" }}
+          />
+        </div>
+      )}
+      {profilesState.status === "confirmation-key-required" && (
+        <>
+          <TextBox
+            handleChange={(e) => setCode(e.target.value)}
+            value={code}
+            label="Confirmation code"
+            name="code"
+            placeholder="Enter confirmation code from your email"
+            type="text"
+          />
+          <Button onClick={handleSendCode}>Send confirmation code</Button>
+        </>
+      )}
+      {profilesState.status === "unknown-error" && (
+        <Alert content="Unknown error occured!" type="danger" />
+      )}
+      {profilesState.status === "successfully-added" && (
+        <>{navigate("/profiles/index")}</>
+      )}
       <TextBox
         handleChange={(e) => setEmail(e.target.value)}
         value={email}
@@ -46,7 +86,9 @@ export const AddProfile = () => {
         placeholder="Enter your password"
         type="password"
       />
-      <Button>Add EA Profile</Button>
+      <Button disabled={profilesState.status === "pending"}>
+        Add EA Profile
+      </Button>
     </form>
   );
 };
