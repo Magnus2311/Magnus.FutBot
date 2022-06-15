@@ -17,6 +17,7 @@ export enum ConfirmationCodeStatusType {
 
 export interface ProfileLoginResponseDTO {
   loginStatus: LoginStatusType;
+  profile: ProfileDTO;
 }
 
 export interface ConfirmationCodeResponseDTO {

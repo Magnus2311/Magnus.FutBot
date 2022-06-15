@@ -7,6 +7,7 @@ import Login from "./features/authentication/Login";
 import PrivateOutlet from "./features/authentication/PrivateOutlet";
 import Registration from "./features/authentication/Registration";
 import ResetPassword from "./features/authentication/ResetPassword";
+import Chat from "./features/Chat";
 import Home from "./features/Home";
 import { AddProfile } from "./features/profiles/AddProfile";
 import { IndexProfiles } from "./features/profiles/IndexProfiles";
@@ -39,6 +40,7 @@ const AppRouter = () => {
       />
       <Route path="/auth/email-sent/" element={<EmailSent />} />
       <Route path="/auth/reset-password" element={<ResetPassword />} />
+      <Route path="/test/chat" element={<Chat />} />
     </Routes>
   );
 };

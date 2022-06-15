@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -6,9 +6,10 @@ import { Alert } from "../common/Alert";
 import { Button } from "../common/Button";
 import TextBox from "../common/TextBox";
 import {
-  addProfile,
+  pendingAction,
   selectProfiles,
   sendConfirmationCode,
+  setupEventsHub,
 } from "./profileActions";
 
 export const AddProfile = () => {
@@ -19,15 +20,18 @@ export const AddProfile = () => {
   const [password, setPassword] = useState("A23112019a$");
   const [code, setCode] = useState("");
 
+  useEffect(() => {}, []);
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    dispatch(
-      addProfile({
+    setupEventsHub(dispatch).then(connection => {
+      connection.invoke("AddProfile", {
         email,
         password,
-      })
-    );
+      });
+      dispatch(pendingAction());
+    });
   };
 
   const handleSendCode = (e: FormEvent<HTMLButtonElement>) => {
@@ -53,7 +57,7 @@ export const AddProfile = () => {
       {profilesState.status === "confirmation-key-required" && (
         <>
           <TextBox
-            handleChange={(e) => setCode(e.target.value)}
+            handleChange={e => setCode(e.target.value)}
             value={code}
             label="Confirmation code"
             name="code"
@@ -70,7 +74,7 @@ export const AddProfile = () => {
         <>{navigate("/profiles/index")}</>
       )}
       <TextBox
-        handleChange={(e) => setEmail(e.target.value)}
+        handleChange={e => setEmail(e.target.value)}
         value={email}
         label="E-mail"
         name="email"
@@ -79,7 +83,7 @@ export const AddProfile = () => {
         autoFocus
       />
       <TextBox
-        handleChange={(e) => setPassword(e.target.value)}
+        handleChange={e => setPassword(e.target.value)}
         value={password}
         label="Password"
         name="password"

@@ -19,6 +19,17 @@ const futbotApi = (environment: Environments) => {
   }
 };
 
+const futbotSignalR = (environment: Environments) => {
+  switch (environment) {
+    case Environments.Dev:
+      return "https://localhost:7191/hubs";
+    case Environments.Testing:
+      return "https://warehouse-magnus-testing.azurewebsites.net/";
+    case Environments.Production:
+      return "https://warehouse-magnus.azurewebsites.net/";
+  }
+};
+
 const ssoApi = (environment: Environments) => {
   switch (environment) {
     case Environments.Dev:
@@ -42,5 +53,6 @@ const futbotWebAddress = (environment: Environments) => {
 };
 
 export const API_PATH = futbotApi(futbotEnvironment);
+export const SIGNALR_PATH = futbotSignalR(futbotEnvironment);
 export const SSO_API_PATH = ssoApi(ssoEnvironment);
 export const FUTBOT_WEB_ADDRESS = futbotWebAddress(futbotWebEnvironment);

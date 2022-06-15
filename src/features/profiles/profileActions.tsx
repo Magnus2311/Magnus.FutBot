@@ -1,11 +1,14 @@
 import { Action, Reducer } from "redux";
 import { AppThunk, RootState } from "../../app/store";
+import { SIGNALR_PATH } from "../../helpers/constants";
 import {
   ConfirmationCodeStatusType,
   LoginStatusType,
   ProfileDTO,
+  ProfileLoginResponseDTO,
 } from "../../models/models";
 import * as profileApi from "./profileApi";
+import { setupSignalRConnection } from "./profileSignalR";
 
 export interface ProfilesState {
   profiles: ProfileDTO[];
@@ -136,6 +139,21 @@ export const actionCreators = {
         dispatch(wrongConfirmationCodeAction());
     };
   },
+  onProfileAdded: (
+    loginResponse: ProfileLoginResponseDTO
+  ): AppThunk<void, KnownAction> => {
+    return async (dispatch: any) => {
+      if (loginResponse.loginStatus === LoginStatusType.Successful)
+        dispatch(addProfileAction(loginResponse.profile));
+      else if (loginResponse.loginStatus === LoginStatusType.WrongCredentials)
+        dispatch(wrongCredentialsAction());
+      else if (
+        loginResponse.loginStatus === LoginStatusType.ConfirmationKeyRequired
+      )
+        dispatch(confirmationKeyRequiredAction());
+      else dispatch(unknownErrorAction());
+    };
+  },
 };
 
 const initialState = {
@@ -175,7 +193,25 @@ export const reducer: Reducer<ProfilesState> = (
   }
 };
 
-export const { addProfile, getAllProfiles, sendConfirmationCode } =
-  actionCreators;
+export const {
+  addProfile,
+  getAllProfiles,
+  sendConfirmationCode,
+  onProfileAdded,
+} = actionCreators;
 
 export const selectProfiles = (state: RootState) => state.profiles;
+
+const connectionHub = `${SIGNALR_PATH}/profiles`;
+
+export const setupEventsHub = setupSignalRConnection(connectionHub, {
+  AddProfile: addProfile,
+  GetAllProfiles: getAllProfiles,
+  SendConfirmationCode: sendConfirmationCode,
+  OnProfileAdded: onProfileAdded,
+});
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default () => (dispatch: any) => {
+  dispatch(setupEventsHub); // dispatch is coming from Redux
+};
