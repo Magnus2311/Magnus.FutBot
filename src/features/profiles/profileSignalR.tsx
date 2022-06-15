@@ -49,7 +49,7 @@ export const setupSignalRConnection =
     connection.serverTimeoutInMilliseconds = 60000;
 
     // re-establish the connection if connection dropped
-    connection.onclose(error => {
+    connection.onclose((error) => {
       console.assert(connection.state === HubConnectionState.Disconnected);
       console.log(
         "Connection closed due to error. Try refreshing this page to restart the connection",
@@ -57,12 +57,12 @@ export const setupSignalRConnection =
       );
     });
 
-    connection.onreconnecting(error => {
+    connection.onreconnecting((error) => {
       console.assert(connection.state === HubConnectionState.Reconnecting);
       console.log("Connection lost due to error. Reconnecting.", error);
     });
 
-    connection.onreconnected(connectionId => {
+    connection.onreconnected((connectionId) => {
       console.assert(connection.state === HubConnectionState.Connected);
       console.log(
         "Connection reestablished. Connected with connectionId",
@@ -73,7 +73,7 @@ export const setupSignalRConnection =
     await startSignalRConnection(connection);
 
     for (const val of Object.values(actionEventMap)) {
-      connection.on((val as any).name as string, res => {
+      connection.on((val as any).name as string, (res) => {
         dispatch((val as any)(res));
       });
     }
