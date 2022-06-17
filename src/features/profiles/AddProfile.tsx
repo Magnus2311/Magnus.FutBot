@@ -1,39 +1,55 @@
-import { FormEvent, useState } from "react";
+import { HubConnection } from "@microsoft/signalr";
+import { FormEvent, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Alert } from "../common/Alert";
 import { Button } from "../common/Button";
 import TextBox from "../common/TextBox";
 import {
-  addProfile,
+  pendingAction,
   selectProfiles,
-  sendConfirmationCode,
+  setupEventsHub,
 } from "./profileActions";
 
 export const AddProfile = () => {
-  const navigate = useNavigate();
   const profilesState = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("iavor.orlyov1@gmail.com");
   const [password, setPassword] = useState("A23112019a$");
   const [code, setCode] = useState("");
+  const [connection, setConnection] = useState<HubConnection | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    setupEventsHub(dispatch).then(connection => {
+      setConnection(connection);
+    });
+  }, [dispatch]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    dispatch(
-      addProfile({
+    if (connection) {
+      connection.invoke("AddProfile", {
         email,
         password,
-      })
-    );
+      });
+      dispatch(pendingAction());
+    }
   };
 
   const handleSendCode = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    dispatch(sendConfirmationCode({ password, email }, code));
+    if (connection) {
+      connection.invoke("SubmitCode", {
+        email,
+        code,
+      });
+
+      dispatch(pendingAction());
+    }
   };
 
   return (
@@ -53,7 +69,7 @@ export const AddProfile = () => {
       {profilesState.status === "confirmation-key-required" && (
         <>
           <TextBox
-            handleChange={(e) => setCode(e.target.value)}
+            handleChange={e => setCode(e.target.value)}
             value={code}
             label="Confirmation code"
             name="code"
@@ -67,10 +83,10 @@ export const AddProfile = () => {
         <Alert content="Unknown error occured!" type="danger" />
       )}
       {profilesState.status === "successfully-added" && (
-        <>{navigate("/profiles/index")}</>
+        <Navigate to={"/profile/index"} />
       )}
       <TextBox
-        handleChange={(e) => setEmail(e.target.value)}
+        handleChange={e => setEmail(e.target.value)}
         value={email}
         label="E-mail"
         name="email"
@@ -79,7 +95,7 @@ export const AddProfile = () => {
         autoFocus
       />
       <TextBox
-        handleChange={(e) => setPassword(e.target.value)}
+        handleChange={e => setPassword(e.target.value)}
         value={password}
         label="Password"
         name="password"
