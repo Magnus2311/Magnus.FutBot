@@ -1,13 +1,15 @@
+import { Toast } from "react-bootstrap";
+import { toast } from "react-toastify";
 import { Action, Reducer } from "redux";
 import { AppThunk, RootState } from "../../app/store";
 import { SIGNALR_PATH } from "../../helpers/constants";
 import {
+  ConfirmationCodeResponseDTO,
   ConfirmationCodeStatusType,
   LoginStatusType,
   ProfileDTO,
   ProfileLoginResponseDTO,
 } from "../../models/models";
-import * as profileApi from "./profileApi";
 import { setupSignalRConnection } from "./profileSignalR";
 
 export interface ProfilesState {
@@ -107,38 +109,6 @@ export const wrongConfirmationCodeAction = (): WrongConfirmationCodeAction => ({
 export const pendingAction = (): PendingAction => ({ type: "PENDING_ACTION" });
 
 export const actionCreators = {
-  addProfile: (profile: ProfileDTO): AppThunk<void, KnownAction> => {
-    return async (dispatch: any) => {
-      dispatch(pendingAction());
-      const response = await profileApi.addProfile(profile);
-      if (response.loginStatus === LoginStatusType.Successful)
-        dispatch(addProfileAction(profile));
-      else if (response.loginStatus === LoginStatusType.WrongCredentials)
-        dispatch(wrongCredentialsAction());
-      else if (response.loginStatus === LoginStatusType.ConfirmationKeyRequired)
-        dispatch(confirmationKeyRequiredAction());
-      else dispatch(unknownErrorAction());
-    };
-  },
-  getAllProfiles: (): AppThunk<void, KnownAction> => {
-    return async (dispatch: any) => {
-      const response = await profileApi.getProfiles();
-      dispatch(getAllProfilesAction(response));
-    };
-  },
-  sendConfirmationCode: (
-    profile: ProfileDTO,
-    code: string
-  ): AppThunk<void, KnownAction> => {
-    return async (dispatch: any) => {
-      dispatch(pendingAction());
-      const response = await profileApi.sendConfirmationCode(profile, code);
-      if (response.status === ConfirmationCodeStatusType.Successful)
-        dispatch(addProfileAction(profile));
-      if (response.status === ConfirmationCodeStatusType.WrongCode)
-        dispatch(wrongConfirmationCodeAction());
-    };
-  },
   onProfileAdded: (
     loginResponse: ProfileLoginResponseDTO
   ): AppThunk<void, KnownAction> => {
@@ -152,6 +122,22 @@ export const actionCreators = {
       )
         dispatch(confirmationKeyRequiredAction());
       else dispatch(unknownErrorAction());
+    };
+  },
+  onProfilesLoaded: (profiles: ProfileDTO[]): AppThunk<void, KnownAction> => {
+    return (dispatch: any) => {
+      dispatch(getAllProfilesAction(profiles));
+    };
+  },
+  onCodeSubmited: (
+    response: ConfirmationCodeResponseDTO
+  ): AppThunk<void, KnownAction> => {
+    return (dispatch: any) => {
+      if (response.status === ConfirmationCodeStatusType.Successful) {
+        toast.success("Profiles logged successfully!");
+        dispatch(addProfileAction({ email: response.email, password: "" }));
+      } else if (response.status === ConfirmationCodeStatusType.WrongCode)
+        dispatch(wrongConfirmationCodeAction());
     };
   },
 };
@@ -176,7 +162,7 @@ export const reducer: Reducer<ProfilesState> = (
     case "CONFIRMATION_KEY_REQUIRED_ACTION":
       return { ...state, status: "confirmation-key-required" };
     case "GET_ALL_PROFILES":
-      return { ...state, profiles: [...action.profiles] };
+      return { ...state, profiles: [...action.profiles], status: "idle" };
     case "UNKNOWN_ERROR_ACTION":
       return { ...state, status: "unknown-error" };
     case "WRONG_CREDENTIALS_ON_PROFILE_CREATION":
@@ -193,22 +179,17 @@ export const reducer: Reducer<ProfilesState> = (
   }
 };
 
-export const {
-  addProfile,
-  getAllProfiles,
-  sendConfirmationCode,
-  onProfileAdded,
-} = actionCreators;
+export const { onProfileAdded, onProfilesLoaded, onCodeSubmited } =
+  actionCreators;
 
 export const selectProfiles = (state: RootState) => state.profiles;
 
 const connectionHub = `${SIGNALR_PATH}/profiles`;
 
 export const setupEventsHub = setupSignalRConnection(connectionHub, {
-  AddProfile: addProfile,
-  GetAllProfiles: getAllProfiles,
-  SendConfirmationCode: sendConfirmationCode,
   OnProfileAdded: onProfileAdded,
+  OnProfilesLoaded: onProfilesLoaded,
+  OnCodeSubmited: onCodeSubmited,
 });
 
 // eslint-disable-next-line import/no-anonymous-default-export

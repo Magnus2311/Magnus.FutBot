@@ -22,4 +22,5 @@ export interface ProfileLoginResponseDTO {
 
 export interface ConfirmationCodeResponseDTO {
   status: ConfirmationCodeStatusType;
+  email: string;
 }

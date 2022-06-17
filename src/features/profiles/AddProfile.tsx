@@ -1,6 +1,7 @@
+import { HubConnection } from "@microsoft/signalr";
 import { FormEvent, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Alert } from "../common/Alert";
 import { Button } from "../common/Button";
@@ -8,36 +9,47 @@ import TextBox from "../common/TextBox";
 import {
   pendingAction,
   selectProfiles,
-  sendConfirmationCode,
   setupEventsHub,
 } from "./profileActions";
 
 export const AddProfile = () => {
-  const navigate = useNavigate();
   const profilesState = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("iavor.orlyov1@gmail.com");
   const [password, setPassword] = useState("A23112019a$");
   const [code, setCode] = useState("");
+  const [connection, setConnection] = useState<HubConnection | undefined>(
+    undefined
+  );
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setupEventsHub(dispatch).then(connection => {
+      setConnection(connection);
+    });
+  }, [dispatch]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setupEventsHub(dispatch).then(connection => {
+    if (connection) {
       connection.invoke("AddProfile", {
         email,
         password,
       });
       dispatch(pendingAction());
-    });
+    }
   };
 
   const handleSendCode = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    dispatch(sendConfirmationCode({ password, email }, code));
+    if (connection) {
+      connection.invoke("SubmitCode", {
+        email,
+        code,
+      });
+
+      dispatch(pendingAction());
+    }
   };
 
   return (
@@ -71,7 +83,7 @@ export const AddProfile = () => {
         <Alert content="Unknown error occured!" type="danger" />
       )}
       {profilesState.status === "successfully-added" && (
-        <>{navigate("/profiles/index")}</>
+        <Navigate to={"/profile/index"} />
       )}
       <TextBox
         handleChange={e => setEmail(e.target.value)}
