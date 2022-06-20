@@ -1,6 +1,6 @@
 import {
   ConfirmationCodeResponseDTO,
-  ProfileDTO,
+  AddProfileDTO,
   ProfileLoginResponseDTO,
 } from "../../models/models";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../../services/communication/connectionServices";
 
 export const addProfile = (
-  profileDTO: ProfileDTO
+  profileDTO: AddProfileDTO
 ): Promise<ProfileLoginResponseDTO> => {
   return authenticatedPost<ProfileLoginResponseDTO>(
     "profiles/add-profile",
@@ -17,12 +17,12 @@ export const addProfile = (
   );
 };
 
-export const getProfiles = (): Promise<ProfileDTO[]> => {
+export const getProfiles = (): Promise<AddProfileDTO[]> => {
   return authenticatedGet("profiles/get-all?");
 };
 
 export const sendConfirmationCode = (
-  profileDTO: ProfileDTO,
+  profileDTO: AddProfileDTO,
   code: String
 ): Promise<ConfirmationCodeResponseDTO> => {
   return authenticatedPost("profiles/submit-code", {

@@ -1,4 +1,3 @@
-import { Toast } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Action, Reducer } from "redux";
 import { AppThunk, RootState } from "../../app/store";
@@ -7,8 +6,8 @@ import {
   ConfirmationCodeResponseDTO,
   ConfirmationCodeStatusType,
   LoginStatusType,
-  ProfileDTO,
   ProfileLoginResponseDTO,
+  ProfileDTO,
 } from "../../models/models";
 import { setupSignalRConnection } from "./profileSignalR";
 
@@ -134,10 +133,15 @@ export const actionCreators = {
   ): AppThunk<void, KnownAction> => {
     return (dispatch: any) => {
       if (response.status === ConfirmationCodeStatusType.Successful) {
+        dispatch(addProfileAction(response.email));
         toast.success("Profiles logged successfully!");
-        dispatch(addProfileAction({ email: response.email, password: "" }));
       } else if (response.status === ConfirmationCodeStatusType.WrongCode)
         dispatch(wrongConfirmationCodeAction());
+    };
+  },
+  onProfileUpdated: (profile: ProfileDTO): AppThunk<void, KnownAction> => {
+    return (dispatch: any) => {
+      console.log(profile);
     };
   },
 };
@@ -179,8 +183,12 @@ export const reducer: Reducer<ProfilesState> = (
   }
 };
 
-export const { onProfileAdded, onProfilesLoaded, onCodeSubmited } =
-  actionCreators;
+export const {
+  onProfileAdded,
+  onProfilesLoaded,
+  onCodeSubmited,
+  onProfileUpdated,
+} = actionCreators;
 
 export const selectProfiles = (state: RootState) => state.profiles;
 
@@ -190,6 +198,7 @@ export const setupEventsHub = setupSignalRConnection(connectionHub, {
   OnProfileAdded: onProfileAdded,
   OnProfilesLoaded: onProfilesLoaded,
   OnCodeSubmited: onCodeSubmited,
+  OnProfileUpdated: onProfileUpdated,
 });
 
 // eslint-disable-next-line import/no-anonymous-default-export

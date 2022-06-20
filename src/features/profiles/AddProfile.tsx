@@ -1,7 +1,7 @@
 import { HubConnection } from "@microsoft/signalr";
 import { FormEvent, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Alert } from "../common/Alert";
 import { Button } from "../common/Button";
