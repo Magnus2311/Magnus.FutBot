@@ -10,7 +10,7 @@ export interface ProfileDTO {
   activeBidsCount: number;
   wonTargetsCount: number;
   transferListCount: number;
-  unAssignedCount: number;
+  unassignedCount: number;
   outbidded: number;
 }
 

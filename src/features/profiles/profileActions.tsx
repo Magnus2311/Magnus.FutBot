@@ -34,6 +34,11 @@ interface GetAllProfilesAction {
   profiles: ProfileDTO[];
 }
 
+interface UpdateProfileAction {
+  type: "UPDATE_PROFILE_ACTION";
+  profile: ProfileDTO;
+}
+
 interface WrongCredentialsAction {
   type: "WRONG_CREDENTIALS_ON_PROFILE_CREATION";
 }
@@ -67,7 +72,8 @@ export type KnownAction =
   | UnknownErrorAction
   | PendingAction
   | ConfirmationCodeSuccessfulAction
-  | WrongConfirmationCodeAction;
+  | WrongConfirmationCodeAction
+  | UpdateProfileAction;
 
 export const addProfileAction = (profile: ProfileDTO): AddProfileAction => ({
   type: "ADD_PROFILE",
@@ -79,6 +85,13 @@ export const getAllProfilesAction = (
 ): GetAllProfilesAction => ({
   type: "GET_ALL_PROFILES",
   profiles,
+});
+
+export const updateProfileAction = (
+  profile: ProfileDTO
+): UpdateProfileAction => ({
+  type: "UPDATE_PROFILE_ACTION",
+  profile,
 });
 
 export const wrongCredentialsAction = (): WrongCredentialsAction => ({
@@ -141,7 +154,7 @@ export const actionCreators = {
   },
   onProfileUpdated: (profile: ProfileDTO): AppThunk<void, KnownAction> => {
     return (dispatch: any) => {
-      console.log(profile);
+      dispatch(updateProfileAction(profile));
     };
   },
 };
@@ -167,6 +180,19 @@ export const reducer: Reducer<ProfilesState> = (
       return { ...state, status: "confirmation-key-required" };
     case "GET_ALL_PROFILES":
       return { ...state, profiles: [...action.profiles], status: "idle" };
+    case "UPDATE_PROFILE_ACTION":
+      const oldProfile = state.profiles.find(
+        profile =>
+          profile.email.toUpperCase() === action.profile.email.toUpperCase()
+      );
+      return {
+        ...state,
+        profiles: oldProfile
+          ? state.profiles.map(profile =>
+              profile === oldProfile ? action.profile : profile
+            )
+          : [...state.profiles, action.profile],
+      };
     case "UNKNOWN_ERROR_ACTION":
       return { ...state, status: "unknown-error" };
     case "WRONG_CREDENTIALS_ON_PROFILE_CREATION":

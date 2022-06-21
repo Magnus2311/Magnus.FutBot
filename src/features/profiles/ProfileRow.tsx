@@ -13,7 +13,7 @@ const templateProfile = {
   email: "iavor.orlyov1@gmail.com",
   wonTargetsCount: 37,
   activeBidsCount: 11,
-  unAssignedCount: 3,
+  unassignedCount: 3,
   transferListCount: 72,
   outbidded: 3,
   coins: 2486919,
@@ -73,7 +73,7 @@ const ProfileRow = (profile: ProfileDTO) => {
         <ImageContent
           src={tasks}
           alt="Unassigned count"
-          content={profile.unAssignedCount}
+          content={profile.unassignedCount}
         />
       </div>
     </div>
