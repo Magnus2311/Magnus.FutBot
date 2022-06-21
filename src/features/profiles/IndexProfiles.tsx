@@ -17,6 +17,7 @@ export const IndexProfiles = () => {
   return (
     <>
       <RedirectToAdd />
+      <hr />
       {profilesState.profiles.map(profile => {
         return <ProfileRow {...profile} />;
       })}
