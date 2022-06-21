@@ -1,6 +1,17 @@
-export interface ProfileDTO {
+export interface AddProfileDTO {
   email: string;
   password: string;
+}
+
+export interface ProfileDTO {
+  email: string;
+  coins: number;
+  status: LoginStatusType;
+  activeBidsCount: number;
+  wonTargetsCount: number;
+  transferListCount: number;
+  unassignedCount: number;
+  outbidded: number;
 }
 
 export enum LoginStatusType {
@@ -22,5 +33,5 @@ export interface ProfileLoginResponseDTO {
 
 export interface ConfirmationCodeResponseDTO {
   status: ConfirmationCodeStatusType;
-  email: string;
+  email: ProfileDTO;
 }

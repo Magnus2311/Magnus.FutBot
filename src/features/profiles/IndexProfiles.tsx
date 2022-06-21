@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectProfiles, setupEventsHub } from "./profileActions";
+import ProfileRow from "./ProfileRow";
 import { RedirectToAdd } from "./RedirectToAdd";
 
 export const IndexProfiles = () => {
@@ -17,7 +18,7 @@ export const IndexProfiles = () => {
     <>
       <RedirectToAdd />
       {profilesState.profiles.map(profile => {
-        return <div key={profile.email}>{profile.email}</div>;
+        return <ProfileRow {...profile} />;
       })}
     </>
   );

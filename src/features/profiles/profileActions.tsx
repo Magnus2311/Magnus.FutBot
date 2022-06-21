@@ -1,4 +1,3 @@
-import { Toast } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Action, Reducer } from "redux";
 import { AppThunk, RootState } from "../../app/store";
@@ -7,8 +6,8 @@ import {
   ConfirmationCodeResponseDTO,
   ConfirmationCodeStatusType,
   LoginStatusType,
-  ProfileDTO,
   ProfileLoginResponseDTO,
+  ProfileDTO,
 } from "../../models/models";
 import { setupSignalRConnection } from "./profileSignalR";
 
@@ -33,6 +32,11 @@ interface AddProfileAction {
 interface GetAllProfilesAction {
   type: "GET_ALL_PROFILES";
   profiles: ProfileDTO[];
+}
+
+interface UpdateProfileAction {
+  type: "UPDATE_PROFILE_ACTION";
+  profile: ProfileDTO;
 }
 
 interface WrongCredentialsAction {
@@ -68,7 +72,8 @@ export type KnownAction =
   | UnknownErrorAction
   | PendingAction
   | ConfirmationCodeSuccessfulAction
-  | WrongConfirmationCodeAction;
+  | WrongConfirmationCodeAction
+  | UpdateProfileAction;
 
 export const addProfileAction = (profile: ProfileDTO): AddProfileAction => ({
   type: "ADD_PROFILE",
@@ -80,6 +85,13 @@ export const getAllProfilesAction = (
 ): GetAllProfilesAction => ({
   type: "GET_ALL_PROFILES",
   profiles,
+});
+
+export const updateProfileAction = (
+  profile: ProfileDTO
+): UpdateProfileAction => ({
+  type: "UPDATE_PROFILE_ACTION",
+  profile,
 });
 
 export const wrongCredentialsAction = (): WrongCredentialsAction => ({
@@ -134,10 +146,15 @@ export const actionCreators = {
   ): AppThunk<void, KnownAction> => {
     return (dispatch: any) => {
       if (response.status === ConfirmationCodeStatusType.Successful) {
+        dispatch(addProfileAction(response.email));
         toast.success("Profiles logged successfully!");
-        dispatch(addProfileAction({ email: response.email, password: "" }));
       } else if (response.status === ConfirmationCodeStatusType.WrongCode)
         dispatch(wrongConfirmationCodeAction());
+    };
+  },
+  onProfileUpdated: (profile: ProfileDTO): AppThunk<void, KnownAction> => {
+    return (dispatch: any) => {
+      dispatch(updateProfileAction(profile));
     };
   },
 };
@@ -163,6 +180,19 @@ export const reducer: Reducer<ProfilesState> = (
       return { ...state, status: "confirmation-key-required" };
     case "GET_ALL_PROFILES":
       return { ...state, profiles: [...action.profiles], status: "idle" };
+    case "UPDATE_PROFILE_ACTION":
+      const oldProfile = state.profiles.find(
+        profile =>
+          profile.email.toUpperCase() === action.profile.email.toUpperCase()
+      );
+      return {
+        ...state,
+        profiles: oldProfile
+          ? state.profiles.map(profile =>
+              profile === oldProfile ? action.profile : profile
+            )
+          : [...state.profiles, action.profile],
+      };
     case "UNKNOWN_ERROR_ACTION":
       return { ...state, status: "unknown-error" };
     case "WRONG_CREDENTIALS_ON_PROFILE_CREATION":
@@ -179,8 +209,12 @@ export const reducer: Reducer<ProfilesState> = (
   }
 };
 
-export const { onProfileAdded, onProfilesLoaded, onCodeSubmited } =
-  actionCreators;
+export const {
+  onProfileAdded,
+  onProfilesLoaded,
+  onCodeSubmited,
+  onProfileUpdated,
+} = actionCreators;
 
 export const selectProfiles = (state: RootState) => state.profiles;
 
@@ -190,6 +224,7 @@ export const setupEventsHub = setupSignalRConnection(connectionHub, {
   OnProfileAdded: onProfileAdded,
   OnProfilesLoaded: onProfilesLoaded,
   OnCodeSubmited: onCodeSubmited,
+  OnProfileUpdated: onProfileUpdated,
 });
 
 // eslint-disable-next-line import/no-anonymous-default-export
