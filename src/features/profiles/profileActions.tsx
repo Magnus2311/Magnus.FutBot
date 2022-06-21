@@ -64,6 +64,10 @@ interface WrongConfirmationCodeAction {
   type: "WRONG_CONFIRMATION_CODE_ACTION";
 }
 
+interface IdleStatusAction {
+  type: "IDLE_STATUS_ACTION";
+}
+
 export type KnownAction =
   | AddProfileAction
   | GetAllProfilesAction
@@ -73,7 +77,8 @@ export type KnownAction =
   | PendingAction
   | ConfirmationCodeSuccessfulAction
   | WrongConfirmationCodeAction
-  | UpdateProfileAction;
+  | UpdateProfileAction
+  | IdleStatusAction;
 
 export const addProfileAction = (profile: ProfileDTO): AddProfileAction => ({
   type: "ADD_PROFILE",
@@ -92,6 +97,10 @@ export const updateProfileAction = (
 ): UpdateProfileAction => ({
   type: "UPDATE_PROFILE_ACTION",
   profile,
+});
+
+export const idleStatusAction = (): IdleStatusAction => ({
+  type: "IDLE_STATUS_ACTION",
 });
 
 export const wrongCredentialsAction = (): WrongCredentialsAction => ({
@@ -203,6 +212,11 @@ export const reducer: Reducer<ProfilesState> = (
       return {
         ...state,
         status: "wrong-confirmation-code",
+      };
+    case "IDLE_STATUS_ACTION":
+      return {
+        ...state,
+        status: "idle",
       };
     default:
       return state;
