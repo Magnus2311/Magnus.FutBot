@@ -35,3 +35,9 @@ export interface ConfirmationCodeResponseDTO {
   status: ConfirmationCodeStatusType;
   email: ProfileDTO;
 }
+
+export interface Player {
+  id: number;
+  rating: number;
+  name: string;
+}

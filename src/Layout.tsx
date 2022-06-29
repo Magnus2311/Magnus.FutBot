@@ -46,6 +46,11 @@ const Layout = () => {
             Profiles
           </Link>
         </Nav>
+        <Nav className="mr-auto">
+          <Link className="nav-link" to="/players" onClick={handleClick}>
+            Players
+          </Link>
+        </Nav>
       </Navbar.Collapse>
       <UserNavMenu />
     </Navbar>

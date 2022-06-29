@@ -9,7 +9,7 @@ import {
   ProfileLoginResponseDTO,
   ProfileDTO,
 } from "../../models/models";
-import { setupSignalRConnection } from "./profileSignalR";
+import { setupSignalRConnection } from "../../services/communication/signalRConnection";
 
 export interface ProfilesState {
   profiles: ProfileDTO[];
@@ -191,13 +191,13 @@ export const reducer: Reducer<ProfilesState> = (
       return { ...state, profiles: [...action.profiles], status: "idle" };
     case "UPDATE_PROFILE_ACTION":
       const oldProfile = state.profiles.find(
-        profile =>
+        (profile) =>
           profile.email.toUpperCase() === action.profile.email.toUpperCase()
       );
       return {
         ...state,
         profiles: oldProfile
-          ? state.profiles.map(profile =>
+          ? state.profiles.map((profile) =>
               profile === oldProfile ? action.profile : profile
             )
           : [...state.profiles, action.profile],

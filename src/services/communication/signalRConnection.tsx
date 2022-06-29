@@ -7,7 +7,7 @@ import {
   IHttpConnectionOptions,
   HttpTransportType,
 } from "@microsoft/signalr";
-import { getAccessToken } from "../authentication/authenticationService";
+import { getAccessToken } from "../../features/authentication/authenticationService";
 
 const startSignalRConnection = async (connection: HubConnection) => {
   try {
