@@ -18,6 +18,8 @@ export enum LoginStatusType {
   Successful,
   WrongCredentials,
   ConfirmationKeyRequired,
+  CaptchaNeeded,
+  AlreadyAdded,
   UnknownError,
 }
 

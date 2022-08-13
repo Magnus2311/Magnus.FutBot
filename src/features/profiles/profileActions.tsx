@@ -142,7 +142,10 @@ export const actionCreators = {
         loginResponse.loginStatus === LoginStatusType.ConfirmationKeyRequired
       )
         dispatch(confirmationKeyRequiredAction());
-      else dispatch(unknownErrorAction());
+      else if (loginResponse.loginStatus === LoginStatusType.AlreadyAdded) {
+        dispatch(idleStatusAction());
+        toast.error("This profile already exists");
+      } else dispatch(unknownErrorAction());
     };
   },
   onProfilesLoaded: (profiles: ProfileDTO[]): AppThunk<void, KnownAction> => {
