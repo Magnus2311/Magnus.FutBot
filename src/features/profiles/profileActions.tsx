@@ -1,3 +1,4 @@
+import { HubConnection } from "@microsoft/signalr";
 import { toast } from "react-toastify";
 import { Action, Reducer } from "redux";
 import { AppThunk, RootState } from "../../app/store";
@@ -237,14 +238,18 @@ export const selectProfiles = (state: RootState) => state.profiles;
 
 const connectionHub = `${SIGNALR_PATH}/profiles`;
 
+let profileConnection: HubConnection | undefined = undefined;
+
+export const getProfileConnection = async (dispatch: any) => {
+  if (profileConnection) return profileConnection;
+
+  profileConnection = await setupEventsHub(dispatch);
+  return profileConnection;
+};
+
 export const setupEventsHub = setupSignalRConnection(connectionHub, {
   OnProfileAdded: onProfileAdded,
   OnProfilesLoaded: onProfilesLoaded,
   OnCodeSubmited: onCodeSubmited,
   OnProfileUpdated: onProfileUpdated,
 });
-
-// eslint-disable-next-line import/no-anonymous-default-export
-export default () => (dispatch: any) => {
-  dispatch(setupEventsHub); // dispatch is coming from Redux
-};

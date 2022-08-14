@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectProfiles, setupEventsHub } from "./profileActions";
+import { getProfileConnection, selectProfiles } from "./profileActions";
 import ProfileRow from "./ProfileRow";
 import { RedirectToAdd } from "./RedirectToAdd";
 
@@ -9,17 +9,20 @@ export const IndexProfiles = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setupEventsHub(dispatch).then(connection => {
+    const initConnection = async () => {
+      const connection = await getProfileConnection(dispatch);
       connection.invoke("GetProfiles");
-    });
+    };
+
+    initConnection();
   }, [dispatch]);
 
   return (
     <>
       <RedirectToAdd />
       <hr />
-      {profilesState.profiles.map(profile => {
-        return <ProfileRow {...profile} />;
+      {profilesState.profiles.map((profile) => {
+        return <ProfileRow key={profile.id} {...profile} />;
       })}
     </>
   );

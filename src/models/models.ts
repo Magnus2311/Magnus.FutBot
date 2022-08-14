@@ -4,6 +4,7 @@ export interface AddProfileDTO {
 }
 
 export interface ProfileDTO {
+  id: string;
   email: string;
   coins: number;
   status: LoginStatusType;
