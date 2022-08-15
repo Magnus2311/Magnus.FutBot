@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { LoginStatusType, ProfileDTO } from "../../models/models";
 import coin from "../../assets/profiles/coin.png";
 import cancel from "../../assets/profiles/cancel.png";
@@ -8,6 +7,10 @@ import hourglass from "../../assets/profiles/hourglass.png";
 import tasks from "../../assets/profiles/tasks.png";
 import man from "../../assets/profiles/man.png";
 import ImageContent from "./ImageNumber";
+import RefreshImage from "../../assets/refresh.png";
+import { getProfileConnection, selectProfiles } from "./profileActions";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { Navigate, useNavigate } from "react-router";
 
 const templateProfile = {
   email: "iavor.orlyov1@gmail.com",
@@ -20,7 +23,16 @@ const templateProfile = {
   status: LoginStatusType.Successful,
 } as ProfileDTO;
 
-const ProfileRow = (profile: ProfileDTO) => {
+const ProfileRow = ({
+  profile,
+  onRefresh,
+}: {
+  profile: ProfileDTO;
+  onRefresh: (profileId: string) => void;
+}) => {
+  const dispatch = useAppDispatch();
+  const navigation = useNavigate();
+
   return (
     <div
       style={{
@@ -28,6 +40,9 @@ const ProfileRow = (profile: ProfileDTO) => {
         borderLeft: "6px solid #2196F3",
         padding: "10px",
         margin: "10px",
+      }}
+      onClick={() => {
+        navigation(`${profile.email}`);
       }}
     >
       <div
@@ -48,6 +63,19 @@ const ProfileRow = (profile: ProfileDTO) => {
           <ImageContent src={man} alt="Profile" content={profile.email} />
         </div>
         <ImageContent src={coin} alt="Coins" content={profile.coins} />
+        <img
+          src={RefreshImage}
+          alt="Refresh"
+          style={{
+            width: "24px",
+            height: "24px",
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onRefresh(profile.id);
+          }}
+        />
       </div>
       <div style={{ placeItems: "center", display: "flex" }}>
         <ImageContent

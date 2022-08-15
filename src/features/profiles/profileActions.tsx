@@ -170,6 +170,16 @@ export const actionCreators = {
       dispatch(updateProfileAction(profile));
     };
   },
+  onProfileRefreshRequested: (
+    profileId: string
+  ): AppThunk<void, KnownAction> => {
+    return async (dispatch: any) => {
+      var connection = await getProfileConnection(dispatch);
+      connection.invoke("OnProfileRefresh", {
+        profileId,
+      });
+    };
+  },
 };
 
 const initialState = {
@@ -232,6 +242,7 @@ export const {
   onProfilesLoaded,
   onCodeSubmited,
   onProfileUpdated,
+  onProfileRefreshRequested,
 } = actionCreators;
 
 export const selectProfiles = (state: RootState) => state.profiles;
