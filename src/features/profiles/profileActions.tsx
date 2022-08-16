@@ -149,6 +149,12 @@ export const actionCreators = {
       } else dispatch(unknownErrorAction());
     };
   },
+  onProfilesRequests: (): AppThunk<void, KnownAction> => {
+    return async (dispatch: any) => {
+      const connection = await getProfileConnection(dispatch);
+      connection.invoke("GetProfiles");
+    };
+  },
   onProfilesLoaded: (profiles: ProfileDTO[]): AppThunk<void, KnownAction> => {
     return (dispatch: any) => {
       dispatch(getAllProfilesAction(profiles));
@@ -243,6 +249,7 @@ export const {
   onCodeSubmited,
   onProfileUpdated,
   onProfileRefreshRequested,
+  onProfilesRequests,
 } = actionCreators;
 
 export const selectProfiles = (state: RootState) => state.profiles;
