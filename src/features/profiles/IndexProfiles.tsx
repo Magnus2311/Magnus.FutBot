@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-  getProfileConnection,
   onProfileRefreshRequested,
+  onProfilesRequests,
   selectProfiles,
 } from "./profileActions";
 import ProfileRow from "./ProfileRow";
@@ -13,12 +13,7 @@ export const IndexProfiles = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const initConnection = async () => {
-      const connection = await getProfileConnection(dispatch);
-      connection.invoke("GetProfiles");
-    };
-
-    initConnection();
+    dispatch(onProfilesRequests());
   }, [dispatch]);
 
   const onProfileRefresh = (profileId: string) => {
