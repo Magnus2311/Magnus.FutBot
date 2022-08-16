@@ -181,9 +181,7 @@ export const actionCreators = {
   ): AppThunk<void, KnownAction> => {
     return async (dispatch: any) => {
       var connection = await getProfileConnection(dispatch);
-      connection.invoke("OnProfileRefresh", {
-        profileId,
-      });
+      connection.invoke("OnProfileRefresh", profileId);
     };
   },
 };
