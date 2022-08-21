@@ -13,6 +13,21 @@ export interface ProfileDTO {
   transferListCount: number;
   unassignedCount: number;
   outbidded: number;
+  tradePile: TradePile;
+}
+
+export interface TradePile {
+  transferList: PlayerCard[];
+  unassignedItems: PlayerCard[];
+  transferTargets: PlayerCard[];
+  clubItems: PlayerCard[];
+}
+
+export interface PlayerCard {
+  name: string;
+  rating: number;
+  playerCardStatus: PlayerCardStatus;
+  playerType: PlayerCardType;
 }
 
 export enum LoginStatusType {
@@ -27,6 +42,20 @@ export enum LoginStatusType {
 export enum ConfirmationCodeStatusType {
   Successful,
   WrongCode,
+}
+
+export enum PlayerCardStatus {
+  Pending,
+  Won,
+  Outbidded,
+}
+
+export enum PlayerCardType {
+  Bronze,
+  Silver,
+  Gold,
+  TOTW,
+  // New types should be added
 }
 
 export interface ProfileLoginResponseDTO {

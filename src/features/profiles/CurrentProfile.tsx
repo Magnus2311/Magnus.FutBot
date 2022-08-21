@@ -37,6 +37,19 @@ export const CurrentProfile = () => {
       <div>Transfer List: {currentProfile?.transferListCount}</div>
       <div>Unassigned: {currentProfile?.unassignedCount}</div>
       <div>Won Targets: {currentProfile?.wonTargetsCount}</div>
+      {currentProfile?.tradePile.transferList
+        .groupBy("name")
+        .map((playerCard) => {
+          return (
+            <div>
+              <div>{playerCard.name}</div>
+              <div>{playerCard.playerCardStatus}</div>
+              <div>{playerCard.playerType}</div>
+              <div>{playerCard.rating}</div>
+              <hr></hr>
+            </div>
+          );
+        })}
     </div>
   );
 };
