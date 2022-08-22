@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { groupBy } from "../../helpers/additionalFunctions";
+import { PlayerCard } from "../../models/models";
 import {
   onProfileRefreshRequested,
   onProfilesRequests,
@@ -19,7 +21,7 @@ export const CurrentProfile = () => {
     if (profiles.length === 0) {
       dispatch(onProfilesRequests());
     } else if (currentProfile) {
-      dispatch(onProfileRefreshRequested(currentProfile.id));
+      // dispatch(onProfileRefreshRequested(currentProfile.id));
     } else {
       setCurrentProfile(
         profiles.find((p) => p.email.toLowerCase() === email?.toLowerCase())
@@ -37,19 +39,20 @@ export const CurrentProfile = () => {
       <div>Transfer List: {currentProfile?.transferListCount}</div>
       <div>Unassigned: {currentProfile?.unassignedCount}</div>
       <div>Won Targets: {currentProfile?.wonTargetsCount}</div>
-      {currentProfile?.tradePile.transferList
-        .groupBy("name")
-        .map((playerCard) => {
+      {[...groupBy(currentProfile?.tradePile.transferList ?? [], "name")].map(
+        ({ item, count }) => {
           return (
             <div>
-              <div>{playerCard.name}</div>
-              <div>{playerCard.playerCardStatus}</div>
-              <div>{playerCard.playerType}</div>
-              <div>{playerCard.rating}</div>
+              <div>{item.name}</div>
+              <div>{item.playerCardStatus}</div>
+              <div>{item.playerType}</div>
+              <div>{item.rating}</div>
+              <div>Count: {count}</div>
               <hr></hr>
             </div>
           );
-        })}
+        }
+      )}
     </div>
   );
 };

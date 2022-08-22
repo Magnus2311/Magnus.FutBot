@@ -73,3 +73,8 @@ export interface Player {
   rating: number;
   name: string;
 }
+
+export interface GroupedType<T> {
+  item: T;
+  count: number;
+}
