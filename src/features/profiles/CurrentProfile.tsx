@@ -39,7 +39,39 @@ export const CurrentProfile = () => {
       <div>Transfer List: {currentProfile?.transferListCount}</div>
       <div>Unassigned: {currentProfile?.unassignedCount}</div>
       <div>Won Targets: {currentProfile?.wonTargetsCount}</div>
-      {[...groupBy(currentProfile?.tradePile.transferList ?? [], "name")].map(
+      <hr></hr>
+      <h3>Transfer List:</h3>
+      {groupBy(currentProfile?.tradePile.transferList ?? [], "name").map(
+        ({ item, count }) => {
+          return (
+            <div>
+              <div>{item.name}</div>
+              <div>{item.playerCardStatus}</div>
+              <div>{item.playerType}</div>
+              <div>{item.rating}</div>
+              <div>Count: {count}</div>
+              <hr></hr>
+            </div>
+          );
+        }
+      )}
+      <h3>Transfer Targets:</h3>
+      {groupBy(currentProfile?.tradePile.transferTargets ?? [], "name").map(
+        ({ item, count }) => {
+          return (
+            <div>
+              <div>{item.name}</div>
+              <div>{item.playerCardStatus}</div>
+              <div>{item.playerType}</div>
+              <div>{item.rating}</div>
+              <div>Count: {count}</div>
+              <hr></hr>
+            </div>
+          );
+        }
+      )}
+      <h3>Unassigned Items:</h3>
+      {groupBy(currentProfile?.tradePile.unassignedItems ?? [], "name").map(
         ({ item, count }) => {
           return (
             <div>
