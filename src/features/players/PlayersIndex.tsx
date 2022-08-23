@@ -22,7 +22,7 @@ const PlayersIndex = () => {
   return (
     <>
       {playersState.status === "idle" ? (
-        playersState.players.map((player) => {
+        playersState.players.slice(0, 50).map((player) => {
           return (
             <div key={player.id}>
               <span>{player.name}</span>
