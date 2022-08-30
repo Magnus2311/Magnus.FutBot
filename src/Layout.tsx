@@ -51,6 +51,11 @@ const Layout = () => {
             Players
           </Link>
         </Nav>
+        <Nav className="mr-auto">
+          <Link className="nav-link" to="/cards/buy" onClick={handleClick}>
+            Buy
+          </Link>
+        </Nav>
       </Navbar.Collapse>
       <UserNavMenu />
     </Navbar>
