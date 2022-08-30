@@ -26,6 +26,15 @@ export interface TradePile {
 export interface PlayerCard {
   name: string;
   rating: number;
+  fullName: string;
+  club: string;
+  nation: string;
+  league: string;
+  playerImage: string;
+  revision: string;
+  assetId: number;
+  clubId: number;
+  leagueId: number;
   playerCardStatus: PlayerCardStatus;
   playerType: PlayerCardType;
 }
