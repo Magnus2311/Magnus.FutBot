@@ -64,7 +64,18 @@ export const BuyCardIndex = () => {
 
       <Dropdown.Menu as={CustomMenu}>
         {cards.map((card) => {
-          return <Dropdown.Item eventKey="1">{card.name}</Dropdown.Item>;
+          const revisionImg = require(`../../assets/revision-images/${card.revision}.png`);
+
+          return (
+            <Dropdown.Item eventKey="1">
+              <img
+                style={{ height: "50px", width: "40px" }}
+                src={revisionImg}
+                alt={card.revision}
+              />
+              {card.name}
+            </Dropdown.Item>
+          );
         })}
       </Dropdown.Menu>
     </Dropdown>
