@@ -24,6 +24,7 @@ export interface TradePile {
 }
 
 export interface PlayerCard {
+  id: string;
   name: string;
   rating: number;
   fullName: string;

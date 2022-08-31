@@ -1,7 +1,6 @@
 import React, { LegacyRef, useEffect, useState } from "react";
 import { Dropdown, Form } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import currentImage from "../../assets/revision-images/Futties.png";
 import { selectCards, setupEventsHub } from "./buyActions";
 
 export const BuyCardIndex = () => {
@@ -50,7 +49,10 @@ export const BuyCardIndex = () => {
           <ul className="list-unstyled">
             {React.Children.toArray(children).filter(
               (child: any) =>
-                !value || child.props.children.toLowerCase().startsWith(value)
+                !value ||
+                child.props.children[1].props.children
+                  .toLowerCase()
+                  .startsWith(value)
             )}
           </ul>
         </div>
@@ -59,25 +61,36 @@ export const BuyCardIndex = () => {
   );
 
   return (
-    <Dropdown>
-      <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
+    <>
+      <Dropdown>
+        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
 
-      <Dropdown.Menu as={CustomMenu}>
-        {cards.map((card) => {
-          const revisionImg = require(`../../assets/revision-images/${card.revision}.png`);
+        <Dropdown.Menu as={CustomMenu}>
+          {cards.map((card) => {
+            const revisionImg = require(`../../assets/revision-images/${card.revision}.png`);
 
-          return (
-            <Dropdown.Item eventKey="1">
-              <img
-                style={{ height: "50px", width: "40px" }}
-                src={revisionImg}
-                alt={card.revision}
-              />
-              {card.name}
-            </Dropdown.Item>
-          );
-        })}
-      </Dropdown.Menu>
-    </Dropdown>
+            return (
+              <Dropdown.Item
+                key={card.id}
+                eventKey="1"
+                style={{
+                  width: "400px",
+                  display: "inline-flex",
+                  placeItems: "center",
+                }}
+              >
+                <img
+                  style={{ height: "50px", width: "40px" }}
+                  src={revisionImg}
+                  alt={card.revision}
+                />
+                <h5 style={{ flex: 3, margin: "0 auto" }}>{card.name}</h5>
+                <h6 style={{ flex: 1, margin: "0 auto" }}>{card.rating}</h6>
+              </Dropdown.Item>
+            );
+          })}
+        </Dropdown.Menu>
+      </Dropdown>
+    </>
   );
 };
