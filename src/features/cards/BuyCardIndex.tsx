@@ -1,6 +1,7 @@
 import React, { LegacyRef, useEffect, useState } from "react";
 import { Dropdown, Form } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { PlayerCard } from "../../models/models";
 import { selectCards, setupEventsHub } from "./buyActions";
 
 export const BuyCardIndex = () => {
@@ -13,6 +14,10 @@ export const BuyCardIndex = () => {
       connection.invoke("GetCards");
     });
   }, [dispatch]);
+
+  const handleCardSelect = (card: PlayerCard) => {
+    setValue(card.name);
+  };
 
   const CustomToggle = React.forwardRef(
     ({ onClick }: any, ref: LegacyRef<HTMLAnchorElement>) => {
@@ -78,6 +83,7 @@ export const BuyCardIndex = () => {
                   display: "inline-flex",
                   placeItems: "center",
                 }}
+                onClick={() => handleCardSelect(card)}
               >
                 <img
                   style={{ height: "50px", width: "40px" }}
