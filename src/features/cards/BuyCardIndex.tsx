@@ -3,10 +3,12 @@ import { Dropdown, Form } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PlayerCard } from "../../models/models";
 import { selectCards, setupEventsHub } from "./buyActions";
+import { CardRow } from "./CardRow";
 
 export const BuyCardIndex = () => {
   const dispatch = useAppDispatch();
   const { cards } = useAppSelector(selectCards);
+  const [selectedCard, setSelectedCard] = useState<PlayerCard | undefined>();
   const [value, setValue] = useState("");
 
   useEffect(() => {
@@ -15,13 +17,15 @@ export const BuyCardIndex = () => {
     });
   }, [dispatch]);
 
-  const handleCardSelect = (card: PlayerCard) => {
-    setValue(card.name);
-  };
-
   const CustomToggle = React.forwardRef(
     ({ onClick }: any, ref: LegacyRef<HTMLAnchorElement>) => {
-      return (
+      return selectedCard ? (
+        <CardRow
+          card={selectedCard}
+          onSelectCard={setSelectedCard}
+          isRemoveable={true}
+        />
+      ) : (
         <Form.Control
           autoFocus
           className="mx-3 my-2 w-auto"
@@ -54,10 +58,7 @@ export const BuyCardIndex = () => {
           <ul className="list-unstyled">
             {React.Children.toArray(children).filter(
               (child: any) =>
-                !value ||
-                child.props.children[1].props.children
-                  .toLowerCase()
-                  .startsWith(value)
+                !value || child.props.card.name.toLowerCase().startsWith(value)
             )}
           </ul>
         </div>
@@ -70,30 +71,12 @@ export const BuyCardIndex = () => {
       <Dropdown>
         <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
 
-        <Dropdown.Menu as={CustomMenu}>
+        <Dropdown.Menu
+          as={CustomMenu}
+          style={{ marginLeft: "-190px", width: "600px" }}
+        >
           {cards.map((card) => {
-            const revisionImg = require(`../../assets/revision-images/${card.revision}.png`);
-
-            return (
-              <Dropdown.Item
-                key={card.id}
-                eventKey="1"
-                style={{
-                  width: "400px",
-                  display: "inline-flex",
-                  placeItems: "center",
-                }}
-                onClick={() => handleCardSelect(card)}
-              >
-                <img
-                  style={{ height: "50px", width: "40px" }}
-                  src={revisionImg}
-                  alt={card.revision}
-                />
-                <h5 style={{ flex: 3, margin: "0 auto" }}>{card.name}</h5>
-                <h6 style={{ flex: 1, margin: "0 auto" }}>{card.rating}</h6>
-              </Dropdown.Item>
-            );
+            return <CardRow card={card} onSelectCard={setSelectedCard} />;
           })}
         </Dropdown.Menu>
       </Dropdown>
