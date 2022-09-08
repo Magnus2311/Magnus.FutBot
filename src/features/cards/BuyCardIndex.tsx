@@ -1,5 +1,5 @@
 import React, { LegacyRef, useEffect, useState } from "react";
-import { Dropdown, Form } from "react-bootstrap";
+import { Dropdown, Form, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PlayerCard } from "../../models/models";
 import { selectCards, setupEventsHub } from "./buyActions";
@@ -9,34 +9,49 @@ export const BuyCardIndex = () => {
   const dispatch = useAppDispatch();
   const { cards } = useAppSelector(selectCards);
   const [selectedCard, setSelectedCard] = useState<PlayerCard | undefined>();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [value, setValue] = useState("");
 
   useEffect(() => {
     setupEventsHub(dispatch).then((connection) => {
       connection.invoke("GetCards");
     });
-  }, [dispatch]);
+  }, [dispatch, selectedCard]);
+
+  const selectCard = (card: PlayerCard | undefined) => {
+    setSelectedCard(card);
+    setIsDropdownOpen(false);
+  };
 
   const CustomToggle = React.forwardRef(
     ({ onClick }: any, ref: LegacyRef<HTMLAnchorElement>) => {
       return selectedCard ? (
         <CardRow
           card={selectedCard}
-          onSelectCard={setSelectedCard}
+          onSelectCard={selectCard}
           isRemoveable={true}
         />
       ) : (
-        <Form.Control
-          autoFocus
-          className="mx-3 my-2 w-auto"
-          placeholder="Choose the card you wanna buy ..."
-          onClick={(e) => {
-            e.preventDefault();
-            onClick(e);
-          }}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-        />
+        <>
+          <Form.Control
+            autoFocus
+            className="mx-6 my-4 w-1"
+            placeholder="Choose the card you wanna buy ..."
+            onClick={(e) => {
+              e.preventDefault();
+              onClick(e);
+            }}
+            onChange={(e) => setValue(e.target.value)}
+            value={value}
+          />
+          {!isDropdownOpen &&
+            cards
+              .sort((a, b) => (a.rating < b.rating ? 1 : -1))
+              .slice(0, 20)
+              .map((card) => (
+                <CardRow card={card} onSelectCard={setSelectedCard} />
+              ))}
+        </>
       );
     }
   );
@@ -68,17 +83,30 @@ export const BuyCardIndex = () => {
 
   return (
     <>
-      <Dropdown>
+      <Dropdown
+        onClick={() => setIsDropdownOpen(true)}
+        onBlur={() => {
+          setTimeout(() => setIsDropdownOpen(false), 500);
+        }}
+      >
         <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
 
-        <Dropdown.Menu
-          as={CustomMenu}
-          style={{ marginLeft: "-190px", width: "600px" }}
-        >
-          {cards.map((card) => {
-            return <CardRow card={card} onSelectCard={setSelectedCard} />;
-          })}
-        </Dropdown.Menu>
+        {cards.length > 0 ? (
+          <Dropdown.Menu
+            as={CustomMenu}
+            style={{
+              marginLeft: "-190px",
+              width: "600px",
+              position: "absolute",
+            }}
+          >
+            {cards.map((card) => (
+              <CardRow card={card} onSelectCard={selectCard} />
+            ))}
+          </Dropdown.Menu>
+        ) : (
+          <Spinner animation="border"></Spinner>
+        )}
       </Dropdown>
     </>
   );
