@@ -1,11 +1,5 @@
 import { FormEvent, useState } from "react";
-import {
-  Button,
-  Form,
-  FormControl,
-  FormLabel,
-  FormText,
-} from "react-bootstrap";
+import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { BuyPlayer, PlayerCard } from "../../models/models";
 import { Switch } from "../common/Switch";
 import { CardRow } from "./CardRow";

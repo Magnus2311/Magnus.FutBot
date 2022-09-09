@@ -8,9 +8,8 @@ import tasks from "../../assets/profiles/tasks.png";
 import man from "../../assets/profiles/man.png";
 import ImageContent from "./ImageNumber";
 import RefreshImage from "../../assets/refresh.png";
-import { getProfileConnection, selectProfiles } from "./profileActions";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Navigate, useNavigate } from "react-router";
+import { useAppDispatch } from "../../app/hooks";
+import { useNavigate } from "react-router";
 
 const templateProfile = {
   email: "iavor.orlyov1@gmail.com",
