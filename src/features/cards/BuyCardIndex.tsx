@@ -56,8 +56,6 @@ export const BuyCardIndex = () => {
     }
   );
 
-  // forwardRef again here!
-  // Dropdown needs access to the DOM of the Menu to measure it
   const CustomMenu = React.forwardRef(
     (
       { children, style, className, "aria-labelledby": labeledBy }: any,
