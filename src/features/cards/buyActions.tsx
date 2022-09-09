@@ -1,3 +1,4 @@
+import { HubConnection } from "@microsoft/signalr";
 import { Action, Reducer } from "redux";
 import { AppThunk, RootState } from "../../app/store";
 import { SIGNALR_PATH } from "../../helpers/constants";
@@ -62,6 +63,17 @@ export const { onCardsLoaded } = actionCreators;
 export const selectCards = (state: RootState) => state.cards;
 
 const connectionHub = `${SIGNALR_PATH}/cards`;
+
+let cardsConnection: HubConnection | undefined = undefined;
+
+export const getCardsConnection = async (
+  dispatch: any
+): Promise<HubConnection> => {
+  if (cardsConnection) return cardsConnection;
+
+  cardsConnection = await setupEventsHub(dispatch);
+  return cardsConnection;
+};
 
 export const setupEventsHub = setupSignalRConnection(connectionHub, {
   OnCardsLoaded: onCardsLoaded,
