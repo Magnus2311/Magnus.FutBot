@@ -3,9 +3,10 @@ import { Dropdown, Form, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PlayerCard } from "../../models/models";
 import { selectCards, setupEventsHub } from "./buyActions";
+import { BuyCard } from "./BuyCard";
 import { CardRow } from "./CardRow";
 
-export const BuyCardIndex = () => {
+export const SelectCardIndex = () => {
   const dispatch = useAppDispatch();
   const { cards } = useAppSelector(selectCards);
   const [selectedCard, setSelectedCard] = useState<PlayerCard | undefined>();
@@ -25,13 +26,7 @@ export const BuyCardIndex = () => {
 
   const CustomToggle = React.forwardRef(
     ({ onClick }: any, ref: LegacyRef<HTMLAnchorElement>) => {
-      return selectedCard ? (
-        <CardRow
-          card={selectedCard}
-          onSelectCard={selectCard}
-          isRemoveable={true}
-        />
-      ) : (
+      return (
         <>
           <Form.Control
             autoFocus
@@ -45,11 +40,15 @@ export const BuyCardIndex = () => {
             value={value}
           />
           {!isDropdownOpen &&
-            cards
+            [...cards]
               .sort((a, b) => (a.rating < b.rating ? 1 : -1))
               .slice(0, 20)
               .map((card) => (
-                <CardRow card={card} onSelectCard={setSelectedCard} />
+                <CardRow
+                  key={card.cardId}
+                  card={card}
+                  onSelectCard={selectCard}
+                />
               ))}
         </>
       );
@@ -79,33 +78,28 @@ export const BuyCardIndex = () => {
     }
   );
 
-  return (
-    <>
-      <Dropdown
-        onClick={() => setIsDropdownOpen(true)}
-        onBlur={() => {
-          setTimeout(() => setIsDropdownOpen(false), 500);
-        }}
-      >
-        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
+  return !selectedCard ? (
+    <Dropdown onClick={() => setIsDropdownOpen(true)}>
+      <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
 
-        {cards.length > 0 ? (
-          <Dropdown.Menu
-            as={CustomMenu}
-            style={{
-              marginLeft: "-190px",
-              width: "600px",
-              position: "absolute",
-            }}
-          >
-            {cards.map((card) => (
-              <CardRow card={card} onSelectCard={selectCard} />
-            ))}
-          </Dropdown.Menu>
-        ) : (
-          <Spinner animation="border"></Spinner>
-        )}
-      </Dropdown>
-    </>
+      {cards.length > 0 ? (
+        <Dropdown.Menu
+          as={CustomMenu}
+          style={{
+            marginLeft: "-190px",
+            width: "600px",
+            position: "absolute",
+          }}
+        >
+          {cards.map((card) => (
+            <CardRow key={card.cardId} card={card} onSelectCard={selectCard} />
+          ))}
+        </Dropdown.Menu>
+      ) : (
+        <Spinner animation="border" color="blue"></Spinner>
+      )}
+    </Dropdown>
+  ) : (
+    <BuyCard card={selectedCard} onDeselect={() => selectCard(undefined)} />
   );
 };

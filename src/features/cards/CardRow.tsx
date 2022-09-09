@@ -19,10 +19,10 @@ export const CardRow = ({
 
   return (
     <Dropdown.Item
-      key={card.id}
+      key={card.cardId}
       eventKey="1"
       style={{
-        width: "600px",
+        width: "clamp(50%, 600px, 100%)",
         display: "inline-flex",
         placeItems: "center",
       }}

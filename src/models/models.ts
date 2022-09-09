@@ -24,7 +24,7 @@ export interface TradePile {
 }
 
 export interface PlayerCard {
-  id: string;
+  cardId: string;
   name: string;
   rating: number;
   fullName: string;
@@ -87,4 +87,11 @@ export interface Player {
 export interface GroupedType<T> {
   item: T;
   count: number;
+}
+
+export interface BuyPlayer {
+  card: PlayerCard;
+  isBin: boolean;
+  count: string;
+  price: string;
 }

@@ -7,7 +7,7 @@ import Login from "./features/authentication/Login";
 import PrivateOutlet from "./features/authentication/PrivateOutlet";
 import Registration from "./features/authentication/Registration";
 import ResetPassword from "./features/authentication/ResetPassword";
-import { BuyCardIndex } from "./features/cards/BuyCardIndex";
+import { SelectCardIndex } from "./features/cards/SelectCardIndex";
 import Home from "./features/Home";
 import PlayersIndex from "./features/players/PlayersIndex";
 import { AddProfile } from "./features/profiles/AddProfile";
@@ -43,7 +43,7 @@ const AppRouter = () => {
         <Route path="/profile/index/:email" element={<CurrentProfile />} />
       </Route>
       <Route path="/cards/buy" element={<PrivateOutlet path="/cards/buy" />}>
-        <Route path="/cards/buy" element={<BuyCardIndex />} />
+        <Route path="/cards/buy" element={<SelectCardIndex />} />
       </Route>
       <Route
         path="/registration/email-confirmed"
