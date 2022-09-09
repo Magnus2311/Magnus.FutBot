@@ -3,7 +3,7 @@ import { Dropdown, Form, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PlayerCard } from "../../models/models";
 import { selectCards, setupEventsHub } from "./buyActions";
-import { BuyCard } from "./BuyCard";
+import { BuyCardComponent } from "./BuyCardComponent";
 import { CardRow } from "./CardRow";
 
 export const SelectCardIndex = () => {
@@ -100,6 +100,9 @@ export const SelectCardIndex = () => {
       )}
     </Dropdown>
   ) : (
-    <BuyCard card={selectedCard} onDeselect={() => selectCard(undefined)} />
+    <BuyCardComponent
+      card={selectedCard}
+      onDeselect={() => selectCard(undefined)}
+    />
   );
 };
