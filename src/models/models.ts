@@ -92,6 +92,6 @@ export interface GroupedType<T> {
 export interface BuyPlayer {
   card: PlayerCard;
   isBin: boolean;
-  count: string;
-  price: string;
+  count: number;
+  price: number;
 }
