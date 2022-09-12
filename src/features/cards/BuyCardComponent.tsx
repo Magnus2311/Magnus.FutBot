@@ -2,7 +2,7 @@ import { HubConnection } from "@microsoft/signalr";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { BuyPlayer as BuyCard, PlayerCard } from "../../models/models";
+import { BuyPlayer as BuyCard, Card } from "../../models/models";
 import { Select } from "../common/Select";
 import { Switch } from "../common/Switch";
 import { onProfilesRequests, selectProfiles } from "../profiles/profileActions";
@@ -10,7 +10,7 @@ import { getCardsConnection } from "./buyActions";
 import { CardRow } from "./CardRow";
 
 interface Props {
-  card: PlayerCard;
+  card: Card;
   onDeselect: () => void;
 }
 

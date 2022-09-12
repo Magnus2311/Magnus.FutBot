@@ -17,13 +17,19 @@ export interface ProfileDTO {
 }
 
 export interface TradePile {
-  transferList: PlayerCard[];
-  unassignedItems: PlayerCard[];
-  transferTargets: PlayerCard[];
-  clubItems: PlayerCard[];
+  transferList: TransferCard[];
+  unassignedItems: TransferCard[];
+  transferTargets: TransferCard[];
+  clubItems: TransferCard[];
 }
 
-export interface PlayerCard {
+export interface TransferCard {
+  possibleCards: Card[],
+  playerCardStatus: PlayerCardStatus,
+  bougthFor: number
+}
+
+export interface Card {
   cardId: string;
   name: string;
   rating: number;
@@ -90,7 +96,7 @@ export interface GroupedType<T> {
 }
 
 export interface BuyPlayer {
-  card: PlayerCard;
+  card: Card;
   isBin: boolean;
   count: number;
   price: number;

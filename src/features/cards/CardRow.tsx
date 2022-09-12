@@ -1,22 +1,20 @@
 import { Dropdown } from "react-bootstrap";
-import { PlayerCard } from "../../models/models";
+import { Card } from "../../models/models";
 import * as Icon from "react-bootstrap-icons";
+import { getCardImages } from "../../helpers/images";
 
 export const CardRow = ({
   card,
   onSelectCard,
   isRemoveable,
 }: {
-  card: PlayerCard;
-  onSelectCard: (card: PlayerCard | undefined) => void;
+  card: Card;
+  onSelectCard: (card: Card | undefined) => void;
   isRemoveable?: boolean;
 }) => {
   try {
-    const revisionImg = require(`../../assets/revision-images/${card.revision}.png`);
-    const clubImg = require(`../../assets/club-logos/${card.club}.png`);
-    const leagueImg = require(`../../assets/league-logos/${card.league}.png`);
-    const flagImg = require(`../../assets/player-flags/${card.nation}.png`);
-    const playerImg = require(`../../assets/player-images/${card.name}-${card.revision}-${card.rating}.png`);
+    const { clubImg, flagImg, leagueImg, playerImg, revisionImg } =
+      getCardImages(card);
 
     return (
       <Dropdown.Item

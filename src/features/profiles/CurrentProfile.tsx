@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { groupBy } from "../../helpers/additionalFunctions";
-import { PlayerCard } from "../../models/models";
+import { getCardImages } from "../../helpers/images";
+import { Card } from "../../models/models";
+import { CardImage } from "../common/CardImage";
 import {
   onProfileRefreshRequested,
   onProfilesRequests,
@@ -43,12 +45,12 @@ export const CurrentProfile = () => {
       <h3>Transfer List:</h3>
       {groupBy(currentProfile?.tradePile.transferList ?? [], "name").map(
         ({ item, count }) => {
+          var { clubImg, flagImg, leagueImg, playerImg, revisionImg } =
+            getCardImages(item.possibleCards[0]);
+
           return (
             <div>
-              <div>{item.name}</div>
-              <div>{item.playerCardStatus}</div>
-              <div>{item.playerType}</div>
-              <div>{item.rating}</div>
+              <CardImage card={item.possibleCards[0]} />
               <div>Count: {count}</div>
               <hr></hr>
             </div>
@@ -60,10 +62,10 @@ export const CurrentProfile = () => {
         ({ item, count }) => {
           return (
             <div>
-              <div>{item.name}</div>
+              <div>{item.possibleCards[0].name}</div>
               <div>{item.playerCardStatus}</div>
-              <div>{item.playerType}</div>
-              <div>{item.rating}</div>
+              <div>{item.possibleCards[0].playerType}</div>
+              <div>{item.possibleCards[0].rating}</div>
               <div>Count: {count}</div>
               <hr></hr>
             </div>
@@ -75,10 +77,10 @@ export const CurrentProfile = () => {
         ({ item, count }) => {
           return (
             <div>
-              <div>{item.name}</div>
+              <div>{item.possibleCards[0].name}</div>
               <div>{item.playerCardStatus}</div>
-              <div>{item.playerType}</div>
-              <div>{item.rating}</div>
+              <div>{item.possibleCards[0].playerType}</div>
+              <div>{item.possibleCards[0].rating}</div>
               <div>Count: {count}</div>
               <hr></hr>
             </div>

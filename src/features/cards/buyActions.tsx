@@ -2,17 +2,17 @@ import { HubConnection } from "@microsoft/signalr";
 import { Action, Reducer } from "redux";
 import { AppThunk, RootState } from "../../app/store";
 import { SIGNALR_PATH } from "../../helpers/constants";
-import { PlayerCard } from "../../models/models";
+import { Card } from "../../models/models";
 import { setupSignalRConnection } from "../../services/communication/signalRConnection";
 
 export interface CardsState {
-  cards: PlayerCard[];
+  cards: Card[];
   status: "idle" | "pending";
 }
 
 interface GetCardsAction {
   type: "GET_CARDS";
-  cards: PlayerCard[];
+  cards: Card[];
 }
 
 interface PendingStatusAction {
@@ -21,7 +21,7 @@ interface PendingStatusAction {
 
 export type KnownAction = GetCardsAction | PendingStatusAction;
 
-export const getCardsAction = (cards: PlayerCard[]): GetCardsAction => ({
+export const getCardsAction = (cards: Card[]): GetCardsAction => ({
   type: "GET_CARDS",
   cards,
 });
@@ -31,7 +31,7 @@ export const pendingStatusAction = (): PendingStatusAction => ({
 });
 
 export const actionCreators = {
-  onCardsLoaded: (cards: PlayerCard[]): AppThunk<void, KnownAction> => {
+  onCardsLoaded: (cards: Card[]): AppThunk<void, KnownAction> => {
     return (dispatch: any) => {
       dispatch(getCardsAction(cards));
     };

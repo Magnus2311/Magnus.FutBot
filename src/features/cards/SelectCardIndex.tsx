@@ -1,7 +1,7 @@
 import React, { LegacyRef, useEffect, useState } from "react";
 import { Dropdown, Form, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { PlayerCard } from "../../models/models";
+import { Card } from "../../models/models";
 import { selectCards, setupEventsHub } from "./buyActions";
 import { BuyCardComponent } from "./BuyCardComponent";
 import { CardRow } from "./CardRow";
@@ -9,7 +9,7 @@ import { CardRow } from "./CardRow";
 export const SelectCardIndex = () => {
   const dispatch = useAppDispatch();
   const { cards } = useAppSelector(selectCards);
-  const [selectedCard, setSelectedCard] = useState<PlayerCard | undefined>();
+  const [selectedCard, setSelectedCard] = useState<Card | undefined>();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -19,7 +19,7 @@ export const SelectCardIndex = () => {
     });
   }, [dispatch, selectedCard]);
 
-  const selectCard = (card: PlayerCard | undefined) => {
+  const selectCard = (card: Card | undefined) => {
     setSelectedCard(card);
     setIsDropdownOpen(false);
   };
