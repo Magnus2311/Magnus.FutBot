@@ -1,3 +1,6 @@
+import { Stats } from "fs";
+import { PackageId } from "typescript";
+
 export interface AddProfileDTO {
   email: string;
   password: string;
@@ -24,9 +27,9 @@ export interface TradePile {
 }
 
 export interface TransferCard {
-  possibleCards: Card[],
-  playerCardStatus: PlayerCardStatus,
-  bougthFor: number
+  possibleCards: Card[];
+  playerCardStatus: PlayerCardStatus;
+  bougthFor: number;
 }
 
 export interface Card {
@@ -42,8 +45,71 @@ export interface Card {
   assetId: number;
   clubId: number;
   leagueId: number;
+  stats: PlayerStats;
   playerCardStatus: PlayerCardStatus;
   playerType: PlayerCardType;
+}
+
+export interface PlayerStats {
+  pace: Pace;
+  shooting: Shooting;
+  passing: Passing;
+  dribbling: DribblingData;
+  defending: Defending;
+  physicality: Physicality;
+}
+
+export interface Pace {
+  overall: number;
+  acceleration: number;
+  sprintSpeed: number;
+}
+
+export interface Shooting {
+  overall: number;
+  positioning: number;
+  finishing: number;
+  shotPower: number;
+  longShots: number;
+  volleys: number;
+  penalties: number;
+}
+
+export interface Passing {
+  overall: number;
+  vision: number;
+  crossing: number;
+  fKAccuracy: number;
+  shortPassing: number;
+  longPassing: number;
+  curve: number;
+}
+
+export interface DribblingData {
+  overall: number;
+  agility: number;
+  balance: number;
+  reactions: number;
+  ballControl: number;
+  dribbling: number;
+  composure: number;
+}
+
+export interface Defending {
+  overall: number;
+  interceptions: number;
+  headingAccuracy: number;
+  defensiveAwareness: number;
+  standingTackle: number;
+  slidingTackle: number;
+}
+
+export interface Physicality {
+  overall: number;
+  jumping: number;
+  stamina: number;
+  aggresion: number;
+  strength: number;
 }
 
 export enum LoginStatusType {
