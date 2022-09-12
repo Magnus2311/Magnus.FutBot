@@ -21,6 +21,8 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
     count: 0,
     price: 0,
   });
+
+  // test commit
   const [connection, setConnection] = useState<HubConnection | undefined>();
   const dispatch = useAppDispatch();
   const profiles = useAppSelector(selectProfiles).profiles;
