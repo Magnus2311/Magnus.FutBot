@@ -50,7 +50,7 @@ export const CurrentProfile = () => {
 
           return (
             <div>
-              <CardImage card={item.possibleCards[0]} />
+              <CardImage size="small" card={item.possibleCards[0]} />
               <div>Count: {count}</div>
               <hr></hr>
             </div>
