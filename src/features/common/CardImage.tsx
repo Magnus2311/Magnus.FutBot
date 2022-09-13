@@ -10,22 +10,25 @@ export const CardImage = ({ card, size }: Props) => {
   const { clubImg, flagImg, playerImg, revisionImg } = getCardImages(card);
 
   let scale = 0.3;
-  let width = 96.6;
-  let height = 155;
+  let width = 99.6;
+  let height = 250;
+  let marginLeft = -60;
 
   if (size === "small") {
     scale = 0.15;
     width = 70;
     height = 120;
+    marginLeft = -40;
   }
   if (size === "large") {
     scale = 0.45;
-    width = 120;
-    height = 190;
+    width = 180;
+    height = 380;
+    marginLeft = -80;
   }
 
   return (
-    <div style={{ width: width, height: height }}>
+    <div style={{ width: width, height: height, marginLeft: marginLeft }}>
       <div style={{ position: "relative", scale: `${scale}` }}>
         <img
           alt={card.name}
