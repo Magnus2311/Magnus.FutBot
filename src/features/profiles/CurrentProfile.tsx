@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { createSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { groupBy } from "../../helpers/additionalFunctions";
 import { CardImage } from "../common/CardImage";
 import { onProfilesRequests, selectProfiles } from "./profileActions";
 
 export const CurrentProfile = () => {
+  const navigation = useNavigate();
   const { profiles } = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   const { email } = useParams();
@@ -40,7 +42,17 @@ export const CurrentProfile = () => {
       {groupBy(currentProfile?.tradePile.transferList ?? [], "name").map(
         ({ item, count }) => {
           return (
-            <div>
+            <div
+              onClick={() => {
+                navigation({
+                  pathname: "/sell",
+                  search: createSearchParams({
+                    cardId: item.possibleCards[0].cardId,
+                    email: email!,
+                  }).toString(),
+                });
+              }}
+            >
               <CardImage size="large" card={item.possibleCards[0]} />
               <div>Count: {count}</div>
               <hr></hr>
