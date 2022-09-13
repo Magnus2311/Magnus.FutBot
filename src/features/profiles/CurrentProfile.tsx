@@ -2,14 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { groupBy } from "../../helpers/additionalFunctions";
-import { getCardImages } from "../../helpers/images";
-import { Card } from "../../models/models";
 import { CardImage } from "../common/CardImage";
-import {
-  onProfileRefreshRequested,
-  onProfilesRequests,
-  selectProfiles,
-} from "./profileActions";
+import { onProfilesRequests, selectProfiles } from "./profileActions";
 
 export const CurrentProfile = () => {
   const { profiles } = useAppSelector(selectProfiles);
@@ -45,9 +39,6 @@ export const CurrentProfile = () => {
       <h3>Transfer List:</h3>
       {groupBy(currentProfile?.tradePile.transferList ?? [], "name").map(
         ({ item, count }) => {
-          var { clubImg, flagImg, leagueImg, playerImg, revisionImg } =
-            getCardImages(item.possibleCards[0]);
-
           return (
             <div>
               <CardImage size="large" card={item.possibleCards[0]} />
