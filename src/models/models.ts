@@ -167,3 +167,12 @@ export interface BuyPlayer {
   count: number;
   price: number;
 }
+
+export interface SellCardDTO {
+  card: Card;
+  count: number;
+  fromBid: number;
+  toBid?: number;
+  fromBin: number;
+  toBin?: number;
+}
