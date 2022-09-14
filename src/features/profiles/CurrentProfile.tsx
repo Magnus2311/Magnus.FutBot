@@ -44,13 +44,7 @@ export const CurrentProfile = () => {
           return (
             <div
               onClick={() => {
-                navigation({
-                  pathname: "/sell",
-                  search: createSearchParams({
-                    cardId: item.possibleCards[0].cardId,
-                    email: email!,
-                  }).toString(),
-                });
+                navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
               }}
             >
               <CardImage size="small" card={item.possibleCards[0]} />
