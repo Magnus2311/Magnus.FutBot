@@ -1,12 +1,15 @@
+import { HubConnection } from "@microsoft/signalr";
 import { useEffect, useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
-import { createSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { groupBy } from "../../helpers/additionalFunctions";
+import { getCardsConnection } from "../cards/buyActions";
 import { CardImage } from "../common/CardImage";
 import { onProfilesRequests, selectProfiles } from "./profileActions";
 
 export const CurrentProfile = () => {
+  const [connection, setConnection] = useState<HubConnection | undefined>();
   const navigation = useNavigate();
   const { profiles } = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
@@ -16,6 +19,9 @@ export const CurrentProfile = () => {
   );
 
   useEffect(() => {
+    getCardsConnection(dispatch).then((connection) =>
+      setConnection(connection)
+    );
     if (profiles.length === 0) {
       dispatch(onProfilesRequests());
     } else if (currentProfile) {
@@ -28,7 +34,12 @@ export const CurrentProfile = () => {
   }, [dispatch, profiles.length, currentProfile, email, profiles]);
 
   return (
-    <div>
+    <Form
+      style={{
+        width: "clamp(400px, 60%, 100%)",
+        textAlign: "center",
+      }}
+    >
       <h4>Active: {currentProfile?.email}</h4>
       <div>Active Bids: {currentProfile?.activeBidsCount}</div>
       <div>Coins: {currentProfile?.coins}</div>
@@ -42,19 +53,39 @@ export const CurrentProfile = () => {
       {groupBy(currentProfile?.tradePile.transferList ?? [], "name").map(
         ({ item, count }) => {
           return (
-            <div
-              onClick={() => {
-                navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
-              }}
-            >
-              <CardImage size="small" card={item.possibleCards[0]} />
-              <div>Count: {count}</div>
+            <div>
+              <CardImage
+                size="small"
+                card={item.possibleCards[0]}
+                onClick={() => {
+                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
+                }}
+              />
+              <div>Count: {count} / 100</div>
               <hr></hr>
             </div>
           );
         }
       )}
-      <h3>Transfer Targets:</h3>
+      <div style={{ display: "flex" }}>
+        <h3
+          style={{
+            flex: 2,
+            textAlign: "left",
+          }}
+        >
+          Transfer Targets:
+        </h3>
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+
+            connection?.invoke("SendTransferTargetsToTransferList", email);
+          }}
+        >
+          Send to Transfer List
+        </Button>
+      </div>
       {groupBy(currentProfile?.tradePile.transferTargets ?? [], "name").map(
         ({ item, count }) => {
           return (
@@ -63,7 +94,7 @@ export const CurrentProfile = () => {
               <div>{item.playerCardStatus}</div>
               <div>{item.possibleCards[0].playerType}</div>
               <div>{item.possibleCards[0].rating}</div>
-              <div>Count: {count}</div>
+              <div>Count: {count} / 50</div>
               <hr></hr>
             </div>
           );
@@ -84,6 +115,6 @@ export const CurrentProfile = () => {
           );
         }
       )}
-    </div>
+    </Form>
   );
 };

@@ -4,9 +4,10 @@ import { Card } from "../../models/models";
 interface Props {
   card: Card;
   size: "small" | "medium" | "large";
+  onClick?: () => void;
 }
 
-export const CardImage = ({ card, size }: Props) => {
+export const CardImage = ({ card, size, onClick }: Props) => {
   const { clubImg, flagImg, playerImg, revisionImg } = getCardImages(card);
 
   let scale = 0.3;
@@ -28,7 +29,10 @@ export const CardImage = ({ card, size }: Props) => {
   }
 
   return (
-    <div style={{ width: width, height: height, marginLeft: marginLeft }}>
+    <div
+      style={{ width: width, height: height, marginLeft: marginLeft }}
+      onClick={onClick}
+    >
       <div style={{ position: "relative", scale: `${scale}` }}>
         <img
           alt={card.name}
