@@ -100,7 +100,25 @@ export const CurrentProfile = () => {
           );
         }
       )}
-      <h3>Unassigned Items:</h3>
+      <div style={{ display: "flex" }}>
+        <h3
+          style={{
+            flex: 2,
+            textAlign: "left",
+          }}
+        >
+          Unassigned items:
+        </h3>
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+
+            connection?.invoke("SendUnassignedItemsToTransferList", email);
+          }}
+        >
+          Send to Transfer List
+        </Button>
+      </div>
       {groupBy(currentProfile?.tradePile.unassignedItems ?? [], "name").map(
         ({ item, count }) => {
           return (
