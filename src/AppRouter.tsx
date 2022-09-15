@@ -13,6 +13,7 @@ import Home from "./features/Home";
 import PlayersIndex from "./features/players/PlayersIndex";
 import { AddProfile } from "./features/profiles/AddProfile";
 import { CurrentProfile } from "./features/profiles/CurrentProfile";
+import { EditProfile } from "./features/profiles/EditProfile";
 import { IndexProfiles } from "./features/profiles/IndexProfiles";
 
 const AppRouter = () => {
@@ -51,6 +52,12 @@ const AppRouter = () => {
         element={<PrivateOutlet path="/sell/:cardId/:email" />}
       >
         <Route path="/sell/:cardId/:email" element={<SellCardComponent />} />
+      </Route>
+      <Route
+        path="/profiles/edit/:email"
+        element={<PrivateOutlet path="/profiles/edit/:email" />}
+      >
+        <Route path="/profiles/edit/:email" element={<EditProfile />} />
       </Route>
       <Route
         path="/registration/email-confirmed"

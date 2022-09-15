@@ -9,6 +9,7 @@ export interface AddProfileDTO {
 export interface ProfileDTO {
   id: string;
   email: string;
+  password: string;
   coins: number;
   status: LoginStatusType;
   activeBidsCount: number;

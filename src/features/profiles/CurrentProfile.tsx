@@ -1,12 +1,13 @@
 import { HubConnection } from "@microsoft/signalr";
 import { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { groupBy } from "../../helpers/additionalFunctions";
 import { getCardsConnection } from "../cards/buyActions";
 import { CardImage } from "../common/CardImage";
 import { onProfilesRequests, selectProfiles } from "./profileActions";
+import * as Icon from "react-bootstrap-icons";
 
 export const CurrentProfile = () => {
   const [connection, setConnection] = useState<HubConnection | undefined>();
@@ -40,15 +41,53 @@ export const CurrentProfile = () => {
         textAlign: "center",
       }}
     >
-      <h4>Active: {currentProfile?.email}</h4>
-      <div>Active Bids: {currentProfile?.activeBidsCount}</div>
-      <div>Coins: {currentProfile?.coins}</div>
-      <div>Outbidded: {currentProfile?.outbidded}</div>
-      <div>Status: {currentProfile?.status}</div>
-      <div>Transfer List: {currentProfile?.transferListCount}</div>
-      <div>Unassigned: {currentProfile?.unassignedCount}</div>
-      <div>Won Targets: {currentProfile?.wonTargetsCount}</div>
-      <hr></hr>
+      <Container style={{ textAlign: "left" }}>
+        <Row style={{ width: "100%", textAlign: "center" }}>
+          <Col>
+            <Row>
+              <Col>
+                <h4>{currentProfile?.email}</h4>
+              </Col>
+              <Col>
+                <Icon.Pen
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigation(`/profiles/edit/${email}`);
+                  }}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <div>Coins: {currentProfile?.coins}</div>
+            </Row>
+          </Col>
+        </Row>
+        <Row style={{ width: "100%" }}>
+          <Col>
+            <div>Active Bids: {currentProfile?.activeBidsCount}</div>
+          </Col>
+          <Col>
+            <div>Outbidded: {currentProfile?.outbidded}</div>
+          </Col>
+        </Row>
+        <Row style={{ width: "100%" }}>
+          <Col>
+            <div>Status: {currentProfile?.status}</div>
+          </Col>
+          <Col>
+            <div>Transfer List: {currentProfile?.transferListCount}</div>
+          </Col>
+        </Row>
+        <Row style={{ width: "100%" }}>
+          <Col>
+            <div>Unassigned: {currentProfile?.unassignedCount}</div>
+          </Col>
+          <Col>
+            <div>Won Targets: {currentProfile?.wonTargetsCount}</div>
+          </Col>
+        </Row>
+        <hr></hr>
+      </Container>
       <h3>Transfer List:</h3>
       {groupBy(currentProfile?.tradePile.transferList ?? [], "name").map(
         ({ item, count }) => {
