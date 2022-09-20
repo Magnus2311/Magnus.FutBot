@@ -1,0 +1,4924 @@
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" wf-loading>
+    <head>
+        
+    
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png">
+
+
+    <script>
+        window.newrelicAttributes = {
+            accountId: "1796917",
+            trustKey: "1796917",
+            agentId: "149134891",
+            licenseKey: "f701a6c63c",
+            applicationId: "149134891"
+        };
+    </script>
+    <script src="/newrelic.js"></script>
+
+
+
+<!-- Compliant Google Optimize -->
+<script>
+        (() => {
+            const getPrivacyCookie = () => {
+                const privacyCookie = document.cookie.match('(^|;)\\s*cmapi_cookie_privacy\\s*=\\s*([^;]+)');
+
+                return privacyCookie ? privacyCookie.pop() : null;
+            };
+
+            const getBehaviorCookie = () => {
+                const behaviorCookie = document.cookie.match('(^|;)\\s*notice_behavior\\s*=\\s*([^;]+)');
+
+                return behaviorCookie ? behaviorCookie.pop() : null;
+            };
+
+            const hasOptedIn = () => {
+                const behaviorCookie = getBehaviorCookie();
+                const privacyCookie = getPrivacyCookie();
+
+                return behaviorCookie && behaviorCookie.match(/^none$/) || privacyCookie && privacyCookie.match(/2|3/);
+            }
+
+            const appendOptimize = () => {
+                const head = document.getElementsByTagName('head')[0];
+
+                if (head) {
+                    const script = document.createElement('script');
+
+                    script.src = 'https://www.googleoptimize.com/optimize.js?id=GTM-M6BQF2W';
+                    script.id = "google-optimize"
+                    head.append(script);
+                }
+            };
+
+            const removeOptimize = () => {
+                const head = document.getElementsByTagName('head')[0];
+                const optimizeScript = document.getElementById('google-optimize');
+
+                if (head && optimizeScript) {
+                    head.removeChild(optimizeScript);
+                }
+            }
+
+            /**
+             * Append or remove Google Optimize script to head,
+             * depending on whether user's cookie preferences
+             * have opted in and Google Optimize script already
+             * exists in head.
+             */
+            const handleConsentDecision = () => {
+                const googleOptimizeScript = document.getElementById('google-optimize');
+                if (hasOptedIn() && !googleOptimizeScript) {
+                    appendOptimize();
+                } else if (!hasOptedIn() && googleOptimizeScript) {
+                    removeOptimize();
+                }
+            }
+
+            /**
+             * Callbacks will occur in the form of a PostMessage event. This code listens for the
+             * appropriately formatted PostMessage event, gets the new consent decision, and then sets
+             * the new cookie preferences.
+             */
+            const handlePreferencesUpdated = (e) => {
+                try {
+                    const { capabilities, action } = JSON.parse(e.data).PrivacyManagerAPI || {};
+                    if (capabilities && action === 'getConsentDecision') {
+                        handleConsentDecision();
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            /**
+             * Registers with the TrustArc Content Manager (CM) API to receive callbacks when
+             * a preference update occurs, and initialized dispatched preferences array to
+             * the user's current preferences. You must wait for the CM API (PrivacyManagerAPI object)
+             * to exist on the page before registering.
+             */
+            const CMICallbackRegister = () => {
+                const interval = setInterval(() => {
+                    if (window.PrivacyManagerAPI && interval) {
+                        const apiObject = {
+                            PrivacyManagerAPI: {
+                                action: 'getConsentDecision',
+                                timestamp: new Date().getTime(),
+                                self: window.location.host
+                            }
+                        };
+                        window.top.postMessage(JSON.stringify(apiObject), '*');
+                        clearInterval(interval);
+                    }
+                }, 50);
+            }
+
+            /**
+             * Listener registers a message callback on the TrustArc Content Manager when
+             * user's cookie preferences are updated and adds an event listener
+             * on the message events that occur when said preference updates occur.
+             */
+            const trustArcScriptLoadListener = () => {
+                if (typeof window.truste === 'object') {
+                    CMICallbackRegister();
+                    window.addEventListener('message', handlePreferencesUpdated);
+                }
+            }
+
+            window.addEventListener('load', trustArcScriptLoadListener);
+            const behaviorCookie = getBehaviorCookie();
+
+            if (behaviorCookie === null) {
+                // wait for TrustArc script to load before checking cookies
+                let numIntervals = 0;
+                const scriptLoadInterval = setInterval( () => {
+                    if(getBehaviorCookie()) {
+                        handleConsentDecision();
+                        clearInterval(scriptLoadInterval);
+                    }
+                    // Stop running interval after 8 times (8x the documented 500ms it
+                    // should take to load the TrustArc script on the BE) to prevent running forever
+                    if (++numIntervals >= 10) {
+                        clearInterval(scriptLoadInterval);
+                    }
+                } , 500);
+            } else {
+                handleConsentDecision();
+            }
+        })();
+</script>
+    <!-- End Compliant Google Optimize -->
+
+
+<!-- Google Tag Manager -->
+<script>
+    (function(w, d, s, l) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start': new Date().getTime(),
+            event: 'gtm.js'
+        });
+
+        var f = d.getElementsByTagName(s)[0];
+        var j = d.createElement(s);
+        var dl = l !== 'dataLayer' ? '&l=' + l : '';
+
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TG32RCX' + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer');
+</script>
+<!-- End Google Tag Manager -->
+
+
+
+<style>
+    [unresolved] {
+        visibility: hidden !important;
+    }
+</style>
+
+
+<noscript>
+    <style>
+        [unresolved] {
+            visibility: visible !important;
+        }
+    </style>
+</noscript>
+
+<style>
+    body {
+        margin: 0;
+    }
+
+    .image img {
+        max-width: 100%;
+    }
+</style>
+
+
+<script>
+    
+    if (!CSS.supports('width', 'calc((var(--test))')) {
+        window.ShadyCSS = {
+            shimcssproperties: true
+        };
+    }
+
+    document.addEventListener('nds.typeKit.active', function() {
+        document.querySelector('html').removeAttribute('wf-loading');
+    });
+</script>
+
+<script src="//unpkg.com/@webcomponents/webcomponentsjs@2.2.7/webcomponents-loader.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+<script src="//w.soundcloud.com/player/api.js"></script>
+
+
+
+
+
+
+<script>
+    window.nds = window.nds || {};
+    window.nds.componentUrlPrefix = '//pl.ea.com/release/4.47.0/elements/ea-elements.min.js'.substring(0, '//pl.ea.com/release/4.47.0/elements/ea-elements.min.js'.lastIndexOf('/') + 1);
+    window.nds.contentfulUrl = 'https://contentful-proxy.juno.ea.com/graphql';
+    window.nds.salUrl = 'https://service-aggregation-layer.juno.ea.com/graphql';
+    window.nds.useApq = true;
+    window.nds.salClientId = 'eacom-fe';
+    window.nds.xGameDistMethod = 'eacom';
+    window.nds.lockboxGameId = 'eacom';
+    window.nds.lockboxInvoiceSource = 'EACOM-STORE-WEB-%countryCode%';
+    window.nds.lockboxExternalPaymentPath = '/lockbox-external-payment';
+</script>
+<script type="module" src="//pl.ea.com/release/4.47.0/elements/ea-elements.min.js"></script>
+<script nomodule defer src="//pl.ea.com/release/4.47.0/elements/ea-elements.min.js"></script>
+
+
+
+    
+        
+            
+                <link href="https://cdn.fonts.net/kit/c4731c60-dd16-11ec-b713-06e2001461d0/c4731c60-dd16-11ec-b713-06e2001461d0.css" rel="stylesheet" /> 
+            
+        
+    
+
+<style>
+    @font-face {
+    font-family: 'ElectronicArtsDisplay';
+    src: url(/assets/fonts/display/ElectronicArtsDisplay-Regular.woff2) format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ElectronicArtsDisplay';
+    src: url(/assets/fonts/display/ElectronicArtsDisplay-Bold.woff2) format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ElectronicArtsText';
+    src: url(/assets/fonts/text/ElectronicArtsText-Light.woff2) format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ElectronicArtsText';
+    src: url(/assets/fonts/text/ElectronicArtsText-LightItalic.woff2) format('woff');
+    font-weight: 300;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'ElectronicArtsText';
+    src: url(/assets/fonts/text/ElectronicArtsText-Regular.woff2) format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ElectronicArtsText';
+    src: url(/assets/fonts/text/ElectronicArtsText-Italic.woff2) format('woff');
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'ElectronicArtsText';
+    src: url(/assets/fonts/text/ElectronicArtsText-Bold.woff2) format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ElectronicArtsText';
+    src: url(/assets/fonts/text/ElectronicArtsText-BoldItalic.woff2) format('woff');
+    font-weight: 600;
+    font-style: italic;
+}
+
+</style>
+
+
+
+
+
+
+    <title>FUT Web App and FIFA Companion App - FIFA 23 - EA SPORTS</title>
+    
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="FUT Web App and FIFA Companion App - FIFA 23 - EA SPORTS">
+<meta property="og:description" content="See how the FIFA Ultimate Team (FUT) Web App and FIFA Companion App helps you manage your FIFA 23 Ultimate Team from web or from your mobile device.">
+<meta property="og:url" content="https://www.ea.com/games/fifa/ultimate-team/fut-app-coming-soon
+">
+<meta property="og:site_name" content="Electronic Arts Inc.">
+
+    <meta property="og:image" content="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/common/fut-app-featured-img-jpg.adapt.crop191x100.1200w.">
+
+
+
+<meta name="description" content="See how the FIFA Ultimate Team (FUT) Web App and FIFA Companion App helps you manage your FIFA 23 Ultimate Team from web or from your mobile device.">
+<meta name="author" content="Electronic Arts">
+<meta property="article:modified_time" content="2022-09-14T00:42:29Z">
+<meta property="article:published_time" content="2022-09-16T08:00-07:00">
+
+
+
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ea">
+<meta name="twitter:title" content="FUT Web App and FIFA Companion App - FIFA 23 - EA SPORTS">
+<meta name="twitter:description" content="See how the FIFA Ultimate Team (FUT) Web App and FIFA Companion App helps you manage your FIFA 23 Ultimate Team from web or from your mobile device.">
+
+    <meta name="twitter:image" content="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/common/fut-app-featured-img-jpg.adapt.crop16x9.1023w.">
+
+<meta name="twitter:creator" content="@ea">
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+     
+"image": {
+    "@type": "ImageObject",
+    "url": "https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/common/fut-app-featured-img-jpg.adapt.crop191x100.1200w."
+},
+ 
+    "author": {
+      "@type": "Organization",
+      "name": "Electronic Arts",
+      "sameAs": "https://en.wikipedia.org/wiki/Electronic_Arts"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Electronic Arts",
+        "sameAs": "https://en.wikipedia.org/wiki/Electronic_Arts",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://media.contentapi.ea.com/content/dam/ea/EA_logo.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "inLanguage": "en",
+    "description": "See how the FIFA Ultimate Team (FUT) Web App and FIFA Companion App helps you manage your FIFA 23 Ultimate Team from web or from your mobile device.",
+    "datePublished": "2022-09-16T08:00-07:00",
+    "dateModified": "2022-09-14T00:42:29Z",
+    "headline": "FUT Web App and FIFA Companion App - FIFA 23 - EA SPORTS",
+    "url": "https://www.ea.com/games/fifa/ultimate-team/fut-app-coming-soon
+"
+}
+</script>
+
+
+
+    
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"404687",ustr:"",originlat:"0",clientrtt:"35",ghostip:"2.20.134.149",ipv6:false,pct:"10",clientip:"85.187.252.103",requestid:"520004bc",region:"35508",protocol:"",blver:14,akM:"e12",akN:"ae",akTT:"O",akTX:"1",akTI:"520004bc",ai:"315264",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    </head>
+    <body unresolved>
+        
+    
+
+
+<custom-style><style include="ea-shared-styles-base-common"></style></custom-style>
+<custom-style><style include="ea-shared-styles-base-headings"></style></custom-style>
+<custom-style><style include="ea-shared-styles-base-lists"></style></custom-style>
+<custom-style><style include="ea-shared-styles-base-links"></style></custom-style>
+<custom-style><style include="ea-shared-styles-base-images"></style></custom-style>
+<custom-style><style include="ea-shared-styles-typography-headings"></style></custom-style>
+<custom-style><style include="ea-shared-styles-typography-paragraphs"></style></custom-style>
+<custom-style><style include="ea-shared-styles-typography-labels"></style></custom-style>
+
+
+    
+        
+            <custom-style>
+                <style>
+                    html {
+                        
+                            --ea-theme-primary-font-family: NeuePlakRegular;
+                        
+                            --ea-theme-secondary-font-family: NeuePlakRegular;
+                        
+                            --ea-theme-tabs-tab-text-transform: none;
+                        
+                            --fifa21-brand-violet: #8A4FFF;
+                        
+                            --fifa21-brand-mint: #29FFC9;
+                        
+                            --fifa21-brand-orange: #FF5114;
+                        
+                            --fifa21-brand-obsidan: #201E20;
+                        
+                            --fifa21-brand-FUT: #E518FB;
+                        
+                            --fifa21-brand-VOLTA: #13F0FE;
+                        
+                            --ea-theme-color: var(--fifa23-orange);
+                        
+                            --ea-theme-dark-gradient: var(--fifa22-brand-blue);
+                        
+                            --ea-theme-light-gradient: var(--fifa22-brand-blue);
+                        
+                            --ea-theme-body-font-size-mobile: 15px;
+                        
+                            --ea-theme-body-line-height-mobile: 160%;
+                        
+                            --ea-theme-body-font-size-tablet-landscape: 16px;
+                        
+                            --ea-theme-body-line-height-tablet-landscape: 160%;
+                        
+                            --ea-theme-body-font-size-desktop: 19px;
+                        
+                            --ea-theme-body-line-height-desktop: 148%;
+                        
+                            --ea-theme-h4-font-size-tablet-landscape: 20px;
+                        
+                            --ea-theme-stream-ui-paddle-default: #878787;
+                        
+                            --ea-theme-d1-font-style: var(--font-style-typographic-headings);
+                        
+                            --ea-theme-d2-font-style: var(--font-style-typographic-headings);
+                        
+                            --ea-theme-d3-font-style: var(--font-style-typographic-headings);
+                        
+                            --ea-theme-d4-font-style: var(--font-style-typographic-headings);
+                        
+                            --ea-theme-d5-font-style: var(--font-style-typographic-headings);
+                        
+                            --ea-theme-d6-font-style: var(--font-style-typographic-headings);
+                        
+                            --ea-theme-l1-font-size-desktop: 24px;
+                        
+                            --ea-theme-l1-font-size-tablet-landscape: 20px;
+                        
+                            --ea-light-color: #FFFFFF;
+                        
+                            --ea-text-case: uppercase;
+                        
+                            --nintendo-brand-color: var(--ea-light-color);
+                        
+                            --ea-theme-label-font-weight: 500;
+                        
+                            --origin-brand-color: #FF4747;
+                        
+                            --scroll-margin-top: 100px;
+                        
+                            --ea-theme-header-font-family: var(--ea-theme-secondary-font-family);
+                        
+                            --ea-theme-header-font-weight-normal: normal;
+                        
+                            --ea-theme-header-font-weight-bold: bolder;
+                        
+                            --ea-theme-header-letter-spacing: normal;
+                        
+                            --ea-theme-body-font-family: var(--ea-theme-primary-font-family);
+                        
+                            --ea-theme-body-font-weight-light: lighter;
+                        
+                            --ea-theme-body-font-weight-normal: normal;
+                        
+                            --ea-theme-body-font-weight-bold: bolder;
+                        
+                            --ea-theme-body-letter-spacing: normal;
+                        
+                            --ea-theme-typographic-headings-font-family: NeuePlakWideExtraBlack;
+                        
+                            --ea-theme-display-font-style: normal;
+                        
+                            --ea-theme-l1-font-weight: 500;
+                        
+                            --ea-theme-l2-font-weight: 500;
+                        
+                            --ea-theme-l3-font-weight: 500;
+                        
+                            --ea-theme-l4-font-weight: 500;
+                        
+                            --ea-theme-h1-font-weight: 200;
+                        
+                            --ea-theme-h2-font-weight: 300;
+                        
+                            --ea-theme-h3-font-weight: var(--headings-weight);
+                        
+                            --ea-theme-h4-font-weight: 300;
+                        
+                            --ea-theme-h5-font-weight: 300;
+                        
+                            --ea-theme-h6-font-weight: 300;
+                        
+                            --ea-theme-d1-font-weight: 500;
+                        
+                            --ea-theme-d2-font-weight: 500;
+                        
+                            --ea-theme-d3-font-weight: 500;
+                        
+                            --ea-theme-d4-font-weight: 500;
+                        
+                            --ea-theme-d5-font-weight: 500;
+                        
+                            --ea-theme-d6-font-weight: 500;
+                        
+                            --fifa-animation-timing-long: 1600ms;
+                        
+                            --ea-access-brand-color: var(--ea-dark-color);
+                        
+                            --fifa22-brand-blue: #1E41AF;
+                        
+                            --ea-dark-color: #1C1F26;
+                        
+                            --fifa23-blue: #144162;
+                        
+                            --fifa23-orange: #FF5E0C;
+                        
+                            --ea-theme-local-nav-font-color-hover: var(--fifa23-orange);
+                        
+                            --headings-weight: 600;
+                        
+                            --font-style-typographic-headings: normal;
+                        
+                            --fifa-feature-spacer-XS: 26vw;
+                        
+                            --fifa-feature-spacer-S: 26vw;
+                        
+                            --fifa-feature-spacer-M: 10vw;
+                        
+                            --fifa-feature-spacer-L: 14vw;
+                        
+                            --fifa-feature-spacer-XL: 14vw;
+                        
+                            --fifa-primary-spacer-XS: 48px;
+                        
+                            --fifa-primary-spacer-S: 48px;
+                        
+                            --fifa-primary-spacer-M: 64px;
+                        
+                            --fifa-primary-spacer-L: 90px;
+                        
+                            --fifa-primary-spacer-XL: 90px;
+                        
+                            --fifa-secondary-spacer-XS: 32px;
+                        
+                            --fifa-secondary-spacer-S: 32px;
+                        
+                            --fifa-secondary-spacer-M: 48px;
+                        
+                            --fifa-secondary-spacer-L: 56px;
+                        
+                            --fifa-secondary-spacer-XL: 64px;
+                        
+                            --fifa-tertiary-spacer-XS: 20px;
+                        
+                            --fifa-tertiary-spacer-S: 20px;
+                        
+                            --fifa-tertiary-spacer-M: 24px;
+                        
+                            --fifa-tertiary-spacer-L: 28px;
+                        
+                            --fifa-tertiary-spacer-XL: 32px;
+                        
+                            --ea-theme-d2-line-height-mobile: 107%;
+                        
+                            --ea-theme-d3-line-height-mobile: 107%;
+                        
+                            --ea-theme-d4-line-height-mobile: 107%;
+                        
+                            --ea-theme-d5-line-height-mobile: 107%;
+                        
+                            --ea-theme-d6-line-height-mobile: 107%;
+                        
+                            --ea-theme-tile-title-font-family: var(--ea-theme-typographic-headings-font-family);
+                        
+                            --ea-theme-d1-line-height-mobile: 107%;
+                        
+                            --ea-theme-d1-font-size-mobile: 19px;
+                        
+                            --ea-theme-d1-font-size-tablet-portrait: 36px;
+                        
+                            --ea-theme-d1-font-size-tablet-landscape: 49px;
+                        
+                            --ea-theme-d1-font-size-desktop: 61px;
+                        
+                            --ea-theme-d2-font-size-mobile: 27px;
+                        
+                            --ea-theme-d2-font-size-tablet-portrait: 34px;
+                        
+                            --ea-theme-d2-font-size-tablet-landscape: 46px;
+                        
+                            --ea-theme-d2-font-size-desktop: 50px;
+                        
+                            --ea-theme-d3-font-size-mobile: 27px;
+                        
+                            --ea-theme-d3-font-size-tablet-portrait: 30px;
+                        
+                            --ea-theme-d3-font-size-tablet-landscape: 36px;
+                        
+                            --ea-theme-d3-font-size-desktop: 40px;
+                        
+                            --ea-theme-d3-line-height-desktop: 100%;
+                        
+                            --ea-theme-d4-font-size-mobile: 25px;
+                        
+                            --ea-theme-d4-font-size-tablet-portrait: 26px;
+                        
+                            --ea-theme-d4-font-size-tablet-landscape: 32px;
+                        
+                            --ea-theme-d4-font-size-desktop: 36px;
+                        
+                            --ea-theme-b2-line-height-tablet-portrait: 150%;
+                        
+                            --ea-theme-local-nav-shelf-header-font-size-desktop: 17px;
+                        
+                            --ea-theme-local-nav-shelf-header-font-size-tablet-landscape: 15px;
+                        
+                            --ea-theme-local-nav-link-selected-color-mobile-dark: var(--fifa22-blue);
+                        
+                            --ea-theme-local-nav-current-link-color-mobile-dark: var(--fifa22-blue);
+                        
+                            --ea-theme-local-nav-category-unselected-color-mobile-dark: #737373;
+                        
+                            --ea-theme-countdown-clock-digit-font-family: var(--ea-theme-typographic-headings-font-family);
+                        
+                            --ea-theme-countdown-clock-digit-font-size: 90px;
+                        
+                            --ea-theme-countdown-clock-units-font-family: DIN W05 Bold;
+                        
+                            --ea-theme-countdown-clock-units-font-size: 27px;
+                        
+                    }
+                </style>
+            </custom-style>
+        
+    
+
+
+
+<ea-elements-loader elements="ea-network-nav, ea-player, ea-type-kit">
+</ea-elements-loader>
+
+
+    <ea-network-nav
+        unresolved
+        userData="/user-data"
+        content="//nds-network-nav.ea.com/en-us/network-nav"
+        login-url="/login"
+        logout-url="/logout"
+            
+                
+                    
+                        hide-logo
+                    
+                
+            
+    ></ea-network-nav>
+
+
+
+
+    
+        
+            
+                
+<ea-elements-loader elements="ea-page-background">
+</ea-elements-loader>
+<ea-page-background
+    unresolved
+    layout="fixed"
+    background-color=""
+    
+>
+    
+
+
+    <ea-elements-loader elements="ea-image">
+    </ea-elements-loader>
+    <ea-image
+        unresolved
+        tooltip=""
+        smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.320w.png"
+        small="https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.767w.png"
+        medium="https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.1023w.png"
+        large="https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.1455w.png"
+        largest="https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.1920w.png"
+        
+        
+        
+        
+            slot="image"
+        
+    >
+        <img
+            src="https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.320w.png"
+            alt=""
+            srcset="https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.320w.png 320w, https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.767w.png 768w, https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.1023w.png 1024w, https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.1455w.png 1320w, https://media.contentapi.ea.com/content/dam/ea/fifa/common/fifa-page-bg-white.png.adapt.crop16x9.1920w.png 1456w" />
+    </ea-image>
+
+
+
+</ea-page-background>
+
+            
+        
+    
+
+
+
+
+    
+        
+            
+                
+
+    
+<ea-elements-loader elements="ea-local-nav-advanced, ea-link">
+</ea-elements-loader>
+<ea-local-nav-advanced
+    
+    
+        home-text = "EA SPORTS™ FIFA 23"
+        home-tooltip = "EA SPORTS™ FIFA 23"
+        home-link = "/en-us/games/fifa/fifa-23"
+    
+    
+        logo-image="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/common/fifa23-logo-nav.svg"
+    
+    
+    
+        theme = "dark"
+    
+    
+        shelf-type = "band"
+    
+    
+        open-drawer-text = "Menu"
+    
+    
+        close-drawer-text = "Close"
+    
+    
+        mini
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    unresolved
+>
+    
+
+    
+
+    
+        <a title="EA SPORTS™ FIFA 23" href="/en-us/games/fifa/fifa-23">
+            EA SPORTS™ FIFA 23
+            
+                <img
+                    src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/common/fifa23-logo-nav.svg"
+                    
+                />
+            
+        </a>
+    
+
+    
+        
+            
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav
+    slot="local-nav-shelf-link"
+    toggle-text="ABOUT"
+    theme="dark"
+    type="narrow"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section
+    title-text="About FIFA 23"
+    slot="sub-nav-section"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Ambassadors"
+    link-href="/en-us/games/fifa/fifa-23/cover-athletes-and-ambassadors"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/cover-athletes-and-ambassadors">Ambassadors</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="EA Play Benefits"
+    link-href="/games/fifa/ea-play"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/games/fifa/ea-play">EA Play Benefits</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Unrivalled Authenticity"
+    link-href="/en-us/games/fifa/fifa-23/leagues-and-clubs-authenticity"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/leagues-and-clubs-authenticity">Unrivalled Authenticity</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+</ea-local-nav-shelf-sub-nav-section>
+
+</ea-local-nav-shelf-sub-nav>
+
+        
+    
+        
+            
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav
+    slot="local-nav-shelf-link"
+    toggle-text="FEATURES"
+    theme="dark"
+    type="simple"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section
+    title-text=""
+    slot="sub-nav-section"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Features Overview"
+    link-href="/en-us/games/fifa/fifa-23/new-features-and-modes"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/new-features-and-modes">Features Overview</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Gameplay Features"
+    link-href="/en-us/games/fifa/fifa-23/new-features-and-modes/gameplay-features"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/new-features-and-modes/gameplay-features">Gameplay Features</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Hypermotion2"
+    link-href="/en-us/games/fifa/fifa-23/hypermotion2"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/hypermotion2">Hypermotion2</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Matchday Experience"
+    link-href="/en-us/games/fifa/fifa-23/new-features-and-modes/new-matchday-experience-features"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/new-features-and-modes/new-matchday-experience-features">Matchday Experience</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+</ea-local-nav-shelf-sub-nav-section>
+
+</ea-local-nav-shelf-sub-nav>
+
+        
+    
+        
+            
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav
+    slot="local-nav-shelf-link"
+    toggle-text="ULTIMATE TEAM"
+    theme="dark"
+    type="simple"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section
+    title-text=""
+    slot="sub-nav-section"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="About FIFA Ultimate Team"
+    link-href="/en-us/games/fifa/fifa-23/ultimate-team"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/ultimate-team">About FIFA Ultimate Team</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="FUT Heroes"
+    link-href="/en-us/games/fifa/fifa-23/ultimate-team/fut-heroes"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/ultimate-team/fut-heroes">FUT Heroes</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Player of the Month"
+    link-href="https://potm.easports.com/"
+    link-target="_blank"
+    
+    unresolved
+>
+    <a href="https://potm.easports.com/">Player of the Month</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Ratings"
+    link-href="/en-us/games/fifa/fifa-23/ratings"
+    link-target="_blank"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/ratings">Ratings</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="ICONs"
+    link-href="/en-us/games/fifa/fifa-23/ultimate-team/icons"
+    link-target="_blank"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/ultimate-team/icons">ICONs</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Ones to Watch"
+    link-href="/en-us/games/fifa/fifa-23/ultimate-team/ones-to-watch"
+    link-target="_blank"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/ultimate-team/ones-to-watch">Ones to Watch</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+</ea-local-nav-shelf-sub-nav-section>
+
+</ea-local-nav-shelf-sub-nav>
+
+        
+    
+        
+            
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav
+    slot="local-nav-shelf-link"
+    toggle-text="COMMUNITY"
+    theme="dark"
+    type="simple"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section
+    title-text=""
+    slot="sub-nav-section"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Forums"
+    link-href="https://fifaforums.easports.com/en/"
+    link-target="_blank"
+    
+    unresolved
+>
+    <a href="https://fifaforums.easports.com/en/">Forums</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Positive Player Charter"
+    link-href="/en-us/commitments/positive-play"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/commitments/positive-play">Positive Player Charter</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+</ea-local-nav-shelf-sub-nav-section>
+
+</ea-local-nav-shelf-sub-nav>
+
+        
+    
+        
+            
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav
+    slot="local-nav-shelf-link"
+    toggle-text="NEWS &amp; MEDIA"
+    theme="dark"
+    type="simple"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section
+    title-text=""
+    slot="sub-nav-section"
+    unresolved
+>
+    
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="FIFA 23 News"
+    link-href="/en-us/games/fifa/fifa-23/news"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/news">FIFA 23 News</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Pitch Notes"
+    link-href="/en-us/games/fifa/pitch-notes"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/pitch-notes">Pitch Notes</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+<ea-elements-loader elements="ea-local-nav-shelf-sub-nav-section-link">
+</ea-elements-loader>
+<ea-local-nav-shelf-sub-nav-section-link
+    slot="sub-nav-section-link"
+    link-text="Email Updates"
+    link-href="/en-us/games/fifa/fifa-23/newsletter"
+    link-target="_self"
+    
+    unresolved
+>
+    <a href="/en-us/games/fifa/fifa-23/newsletter">Email Updates</a>
+</ea-local-nav-shelf-sub-nav-section-link>
+
+</ea-local-nav-shelf-sub-nav-section>
+
+</ea-local-nav-shelf-sub-nav>
+
+        
+    
+
+    
+        
+            
+
+    <ea-elements-loader elements="ea-local-nav-drawer-sub-nav-advanced">
+    </ea-elements-loader>
+    <ea-local-nav-drawer-sub-nav-advanced
+        
+            slot="local-nav-drawer-link"
+        
+        toggle-text="ABOUT"
+        toggle-tooltip=""
+        theme="dark"
+        
+            type="narrow"
+        
+        unresolved
+    >
+        
+        
+            
+
+    <ea-elements-loader elements="ea-local-nav-drawer-sub-nav-section, ea-link">
+    </ea-elements-loader>
+    <ea-local-nav-drawer-sub-nav-section
+        slot="local-nav-drawer-sub-nav-section"
+        title-text="About FIFA 23"
+        unresolved
+    >
+    
+        <ea-link
+            slot="local-nav-drawer-sub-nav-section-link"
+            link-href="/en-us/games/fifa/fifa-23/cover-athletes-and-ambassadors"
+            link-title=""
+            link-text="Ambassadors"
+            unresolved
+        >
+            <a href="/en-us/games/fifa/fifa-23/cover-athletes-and-ambassadors">Ambassadors</a>
+        </ea-link>
+    
+        <ea-link
+            slot="local-nav-drawer-sub-nav-section-link"
+            link-href="/games/fifa/ea-play"
+            link-title=""
+            link-text="EA Play Benefits"
+            unresolved
+        >
+            <a href="/games/fifa/ea-play">EA Play Benefits</a>
+        </ea-link>
+    
+        <ea-link
+            slot="local-nav-drawer-sub-nav-section-link"
+            link-href="/en-us/games/fifa/fifa-23/leagues-and-clubs-authenticity"
+            link-title=""
+            link-text="Unrivalled Authenticity"
+            unresolved
+        >
+            <a href="/en-us/games/fifa/fifa-23/leagues-and-clubs-authenticity">Unrivalled Authenticity</a>
+        </ea-link>
+    
+    </ea-local-nav-drawer-sub-nav-section>
+
+
+        
+    </ea-local-nav-drawer-sub-nav-advanced>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-local-nav-drawer-sub-nav-advanced">
+    </ea-elements-loader>
+    <ea-local-nav-drawer-sub-nav-advanced
+        
+            slot="local-nav-drawer-link"
+        
+        toggle-text="FEATURES"
+        toggle-tooltip=""
+        theme="dark"
+        
+            type="simple"
+        
+        unresolved
+    >
+        
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/new-features-and-modes"
+        link-title=""
+        link-text="Features Overview"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/new-features-and-modes">Features Overview</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/new-features-and-modes/gameplay-features"
+        link-title=""
+        link-text="Gameplay Features"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/new-features-and-modes/gameplay-features">Gameplay Features</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/hypermotion2"
+        link-title=""
+        link-text="Hypermotion2"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/hypermotion2">Hypermotion2</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/new-features-and-modes/new-matchday-experience-features"
+        link-title=""
+        link-text="Matchday Experience"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/new-features-and-modes/new-matchday-experience-features">Matchday Experience</a>
+    </ea-link>
+
+
+        
+    </ea-local-nav-drawer-sub-nav-advanced>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-local-nav-drawer-sub-nav-advanced">
+    </ea-elements-loader>
+    <ea-local-nav-drawer-sub-nav-advanced
+        
+            slot="local-nav-drawer-link"
+        
+        toggle-text="ULTIMATE TEAM"
+        toggle-tooltip=""
+        theme="dark"
+        
+            type="simple"
+        
+        unresolved
+    >
+        
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/ultimate-team"
+        link-title=""
+        link-text="About FIFA Ultimate Team"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/ultimate-team">About FIFA Ultimate Team</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/ultimate-team/fut-heroes"
+        link-title=""
+        link-text="FUT Heroes"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/ultimate-team/fut-heroes">FUT Heroes</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="https://potm.easports.com/"
+        link-title=""
+        link-text="Player of the Month"
+        text-color=""
+        unresolved
+    >
+        <a href="https://potm.easports.com/">Player of the Month</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/ratings"
+        link-title=""
+        link-text="Ratings"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/ratings">Ratings</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/ultimate-team/icons"
+        link-title=""
+        link-text="ICONs"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/ultimate-team/icons">ICONs</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/ultimate-team/ones-to-watch"
+        link-title=""
+        link-text="Ones to Watch"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/ultimate-team/ones-to-watch">Ones to Watch</a>
+    </ea-link>
+
+
+        
+    </ea-local-nav-drawer-sub-nav-advanced>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-local-nav-drawer-sub-nav-advanced">
+    </ea-elements-loader>
+    <ea-local-nav-drawer-sub-nav-advanced
+        
+            slot="local-nav-drawer-link"
+        
+        toggle-text="COMMUNITY"
+        toggle-tooltip=""
+        theme="dark"
+        
+            type="simple"
+        
+        unresolved
+    >
+        
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="https://fifaforums.easports.com/en/"
+        link-title=""
+        link-text="Forums"
+        text-color=""
+        unresolved
+    >
+        <a href="https://fifaforums.easports.com/en/">Forums</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/commitments/positive-play"
+        link-title=""
+        link-text="Positive Player Charter"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/commitments/positive-play">Positive Player Charter</a>
+    </ea-link>
+
+
+        
+    </ea-local-nav-drawer-sub-nav-advanced>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-local-nav-drawer-sub-nav-advanced">
+    </ea-elements-loader>
+    <ea-local-nav-drawer-sub-nav-advanced
+        
+            slot="local-nav-drawer-link"
+        
+        toggle-text="NEWS &amp; MEDIA"
+        toggle-tooltip=""
+        theme="dark"
+        
+            type="simple"
+        
+        unresolved
+    >
+        
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/news"
+        link-title=""
+        link-text="FIFA 23 News"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/news">FIFA 23 News</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/pitch-notes"
+        link-title=""
+        link-text="Pitch Notes"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/pitch-notes">Pitch Notes</a>
+    </ea-link>
+
+
+        
+            
+
+    <ea-elements-loader elements="ea-link">
+    </ea-elements-loader>
+    <ea-link
+        slot="local-nav-drawer-sub-link"
+        class="eapl-local-nav__drawer-sub-link"
+        link-href="/en-us/games/fifa/fifa-23/newsletter"
+        link-title=""
+        link-text="Email Updates"
+        text-color=""
+        unresolved
+    >
+        <a href="/en-us/games/fifa/fifa-23/newsletter">Email Updates</a>
+    </ea-link>
+
+
+        
+    </ea-local-nav-drawer-sub-nav-advanced>
+
+
+        
+    
+
+    
+        
+
+
+    <ea-elements-loader elements="ea-cta-dropdown, ea-hybrid-modal-invoker">
+    </ea-elements-loader>
+
+    
+        <ea-cta-dropdown
+            slot="cta-dropdown"
+            theme="dark"
+            cta-title-text="Pre-Order Now"
+            cta-link=" "
+            border-color="none"
+            fill-color="brand"
+            text-color="dark"
+
+            
+            
+            
+            unresolved
+        >
+            
+                <ea-container>
+                
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/buy/playstation"
+    
+    
+    
+        link-text="PlayStation®"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_self"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/buy/playstation"
+        
+        
+    >
+        
+            PlayStation®
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/buy/xbox"
+    
+    
+    
+        link-text="Xbox"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_self"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/buy/xbox"
+        
+        
+    >
+        
+            Xbox
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/buy/pc"
+    
+    
+    
+        link-text="The EA app for Windows"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_self"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/buy/pc"
+        
+        
+    >
+        
+            The EA app for Windows
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="https://lnk.to/fifa-23-stadia-preoder"
+    
+    
+    
+        link-text="Stadia"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="https://lnk.to/fifa-23-stadia-preoder"
+        
+        
+    >
+        
+            Stadia
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="https://store.steampowered.com/app/1811260/EA_SPORTS_FIFA_23/"
+    
+    
+    
+        link-text="Steam"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="https://store.steampowered.com/app/1811260/EA_SPORTS_FIFA_23/"
+        
+        
+    >
+        
+            Steam
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="https://lnk.to/fifa-23-egs-preorder"
+    
+    
+    
+        link-text="Epic Games Store"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="https://lnk.to/fifa-23-egs-preorder"
+        
+        
+    >
+        
+            Epic Games Store
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="https://www.nintendo.com/store/products/ea-sports-fifa-23-nintendo-switch-legacy-edition-switch/"
+    
+    
+    
+        link-text="Nintendo"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="https://www.nintendo.com/store/products/ea-sports-fifa-23-nintendo-switch-legacy-edition-switch/"
+        
+        
+    >
+        
+            Nintendo
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+
+            
+        </ea-cta-dropdown>
+    
+
+
+
+        
+            <ea-elements-loader elements="ea-local-nav-dropdown">
+            </ea-elements-loader>
+            <ea-local-nav-dropdown
+                slot="local-nav-dropdown"
+                theme="dark"
+                menu-title=""
+                cta-title-text="Pre-Order Now"
+                cta-link=" "
+                border-color="none"
+                fill-color="brand"
+                text-color="dark"
+                unresolved
+            >
+            
+                <ea-container>
+                    
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/buy/playstation"
+    
+    
+    
+        link-text="PlayStation®"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_self"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/buy/playstation"
+        
+        
+    >
+        
+            PlayStation®
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                    
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/buy/xbox"
+    
+    
+    
+        link-text="Xbox"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_self"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/buy/xbox"
+        
+        
+    >
+        
+            Xbox
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                    
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/buy/pc"
+    
+    
+    
+        link-text="The EA app for Windows"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_self"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/buy/pc"
+        
+        
+    >
+        
+            The EA app for Windows
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                    
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="https://lnk.to/fifa-23-stadia-preoder"
+    
+    
+    
+        link-text="Stadia"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="https://lnk.to/fifa-23-stadia-preoder"
+        
+        
+    >
+        
+            Stadia
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                    
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="https://store.steampowered.com/app/1811260/EA_SPORTS_FIFA_23/"
+    
+    
+    
+        link-text="Steam"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="https://store.steampowered.com/app/1811260/EA_SPORTS_FIFA_23/"
+        
+        
+    >
+        
+            Steam
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                    
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="https://lnk.to/fifa-23-egs-preorder"
+    
+    
+    
+        link-text="Epic Games Store"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="https://lnk.to/fifa-23-egs-preorder"
+        
+        
+    >
+        
+            Epic Games Store
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+                <ea-container>
+                    
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="https://www.nintendo.com/store/products/ea-sports-fifa-23-nintendo-switch-legacy-edition-switch/"
+    
+    
+    
+        link-text="Nintendo"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="https://www.nintendo.com/store/products/ea-sports-fifa-23-nintendo-switch-legacy-edition-switch/"
+        
+        
+    >
+        
+            Nintendo
+        
+    </a>
+</ea-cta>
+
+                </ea-container>
+            
+            
+            </ea-local-nav-dropdown>
+        
+    
+</ea-local-nav-advanced>
+
+
+
+            
+        
+    
+
+
+
+
+    
+        
+            
+                
+<ea-elements-loader elements="ea-spacer">
+</ea-elements-loader>
+<ea-spacer
+    unresolved
+    
+        smallest="93px"
+    
+    
+        small="93px"
+    
+    
+        medium="96px"
+    
+    
+        large="96px"
+    
+    
+        largest="100px"
+    
+>
+</ea-spacer>
+
+            
+        
+    
+
+
+<main>
+    
+
+
+
+    
+<ea-elements-loader elements="ea-section">
+</ea-elements-loader>
+<ea-section
+    unresolved
+    slot="section"
+    
+    
+        type="full-bleed"
+    
+    
+        layout="100"
+    
+    
+    
+        background-color="none"
+    
+    
+    
+        background-overflow="hidden"
+    
+    
+        spacing-top="none"
+    
+    
+        spacing-bottom="none"
+    
+    
+    
+    
+    
+>
+    
+    
+
+
+<ea-section-column
+    slot="section-column"
+    
+        indent-left=""
+    
+    
+        indent-right=""
+    
+    
+        text-align="left"
+    
+    
+    
+>
+    
+<ea-elements-loader elements="ea-hero">
+</ea-elements-loader>
+<ea-hero
+    
+        layout="medium"
+    
+    
+        text-position="left"
+    
+    
+        text-align="left"
+    
+    
+        text-color="light"
+    
+    
+        stacked
+    
+    
+    
+    
+        animations-on-mobile
+    
+    
+    
+        background-color="dark"
+    
+    
+    
+    
+        title-text="FUT WEB APP COMING SOON"
+    
+    
+    
+        copy-text="The FUT Web App and other FIFA Web features are down for maintenance while we prepare for FIFA 23."
+    
+    
+        image-smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop16x9.320w.png"
+        image-small="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop16x9.767w.png"
+        image-medium="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop2x1.1023w.png"
+        image-large="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop5x2.1455w.png"
+        image-largest="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop7x2.1920w.png"
+        image-tooltip=""
+    
+    
+        mg-smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop16x9.320w.png"
+        mg-small="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop16x9.767w.png"
+        mg-medium="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop2x1.1023w.png"
+        mg-large="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop5x2.1455w.png"
+        mg-largest="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop7x2.1920w.png"
+        mg-tooltip=""
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        logo-image-smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop16x9.320w.png"
+        logo-image-small="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop16x9.767w.png"
+        logo-image-medium="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop2x1.1023w.png"
+        logo-image-large="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop5x2.1455w.png"
+        logo-image-largest="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop7x2.1920w.png"
+        logo-image-tooltip=""
+    
+    
+    
+    
+    
+    
+    
+        spacing-bottom="medium"
+    
+    
+        spacing-top="none"
+    
+    
+        scrim-color="none"
+    
+    
+        scrim-opacity="medium"
+    
+    
+
+    animatable
+    
+    
+    
+    
+    
+        animation-on-enter
+    
+    
+        animation-margin="0px"
+    
+    
+        animation-overrides="{&quot;--ea-animation-timing-long&quot;:&quot;var(--fifa-animation-timing-long)&quot;}"
+    
+
+
+    unresolved
+    
+        custom-styles="{}"
+    
+    
+    
+>
+    
+        <h1>FUT WEB APP COMING SOON</h1>
+    
+    
+    
+        <p>The FUT Web App and other FIFA Web features are down for maintenance while we prepare for FIFA 23.</p>
+    
+    
+    
+        <img
+            src="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop16x9.320w.png"
+            alt=""
+            srcset="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop16x9.320w.png 320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop16x9.767w.png 768w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop2x1.1023w.png 1024w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop5x2.1455w.png 1320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-bg-7x2-xl.png.adapt.crop7x2.1920w.png 1456w"
+        />
+    
+    
+        <img
+            src="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop16x9.320w.png"
+            alt=""
+            srcset="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop16x9.320w.png 320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop16x9.767w.png 768w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop2x1.1023w.png 1024w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop5x2.1455w.png 1320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-hero-med-app-top-mg-7x2-xl.png.adapt.crop7x2.1920w.png 1456w"
+        />
+    
+    
+    
+    
+    
+    
+    
+        <img
+            src="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop16x9.320w.png"
+            alt=""
+            srcset="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop16x9.320w.png 320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop16x9.767w.png 768w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop2x1.1023w.png 1024w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop5x2.1455w.png 1320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/images/2022/09/fut-app-logo-7x2-xl.png.adapt.crop7x2.1920w.png 1456w"
+        />
+    
+    
+    
+    
+    
+    
+</ea-hero>
+
+</ea-section-column>
+
+    
+</ea-section>
+
+
+
+<ea-elements-loader elements="ea-section">
+</ea-elements-loader>
+<ea-section
+    unresolved
+    slot="section"
+    
+    
+        type="full-bleed"
+    
+    
+        layout="100"
+    
+    
+    
+        background-color="none"
+    
+    
+    
+        background-overflow="hidden"
+    
+    
+        spacing-top="none"
+    
+    
+        spacing-bottom="none"
+    
+    
+    
+    
+        background-image-smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.320w.jpg"
+        background-image-small="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.768w.jpg"
+        background-image-medium="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.1024w.jpg"
+        background-image-large="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.1456w.jpg"
+        background-image-largest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.1920w.jpg"
+        image-tooltip=""
+    
+    
+>
+    
+        <img
+            src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.320w.jpg"
+            alt=""
+            srcset="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.320w.jpg 320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.768w.jpg 768w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.1024w.jpg 1024w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.1456w.jpg 1320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/common/fifa-23-section-bg-deep-dive-xl.jpg.adapt.1920w.jpg 1456w"
+        />
+    
+    
+
+
+<ea-section-column
+    slot="section-column"
+    
+        indent-left=""
+    
+    
+        indent-right=""
+    
+    
+        text-align="left"
+    
+    
+    
+>
+    
+<ea-elements-loader elements="ea-spacer">
+</ea-elements-loader>
+<ea-spacer
+    unresolved
+    
+        smallest="7vw"
+    
+    
+        small="7vw"
+    
+    
+        medium="var(--fifa-primary-spacer-M)"
+    
+    
+        large="var(--fifa-primary-spacer-L)"
+    
+    
+        largest="var(--fifa-primary-spacer-XL)"
+    
+>
+</ea-spacer>
+
+<ea-elements-loader elements="ea-hero">
+</ea-elements-loader>
+<ea-hero
+    
+        layout="medium"
+    
+    
+        text-position="right"
+    
+    
+        text-align="left"
+    
+    
+        text-color="dark"
+    
+    
+        stacked
+    
+    
+    
+    
+        animations-on-mobile
+    
+    
+    
+        background-color="none"
+    
+    
+    
+    
+        title-text="FIFA 23 Ultimate Team"
+    
+    
+    
+        copy-text="Enjoy new ways to play and earn rewards as you build your dream squad in FUT 23"
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        logo-image-smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop16x9.320w.png"
+        logo-image-small="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop16x9.767w.png"
+        logo-image-medium="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop2x1.1023w.png"
+        logo-image-large="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop5x2.1455w.png"
+        logo-image-largest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop7x2.1920w.png"
+        logo-image-tooltip=""
+    
+    
+    
+    
+    
+    
+    
+        spacing-bottom="none"
+    
+    
+        spacing-top="none"
+    
+    
+        scrim-color="none"
+    
+    
+        scrim-opacity="medium"
+    
+    
+
+    animatable
+    
+    
+    
+    
+    
+        animation-on-enter
+    
+    
+        animation-margin="0px"
+    
+    
+        animation-overrides="{&quot;--ea-animation-enter-background-keyframe-name&quot;:&quot;none&quot;,&quot;--ea-animation-timing-long&quot;:&quot;var(--fifa-animation-timing-long)&quot;}"
+    
+
+
+    unresolved
+    
+        custom-styles="{&quot;xl&quot;:{&quot;paddingLeft&quot;:&quot;63%&quot;,&quot;paddingRight&quot;:&quot;7%&quot;},&quot;l&quot;:{&quot;paddingLeft&quot;:&quot;50%&quot;},&quot;m&quot;:{&quot;paddingLeft&quot;:&quot;50%&quot;,&quot;paddingRight&quot;:&quot;5%&quot;}}"
+    
+    
+    
+>
+    
+        <h1>FIFA 23 Ultimate Team</h1>
+    
+    
+    
+        <p>Enjoy new ways to play and earn rewards as you build your dream squad in FUT 23</p>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <img
+            src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop16x9.320w.png"
+            alt=""
+            srcset="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop16x9.320w.png 320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop16x9.767w.png 768w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop2x1.1023w.png 1024w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop5x2.1455w.png 1320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/fut/otw/images/2022/09/fifa-23-fut-logo-hero-med-7x2-xl.png.adapt.crop7x2.1920w.png 1456w"
+        />
+    
+    
+    
+    
+    
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/ultimate-team"
+    
+    
+    
+        link-text="See Features"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="dark-brand"
+    
+    
+        text-color="light"
+    
+    
+        stroke-color="none"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="navigation"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/ultimate-team"
+        
+        
+    >
+        
+            See Features
+        
+    </a>
+</ea-cta>
+
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+    
+    
+        link-text="Trailer"
+    
+    
+        icon="play"
+    
+    
+    
+        fill-color="none"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="dark"
+    
+    
+        target="_self"
+    
+    
+    
+    
+    
+        intent="media"
+    
+    
+        modal-id="fut-trailer"
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+        
+    >
+        
+            Trailer
+        
+    </a>
+</ea-cta>
+
+    
+</ea-hero>
+
+<ea-elements-loader elements="ea-spacer">
+</ea-elements-loader>
+<ea-spacer
+    unresolved
+    
+        smallest="0vw"
+    
+    
+        small="0vw"
+    
+    
+        medium="var(--fifa-primary-spacer-M)"
+    
+    
+        large="var(--fifa-primary-spacer-L)"
+    
+    
+        largest="var(--fifa-primary-spacer-XL)"
+    
+>
+</ea-spacer>
+
+</ea-section-column>
+
+    
+</ea-section>
+
+<ea-elements-loader elements="ea-modal">
+</ea-elements-loader>
+<ea-modal
+    modal
+    unresolved
+    
+        id="fut-trailer"
+    
+    
+        theme="light"
+    
+    
+        type="railed"
+    
+>
+    
+<ea-elements-loader elements="ea-youtube">
+</ea-elements-loader>
+<ea-youtube
+    unresolved
+    slot="youtube"
+    video-id="zm5sjvChYsw"
+    
+    
+        playlist=""
+    
+    
+    
+        default-age-gate=""
+    
+    theme="light"
+    icon-theme="light"
+    autoplay="0"
+    controls="1"
+    rel="0"
+    annotations="3"
+    hide-info="0"
+    age-gate-alignment="center-left"
+    age-gate-message="This video is age-restricted and only available on Youtube."
+    more-link-text="Learn More"
+    more-link-url="https://support.google.com/youtube/answer/2802167?hl=en"
+    watch-link-text="Watch on Youtube"
+    
+        cover-image-smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/news/videos/2022/08/07936af9-547a-178a-2e01-c0d335b1060e.youtube/subassets/poster.jpg.adapt.crop16x9.320w.jpg"
+        cover-image-small="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/news/videos/2022/08/07936af9-547a-178a-2e01-c0d335b1060e.youtube/subassets/poster.jpg.adapt.crop16x9.767w.jpg"
+        cover-image-medium="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/news/videos/2022/08/07936af9-547a-178a-2e01-c0d335b1060e.youtube/subassets/poster.jpg.adapt.crop16x9.1023w.jpg"
+        cover-image-large="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/news/videos/2022/08/07936af9-547a-178a-2e01-c0d335b1060e.youtube/subassets/poster.jpg.adapt.crop16x9.1455w.jpg"
+        cover-image-largest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/news/videos/2022/08/07936af9-547a-178a-2e01-c0d335b1060e.youtube/subassets/poster.jpg.adapt.crop16x9.1920w.jpg"
+        cover-image-tooltip=""
+        button-color="dark"
+    
+>
+    
+    
+        
+            
+                
+        <div itemscope itemtype="http://schema.org/VideoObject">
+            <link itemprop="url" href="https://www.youtube.com/watch?v=zm5sjvChYsw">
+            
+                <link itemprop="thumbnailUrl" href="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/news/videos/2022/08/07936af9-547a-178a-2e01-c0d335b1060e.youtube/subassets/poster.jpg.adapt.crop16x9.1920w.jpg">
+            
+            <iframe src="https://www.youtube.com/embed/zm5sjvChYsw"></iframe>
+        </div>
+    
+            
+        
+    
+</ea-youtube>
+
+</ea-modal>
+
+<ea-elements-loader elements="ea-section">
+</ea-elements-loader>
+<ea-section
+    unresolved
+    slot="section"
+    
+    
+        type="railed"
+    
+    
+        layout="100"
+    
+    
+    
+        background-color="custom"
+    
+    
+        custom-background-value="#0F0F0F"
+    
+    
+        background-overflow="hidden"
+    
+    
+        spacing-top="none"
+    
+    
+        spacing-bottom="none"
+    
+    
+    
+    
+    
+>
+    
+    
+
+    <ea-elements-loader elements="ea-section-column">
+    </ea-elements-loader>
+
+
+<ea-section-column
+    slot="section-column"
+    
+        indent-left=""
+    
+    
+        indent-right=""
+    
+    
+        text-align="left"
+    
+    
+    
+
+    animatable
+    
+    
+    
+    
+    
+        animation-on-enter
+    
+    
+        animation-margin="0px"
+    
+    
+        animation-overrides="{}"
+    
+
+
+>
+    
+<ea-elements-loader elements="ea-grid">
+</ea-elements-loader>
+<ea-grid
+    
+
+    type="ordered"
+
+
+    tile-media-shape="rectangle"
+
+
+
+    layout="2up"
+
+
+    tile-type="vertical"
+
+
+    tile-text-align="left"
+
+
+    tile-text-color="light"
+
+
+    tile-color="none"
+
+
+
+
+
+
+
+
+    hide-brand-stroke
+
+
+
+    spacing-top="medium"
+
+
+    spacing-bottom="medium"
+
+
+
+
+    
+        animations-on-mobile
+    
+    
+    
+        tile-scrim-color="none"
+    
+    
+        tile-scrim-opacity="medium"
+    
+    tile-align="center"
+    
+    
+    
+    
+    
+    
+    
+    animate-in-order=""
+    animate-out-order=""
+    
+
+    animatable
+    
+    
+    
+    
+    
+        animation-on-enter
+    
+    
+        animation-margin="0px"
+    
+    
+        animation-overrides="{}"
+    
+
+
+    unresolved
+>
+    
+        
+           
+               
+                 
+               
+           
+        
+           
+               
+                 
+               
+           
+        
+    
+    
+<ea-elements-loader elements="ea-tile">
+</ea-elements-loader>
+<ea-container
+    slot="container"
+    
+        filter-key="All"
+    
+    >
+    <ea-tile
+        unresolved
+        slot="tile"
+        style="--ea-animation-index:0"
+        
+            animations-on-mobile
+        
+        
+        
+        
+            media="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/common/fut-ratings-featureimg-16x9.jpg.adapt.crop16x9.652w.jpg"
+        
+        
+        
+        
+        
+            title-text="Player Ratings"
+        
+        
+        
+        
+        
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    >
+        
+            <h3>Player Ratings</h3>
+        
+        
+        
+        
+        <ea-tile-copy slot="copy">
+        
+            <p>It's more than a number. The official FIFA 23 player ratings are here.</p>
+
+        
+        </ea-tile-copy>
+        
+        
+            
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/ratings"
+    
+    
+    
+        link-text="See The Ratings"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="light-brand"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="none"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="navigation"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/ratings"
+        
+        
+    >
+        
+            See The Ratings
+        
+    </a>
+</ea-cta>
+
+        
+        
+    </ea-tile>
+</ea-container>
+
+<ea-elements-loader elements="ea-tile">
+</ea-elements-loader>
+<ea-container
+    slot="container"
+    
+        filter-key="All"
+    
+    >
+    <ea-tile
+        unresolved
+        slot="tile"
+        style="--ea-animation-index:1"
+        
+            animations-on-mobile
+        
+        
+        
+        
+            media="https://media.contentapi.ea.com/content/dam/ea/fifa/fut-app/common/fut-futheroes-featureimg-16x9.jpg.adapt.crop16x9.652w.jpg"
+        
+        
+        
+        
+        
+            title-text="FUT Heroes"
+        
+        
+        
+        
+        
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    >
+        
+            <h3>FUT Heroes</h3>
+        
+        
+        
+        
+        <ea-tile-copy slot="copy">
+        
+            <p>EA SPORTS™ FIFA and Marvel unite to bring more of football’s fan-favourites back to the pitch in FIFA 23, transforming FUT Heroes into super heroes.</p>
+
+        
+        </ea-tile-copy>
+        
+        
+            
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/ultimate-team/fut-heroes"
+    
+    
+    
+        link-text="Meet the FUT Heroes"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="light-brand"
+    
+    
+        text-color="dark"
+    
+    
+        stroke-color="none"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="navigation"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/ultimate-team/fut-heroes"
+        
+        
+    >
+        
+            Meet the FUT Heroes
+        
+    </a>
+</ea-cta>
+
+        
+        
+    </ea-tile>
+</ea-container>
+
+    
+
+
+</ea-grid>
+
+<ea-elements-loader elements="ea-spacer">
+</ea-elements-loader>
+<ea-spacer
+    unresolved
+    
+        smallest="var(--fifa-secondary-spacer-S)"
+    
+    
+        small="var(--fifa-secondary-spacer-S)"
+    
+    
+        medium="var(--fifa-secondary-spacer-M)"
+    
+    
+        large="var(--fifa-secondary-spacer-XL)"
+    
+    
+        largest="var(--fifa-secondary-spacer-XL)"
+    
+>
+</ea-spacer>
+
+</ea-section-column>
+
+    
+</ea-section>
+
+
+    
+<ea-elements-loader elements="ea-hero">
+</ea-elements-loader>
+<ea-hero
+    
+        layout="medium"
+    
+    
+        text-position="left"
+    
+    
+        text-align="left"
+    
+    
+        text-color="dark"
+    
+    
+        stacked
+    
+    
+    
+    
+    
+    
+        background-color="dark"
+    
+    
+    
+        eyebrow-text="Limited Time Offer"
+    
+    
+        title-text="Pre-Order FIFA 23 Now!"
+    
+    
+    
+        copy-text="Pre-order FIFA 23 Ultimate Edition by September 30 to add an untradeable Ones To Watch Player Item to your squad in FIFA 23 Ultimate Team*"
+    
+    
+        image-smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop16x9.320w.png"
+        image-small="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop16x9.767w.png"
+        image-medium="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop2x1.1023w.png"
+        image-large="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop5x2.1455w.png"
+        image-largest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop7x2.1920w.png"
+        image-tooltip=""
+    
+    
+        mg-smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop16x9.320w.png"
+        mg-small="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop16x9.767w.png"
+        mg-medium="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop2x1.1023w.png"
+        mg-large="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop5x2.1455w.png"
+        mg-largest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop7x2.1920w.png"
+        mg-tooltip=""
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        spacing-bottom="none"
+    
+    
+        spacing-top="none"
+    
+    
+        scrim-color="none"
+    
+    
+        scrim-opacity="medium"
+    
+    
+
+    animatable
+    
+    
+    
+    
+    
+        animation-on-enter
+    
+    
+        animation-margin="0px"
+    
+    
+        animation-overrides="{&quot;--ea-animation-enter-background-keyframe-name&quot;:&quot;none&quot;,&quot;--ea-animation-timing-long&quot;:&quot;var(--fifa-animation-timing-long)&quot;}"
+    
+
+
+    unresolved
+    
+        custom-styles="{&quot;xl&quot;:{&quot;paddingLeft&quot;:&quot;8%&quot;,&quot;paddingRight&quot;:&quot;56%&quot;},&quot;l&quot;:{&quot;paddingLeft&quot;:&quot;6%&quot;,&quot;paddingRight&quot;:&quot;54%&quot;},&quot;m&quot;:{&quot;paddingLeft&quot;:&quot;6%&quot;,&quot;paddingRight&quot;:&quot;54%&quot;}}"
+    
+    
+    
+>
+    
+        <h1>Pre-Order FIFA 23 Now!</h1>
+    
+    
+    
+        <p>Pre-order FIFA 23 Ultimate Edition by September 30 to add an untradeable Ones To Watch Player Item to your squad in FIFA 23 Ultimate Team*</p>
+    
+    
+        <h3>Limited Time Offer</h3>
+    
+    
+        <img
+            src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop16x9.320w.png"
+            alt=""
+            srcset="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop16x9.320w.png 320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop16x9.767w.png 768w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop2x1.1023w.png 1024w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop5x2.1455w.png 1320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-bg-7x2-xl.png.adapt.crop7x2.1920w.png 1456w"
+        />
+    
+    
+        <img
+            src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop16x9.320w.png"
+            alt=""
+            srcset="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop16x9.320w.png 320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop16x9.767w.png 768w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop2x1.1023w.png 1024w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop5x2.1455w.png 1320w, https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/shared-assets/images/2022/08/f23-hero-med-pre-order-mg-7x2-xl.png.adapt.crop7x2.1920w.png 1456w"
+        />
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<ea-elements-loader elements="ea-cta">
+</ea-elements-loader>
+<ea-cta
+    
+        slot="cta"
+    
+    
+        type="standard"
+    
+    
+        link-url="/en-us/games/fifa/fifa-23/buy"
+    
+    
+    
+        link-text="Pre-Order Now"
+    
+    
+        icon="none"
+    
+    
+    
+        fill-color="dark-brand"
+    
+    
+        text-color="light"
+    
+    
+        stroke-color="none"
+    
+    
+        target="_blank"
+    
+    
+    
+    
+    
+        intent="buy"
+    
+    
+    
+    
+        emphasis="primary"
+    
+    
+    
+    
+    
+    unresolved
+>
+    <a
+        
+            href="/en-us/games/fifa/fifa-23/buy"
+        
+        
+    >
+        
+            Pre-Order Now
+        
+    </a>
+</ea-cta>
+
+    
+</ea-hero>
+
+
+
+
+
+
+    
+        
+            
+                
+
+    
+<ea-elements-loader elements="ea-section">
+</ea-elements-loader>
+<ea-section
+    unresolved
+    slot="section"
+    
+    
+        type="railed"
+    
+    
+        layout="100"
+    
+    
+    
+        background-color="dark"
+    
+    
+    
+        background-overflow="hidden"
+    
+    
+        spacing-top="none"
+    
+    
+        spacing-bottom="none"
+    
+    
+    
+    
+    
+>
+    
+    
+
+
+<ea-section-column
+    slot="section-column"
+    
+        indent-left=""
+    
+    
+        indent-right=""
+    
+    
+        text-align="left"
+    
+    
+    
+>
+    
+<ea-elements-loader elements="ea-text">
+</ea-elements-loader>
+<ea-text
+    unresolved
+    slot="text"
+    
+        text-color="light"
+    
+>
+    <p>* Conditions and restrictions apply. See <a href="https://www.ea.com/games/fifa/fifa-23/game-offer-and-disclaimers">https://www.ea.com/games/fifa/fifa-23/game-offer-and-disclaimers</a> for details.</p>
+
+    
+</ea-text>
+
+</ea-section-column>
+
+    
+</ea-section>
+
+
+
+            
+        
+    
+
+
+
+    
+    <div style="display: none;"></div>
+</main>
+<footer role="contentinfo">
+    
+
+    
+        
+            
+                
+
+    
+<ea-elements-loader elements="ea-local-footer, ea-local-links, ea-local-link, ea-social-links, ea-social-link, ea-hybrid-regional-rating">
+</ea-elements-loader>
+<ea-local-footer
+    theme="light"
+    sal-game-slug=""
+    rating-lang="en"
+    unresolved
+>
+    <ea-local-links
+        slot="local-links"
+        title-text="FIFA 23"
+        text-color="light"
+        unresolved
+    >
+    
+        <ea-local-link
+            slot="local-link"
+            link-url="/en-us/games/fifa/fifa-23"
+            link-title="About FIFA 23"
+            link-text="About FIFA 23"
+            text-color="light"
+            unresolved
+        >
+            <a
+                href="/en-us/games/fifa/fifa-23"
+                title="About FIFA 23"
+            >About FIFA 23</a>
+        </ea-local-link>
+    
+        <ea-local-link
+            slot="local-link"
+            link-url="/en-us/games/fifa/fifa-23/news"
+            link-title="News"
+            link-text="News"
+            text-color="light"
+            unresolved
+        >
+            <a
+                href="/en-us/games/fifa/fifa-23/news"
+                title="News"
+            >News</a>
+        </ea-local-link>
+    
+        <ea-local-link
+            slot="local-link"
+            link-url="/en-us/games/fifa/fifa-mobile"
+            link-title="FIFA Mobile"
+            link-text="FIFA Mobile"
+            text-color="light"
+            unresolved
+        >
+            <a
+                href="/en-us/games/fifa/fifa-mobile"
+                title="FIFA Mobile"
+            >FIFA Mobile</a>
+        </ea-local-link>
+    
+        <ea-local-link
+            slot="local-link"
+            link-url="/en-us/games/fifa/fifa-23/buy"
+            link-title="Get FIFA 23"
+            link-text="Get FIFA 23"
+            text-color="light"
+            unresolved
+        >
+            <a
+                href="/en-us/games/fifa/fifa-23/buy"
+                title="Get FIFA 23"
+            >Get FIFA 23</a>
+        </ea-local-link>
+    
+    </ea-local-links>
+
+    <ea-social-links
+        slot="social-links"
+        text-color="light"
+        title-text="Follow FIFA"
+        unresolved
+    >
+    
+        <ea-social-link
+            slot="social-link"
+            link-url="https://www.twitch.tv/easportsfifa"
+            link-title="Twitch"
+            link-target="_blank"
+            text-color="light"
+            social-network="twitch"
+            unresolved
+        >
+            <a
+                href="https://www.twitch.tv/easportsfifa"
+                title="Twitch"
+            >twitch</a>
+        </ea-social-link>
+    
+        <ea-social-link
+            slot="social-link"
+            link-url="https://twitter.com/easportsfifa"
+            link-title="Twitter"
+            link-target="_blank"
+            text-color="light"
+            social-network="twitter"
+            unresolved
+        >
+            <a
+                href="https://twitter.com/easportsfifa"
+                title="Twitter"
+            >twitter</a>
+        </ea-social-link>
+    
+        <ea-social-link
+            slot="social-link"
+            link-url="https://www.instagram.com/easportsfifa"
+            link-title="Instagram"
+            link-target="_blank"
+            text-color="light"
+            social-network="instagram"
+            unresolved
+        >
+            <a
+                href="https://www.instagram.com/easportsfifa"
+                title="Instagram"
+            >instagram</a>
+        </ea-social-link>
+    
+        <ea-social-link
+            slot="social-link"
+            link-url="https://www.facebook.com/easportsfifa"
+            link-title="Facebook"
+            link-target="_blank"
+            text-color="light"
+            social-network="facebook"
+            unresolved
+        >
+            <a
+                href="https://www.facebook.com/easportsfifa"
+                title="Facebook"
+            >facebook</a>
+        </ea-social-link>
+    
+    </ea-social-links>
+
+    
+        
+<ea-elements-loader elements="ea-studio-link">
+</ea-elements-loader>
+<ea-studio-link
+    unresolved
+    slot="studio-link"
+    link-url="https://www.fifa.com/"
+    link-title="Official FIFA Website"
+    
+    
+        image-smallest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-21/global_assets/common/navigation/fifa-21-fifa-logo-footer-olp-white.svg"
+        image-small="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-21/global_assets/common/navigation/fifa-21-fifa-logo-footer-olp-white.svg"
+        image-medium="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-21/global_assets/common/navigation/fifa-21-fifa-logo-footer-olp-white.svg"
+        image-large="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-21/global_assets/common/navigation/fifa-21-fifa-logo-footer-olp-white.svg"
+        image-largest="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-21/global_assets/common/navigation/fifa-21-fifa-logo-footer-olp-white.svg"
+        image-alt=""
+        
+        
+    
+>
+    <a
+        href="https://www.fifa.com/"
+        title="Official FIFA Website"
+    ></a>
+</ea-studio-link>
+
+    
+
+    
+        
+<ea-elements-loader elements="ea-rating-link">
+</ea-elements-loader>
+<ea-rating-link
+    unresolved
+    slot="rating-link"
+    link-url="https://www.esrb.org/ratings-guide/"
+    link-title="ESRB Ratings"
+    
+        image-max-height="90px"
+    
+    
+        image-smallest="https://media.contentapi.ea.com/content/dam/gin/common/rating-icons/esrb/rating-pending.png"
+        image-small="https://media.contentapi.ea.com/content/dam/gin/common/rating-icons/esrb/rating-pending.png"
+        image-medium="https://media.contentapi.ea.com/content/dam/gin/common/rating-icons/esrb/rating-pending.png"
+        image-large="https://media.contentapi.ea.com/content/dam/gin/common/rating-icons/esrb/rating-pending.png"
+        image-largest="https://media.contentapi.ea.com/content/dam/gin/common/rating-icons/esrb/rating-pending.png"
+        image-alt=""
+        
+        
+    
+>
+    <a
+        href="https://www.esrb.org/ratings-guide/"
+        title="ESRB Ratings"
+    ></a>
+</ea-rating-link>
+
+    
+
+    
+
+    
+</ea-local-footer>
+
+
+
+            
+        
+    
+
+
+    
+
+    
+        
+            
+                
+
+    
+<ea-elements-loader elements="ea-network-footer, ea-network-legal, ea-link, ea-content-loader">
+</ea-elements-loader>
+<ea-network-footer
+    theme="dark"
+    
+    
+        logo-image="https://media.contentapi.ea.com/content/dam/eacom/en-us/common/ea-1-1b-medallion-mediumgray.png"
+        logo-tooltip=""
+    
+    
+        logo-link-url="https://www.ea.com"
+        logo-link-text="EA"
+        logo-link-tooltip="EA"
+    
+    unresolved
+>
+    
+        <img
+            src="https://media.contentapi.ea.com/content/dam/eacom/en-us/common/ea-1-1b-medallion-mediumgray.png"
+            alt=""
+        />
+    
+    
+        
+            <ea-link
+                slot="link"
+                link-href="/en-us/games"
+                link-title="Browse Games"
+                link-text="Browse Games"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="/en-us/games"
+                    title="Browse Games"
+                >Browse Games</a>
+            </ea-link>
+        
+            <ea-link
+                slot="link"
+                link-href="/en-us/news"
+                link-title="Latest News"
+                link-text="Latest News"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="/en-us/news"
+                    title="Latest News"
+                >Latest News</a>
+            </ea-link>
+        
+            <ea-link
+                slot="link"
+                link-href="https://help.ea.com/en/"
+                link-title="Help Center"
+                link-text="Help Center"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="https://help.ea.com/en/"
+                    title="Help Center"
+                >Help Center</a>
+            </ea-link>
+        
+            <ea-link
+                slot="link"
+                link-href="/en-us/forums"
+                link-title="EA Forums"
+                link-text="EA Forums"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="/en-us/forums"
+                    title="EA Forums"
+                >EA Forums</a>
+            </ea-link>
+        
+            <ea-link
+                slot="link"
+                link-href="/en-us/about"
+                link-title="About Us"
+                link-text="About Us"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="/en-us/about"
+                    title="About Us"
+                >About Us</a>
+            </ea-link>
+        
+            <ea-link
+                slot="link"
+                link-href="/en-us/careers"
+                link-title="Careers"
+                link-text="Careers"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="/en-us/careers"
+                    title="Careers"
+                >Careers</a>
+            </ea-link>
+        
+    
+    <ea-elements-loader elements="ea-regional-pricing-selector">
+</ea-elements-loader>
+<ea-regional-pricing-selector
+slot="regional-pricing-selector"
+theme="dark"
+label-text="Regional Pricing"
+
+unresolved
+    >
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="AT"
+    >Austria</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="BE"
+    >Belgium</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="BG"
+    >Bulgaria</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="HR"
+    >Croatia</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="CY"
+    >Cyprus</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="CZ"
+    >Czech Republic</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="DK"
+    >Denmark</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="EE"
+    >Estonia</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="FI"
+    >Finland</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="FR"
+    >France</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="DE"
+    >Germany</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="GR"
+    >Greece</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="HU"
+    >Hungary</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="IS"
+    >Iceland</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="IE"
+    >Ireland</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="IT"
+    >Italy</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="LV"
+    >Latvia</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="LI"
+    >Liechtenstein</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="LT"
+    >Lithuania</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="LU"
+    >Luxembourg</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="MT"
+    >Malta</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="NL"
+    >Netherlands</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="NO"
+    >Norway</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="PL"
+    >Poland</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="PT"
+    >Portugal</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="RO"
+    >Romania</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="SK"
+    >Slovenia</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="ES"
+    >Spain</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="SE"
+    >Sweden</ea-regional-pricing-selector-option>
+
+    <ea-regional-pricing-selector-option
+    slot="regional-pricing-selector-option"
+    value="CH"
+    >Switzerland</ea-regional-pricing-selector-option>
+
+</ea-regional-pricing-selector>
+    
+<ea-elements-loader elements="ea-locale-selector">
+</ea-elements-loader>
+<ea-locale-selector
+    slot="locale-selector"
+    theme="dark"
+    value="en-us"
+    label-text="Language"
+    
+    unresolved
+    >
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="en-us"
+        >United States</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="en-gb"
+        >United Kingdom</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="ar-sa"
+        >العربية</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="en-au"
+        >Australia</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="pt-br"
+        >Brasil</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="zh-hk"
+        >繁體中文(香港)</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="cs-cz"
+        >Česká republika</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="da-dk"
+        >Danmark</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="de-de"
+        >Deutschland</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="es-es"
+        >España</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="fr-fr"
+        >France</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="it-it"
+        >Italia</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="ja-jp"
+        >日本</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="ko-kr"
+        >대한민국</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="es-mx"
+        >México</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="nl-nl"
+        >Nederland</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="nb-no"
+        >Norge</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="pl-pl"
+        >Polska</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="ru-ru"
+        >Россия</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="sv-se"
+        >Sverige</ea-locale-selector-option>
+    
+        <ea-locale-selector-option
+            slot="locale-selector-option"
+            value="tr-tr"
+        >Türkiye</ea-locale-selector-option>
+    
+</ea-locale-selector>
+
+    <ea-network-legal
+        slot="network-legal"
+        copyright-text="© 2022 Electronic Arts Inc."
+        text-color="dark"
+        unresolved
+    >
+        
+            <ea-link
+                slot="link"
+                link-href="/de-de/legal/impressum"
+                link-title="Impressum"
+                link-text="Impressum"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="/de-de/legal/impressum"
+                    title="Impressum"
+                >Impressum</a>
+            </ea-link>
+        
+            <ea-link
+                slot="link"
+                link-href="http://www.ea.com/en-us/legal"
+                link-title="Legal &amp; Privacy"
+                link-text="Legal &amp; Privacy"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="http://www.ea.com/en-us/legal"
+                    title="Legal &amp; Privacy"
+                >Legal &amp; Privacy</a>
+            </ea-link>
+        
+            <ea-link
+                slot="link"
+                link-href="http://www.ea.com/en-us/service-updates"
+                link-title="Online Service Updates"
+                link-text="Online Service Updates"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="http://www.ea.com/en-us/service-updates"
+                    title="Online Service Updates"
+                >Online Service Updates</a>
+            </ea-link>
+        
+            <ea-link
+                slot="link"
+                link-href="https://www.ea.com/en-us/terms-of-service"
+                link-title="User Agreement"
+                link-text="User Agreement"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="https://www.ea.com/en-us/terms-of-service"
+                    title="User Agreement"
+                >User Agreement</a>
+            </ea-link>
+        
+            <ea-link
+                slot="link"
+                link-href="https://www.ea.com/legal/privacy-and-cookie-policy"
+                link-title="Privacy &amp; Cookie Policy (Your Privacy Rights)"
+                link-text="Privacy &amp; Cookie Policy (Your Privacy Rights)"
+                text-color="dark"
+                unresolved
+            >
+                <a
+                    href="https://www.ea.com/legal/privacy-and-cookie-policy"
+                    title="Privacy &amp; Cookie Policy (Your Privacy Rights)"
+                >Privacy &amp; Cookie Policy (Your Privacy Rights)</a>
+            </ea-link>
+        
+        <ea-content-loader
+            slot="link"
+            content-url="https://www.ea.com/ccpa/footer-link"
+        >
+        </ea-content-loader>
+        
+    </ea-network-legal>
+    
+<ea-elements-loader elements="ea-truste">
+</ea-elements-loader>
+
+
+<script async>
+
+        function createElement(id, hidden) {
+            const element = document.createElement("div");
+
+            element.id = id;
+            element.hidden = hidden;
+
+            return element;
+        }
+
+        function createScriptTag() {
+            const script = document.createElement("script");
+            let src = `//consent.trustarc.com/notice?domain=ea.com&c=teconsent&js=nj&noticeType=bb&text=true&gtm=1`;
+
+            if (shouldAutoShowCookiePreferences()) {
+                src = src + "&behavior=expressed";
+            }
+
+            script.src = src;
+            script.setAttribute("crossorigin", "");
+
+            return script;
+        }
+
+        function shouldAutoShowCookiePreferences() {
+            const showCookiePreferencesParam = "show=cookiePreferences";
+            const urlSearchParams = window.location.search.slice(1).split("&");
+
+            return urlSearchParams.includes(showCookiePreferencesParam);
+        }
+
+        function isLocalNDS(componentUrlPrefix) {
+            return componentUrlPrefix && componentUrlPrefix.includes('local');
+        }
+
+        function isNDSBranch(componentUrlPrefix) {
+            return componentUrlPrefix && componentUrlPrefix.includes('branch');
+        }
+
+        function isNDSVersionGreaterOrEqual(componentUrlPrefix) {
+            let ndsVersion = componentUrlPrefix && componentUrlPrefix.match('/release\/([^\/]*)/')[1];
+            let isGreaterOrEqual = ndsVersion && ndsVersion.localeCompare("4.40.5", undefined, { numeric: true, sensitivity: 'base' });
+
+            return isGreaterOrEqual >= 0;
+        }
+
+        const componentUrlPrefix = window.nds.componentUrlPrefix;
+
+        /**
+         * Check for backwards compatibility with NDS version greater or equal to when TrustArc was integrated
+         */
+        if (
+            isLocalNDS(componentUrlPrefix) ||
+            isNDSBranch(componentUrlPrefix) ||
+            isNDSVersionGreaterOrEqual(componentUrlPrefix)
+        )
+        {
+            const trustArcScript = createScriptTag();
+            const elements = document.createDocumentFragment();
+
+            elements.appendChild(createElement("consent_blackbar", false));
+            elements.appendChild(createElement("teconsent", true));
+            elements.appendChild(trustArcScript);
+
+            document.body.appendChild(elements);
+        }
+
+</script>
+<ea-truste
+    unresolved
+    slot="truste"
+    
+        domain="ea.com"
+    
+>
+    <div>
+        
+            <a href="https://privacy.truste.com/privacy-seal/validation?rid=f1a11c5d-0232-4077-8498-2e69a38c1335" target="_blank">
+                <img style="border: none" src="//privacy-policy.truste.com/privacy-seal/seal?rid=f1a11c5d-0232-4077-8498-2e69a38c1335" alt="TRUSTe"/>
+            </a>
+        
+    </div>
+</ea-truste>
+
+</ea-network-footer>
+
+
+
+            
+        
+    
+
+
+</footer>
+<ea-player player-endpoint="/user-data"></ea-player>
+
+
+    
+        
+            
+                
+<ea-elements-loader elements="ea-modal">
+</ea-elements-loader>
+<ea-modal
+    modal
+    unresolved
+    
+        id="eacomagegate"
+    
+    
+        theme="dark"
+    
+    
+>
+    
+<ea-elements-loader elements="ea-age-gate">
+</ea-elements-loader>
+<ea-age-gate
+    unresolved
+    slot="age-gate"
+    id="eacomagegate"
+    
+        age="18"
+    
+    
+        error="You are not eligible to view this content."
+    
+    
+    
+        message="Please provide your birth date. "
+    
+>
+    
+        
+<ea-elements-loader elements="ea-date-field">
+</ea-elements-loader>
+<ea-date-field
+    
+        slot="date-field"
+    
+    
+        type="date"
+    
+    
+    
+    
+    
+    
+        text-color="light"
+    
+    
+    
+        month-placeholder="MM"
+    
+    
+        day-placeholder="DD"
+    
+    
+        year-placeholder="YYYY"
+    
+    
+    
+        label-text="Enter your birthdate"
+    
+    
+    
+    unresolved
+>
+</ea-date-field>
+
+    
+    
+        
+<ea-elements-loader elements="ea-submit">
+</ea-elements-loader>
+<ea-submit
+    unresolved
+    
+        slot="submit"
+    
+    
+        value-text="Submit"
+    
+    
+        text-color="light"
+    
+    
+    
+></ea-submit>
+
+    
+</ea-age-gate>
+
+</ea-modal>
+
+            
+        
+    
+
+
+
+
+    
+        
+            
+                <script src="//pl.ea.com/release/4.47.0/elements/browser-support.min.js"></script>
+<script>
+    eaBrowserSupport.requiredFeatures = 'picture';
+    eaBrowserSupport.requiredHeading = 'Sorry, this browser is not supported';
+    eaBrowserSupport.requiredText = 'Please download a supported browser to view this webpage.';
+    eaBrowserSupport.recommendedFeatures = 'cssgrid';
+    eaBrowserSupport.recommendedText = 'This browser is not recommended and the webpage may not display properly.';
+    eaBrowserSupport.ctas = [{"text":"Download Chrome","url":"https://www.google.com/chrome/"},{"text":"Download Firefox","url":"https://www.mozilla.org/firefox/new/"},{"text":"Download Edge","url":"https://www.microsoft.com/edge/"}];
+    eaBrowserSupport.dismissText = 'Dismiss';
+    eaBrowserSupport.svgLogo = '';
+    eaBrowserSupport.init();
+</script>
+
+            
+        
+    
+
+
+
+
+    <ea-type-kit kit-url="//use.typekit.net/jjd6ead.js"></ea-type-kit>
+
+
+    </body>
+</html>
+
