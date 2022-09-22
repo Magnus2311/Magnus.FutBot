@@ -49,6 +49,7 @@ export interface Card {
   stats: PlayerStats;
   playerCardStatus: PlayerCardStatus;
   playerType: PlayerCardType;
+  nationId: number;
 }
 
 export interface PlayerStats {
