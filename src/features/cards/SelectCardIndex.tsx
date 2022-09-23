@@ -57,7 +57,7 @@ export const SelectCardIndex = () => {
 
   const CustomMenu = React.forwardRef(
     (
-      { children, style, className, "aria-labelledby": labeledBy }: any,
+      { style, className, "aria-labelledby": labeledBy }: any,
       ref: LegacyRef<HTMLDivElement>
     ) => {
       return (
@@ -68,10 +68,18 @@ export const SelectCardIndex = () => {
           aria-labelledby={labeledBy}
         >
           <ul className="list-unstyled">
-            {React.Children.toArray(children).filter(
-              (child: any) =>
-                !value || child.props.card.name.toLowerCase().startsWith(value)
-            )}
+            {cards
+              .filter(
+                (card) => !value || card.name.toLowerCase().includes(value)
+              )
+              .slice(0, 20)
+              .map((card) => (
+                <CardRow
+                  key={card.cardId}
+                  card={card}
+                  onSelectCard={selectCard}
+                />
+              ))}
           </ul>
         </div>
       );

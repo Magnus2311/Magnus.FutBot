@@ -1,8 +1,10 @@
 import { HubConnection } from "@microsoft/signalr";
+import { strictEqual } from "assert";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyPlayer as BuyCard, Card } from "../../models/models";
+import { QualitySelect } from "../common/Filters/qualitySelect";
 import { Select } from "../common/Select";
 import { Switch } from "../common/Switch";
 import { onProfilesRequests, selectProfiles } from "../profiles/profileActions";
@@ -29,6 +31,7 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
   const [selectedProfile, setSelectedProfile] = useState(
     profiles.length > 0 ? profiles[0].email : ""
   );
+  const [quality, setQuality] = useState("any");
 
   useEffect(() => {
     getCardsConnection(dispatch).then((connection) =>
@@ -47,6 +50,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
 
   const handleProfileSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedProfile(e.target.value);
+  };
+
+  const handleQualitySelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setQuality(e.target.value);
   };
 
   return (
@@ -69,6 +76,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
           handleSelect={handleProfileSelect}
           value={selectedProfile}
         />
+      </Form.Group>
+      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
+        <Form.Label>Select quality</Form.Label>
+        <QualitySelect handleSelect={handleQualitySelect} value={quality} />
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <FormLabel>Max player price: </FormLabel>
