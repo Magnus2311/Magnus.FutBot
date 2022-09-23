@@ -71,7 +71,9 @@ export const CardRow = ({
         )}
       </Dropdown.Item>
     );
-  } catch {
-    return <></>;
+  } catch (ex) {
+    console.log(ex);
+
+    return <>asd</>;
   }
 };

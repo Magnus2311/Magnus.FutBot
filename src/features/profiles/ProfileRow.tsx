@@ -10,6 +10,7 @@ import ImageContent from "./ImageNumber";
 import RefreshImage from "../../assets/refresh.png";
 import { useAppDispatch } from "../../app/hooks";
 import { useNavigate } from "react-router";
+import { getProfileConnection } from "./profileActions";
 
 const templateProfile = {
   email: "iavor.orlyov1@gmail.com",
@@ -72,7 +73,9 @@ const ProfileRow = ({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            onRefresh(profile.id);
+            getProfileConnection(dispatch).then((connection) => {
+              connection.invoke("OnProfileRefresh", profile.id);
+            });
           }}
         />
       </div>
