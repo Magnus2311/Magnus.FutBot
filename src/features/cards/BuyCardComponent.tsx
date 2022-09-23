@@ -4,6 +4,7 @@ import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyPlayer as BuyCard, Card } from "../../models/models";
 import { ChemistrySelect } from "../common/Filters/ChemistrySelect";
+import { LeagueSelect } from "../common/Filters/LeagueSelect";
 import { NationallitySelect } from "../common/Filters/NationallitySelect";
 import { PositionSelect } from "../common/Filters/PositionSelect";
 import { QualitySelect } from "../common/Filters/QualitySelect";
@@ -15,13 +16,18 @@ import { getCardsConnection } from "./buyActions";
 import { CardRow } from "./CardRow";
 
 interface Props {
-  card: Card;
+  card?: Card;
   onDeselect: () => void;
 }
 
 export const BuyCardComponent = ({ card, onDeselect }: Props) => {
   const [buyPlayer, setBuyPlayer] = useState<BuyCard>({
     card: card,
+    quality: "Any",
+    rarity: "Any",
+    position: "Any",
+    chemistry: "Any",
+    nationallity: "Any",
     isBin: false,
     count: 0,
     price: 0,
@@ -31,13 +37,14 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
   const dispatch = useAppDispatch();
   const profiles = useAppSelector(selectProfiles).profiles;
   const [selectedProfile, setSelectedProfile] = useState(
-    profiles.length > 0 ? profiles[0].email : ""
+    profiles.length > 0 ? profiles[0].email : undefined
   );
   const [quality, setQuality] = useState("Any");
   const [rarity, setRarity] = useState("Any");
   const [position, setPosition] = useState("Any");
   const [chemistry, setChemistry] = useState("Any");
   const [nationallity, setNationallity] = useState("Any");
+  const [league, setLeague] = useState("Any");
 
   useEffect(() => {
     getCardsConnection(dispatch).then((connection) =>
@@ -49,7 +56,16 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
   const handleBtnSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const buyCardDTO = { ...buyPlayer, email: selectedProfile };
+    const buyCardDTO = {
+      ...buyPlayer,
+      email: selectedProfile ?? profiles[0]?.email,
+      rarity,
+      quality,
+      position,
+      chemistry,
+      nationallity,
+      league,
+    };
 
     connection?.invoke("BuyCard", buyCardDTO);
   };
@@ -78,6 +94,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
     setNationallity(e.target.value);
   };
 
+  const handleLeagueSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setLeague(e.target.value);
+  };
+
   return (
     <Form
       style={{
@@ -85,18 +105,20 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
         textAlign: "center",
       }}
     >
-      <CardRow
-        key={card.cardId}
-        card={card}
-        onSelectCard={onDeselect}
-        isRemoveable={true}
-      />
+      {card && (
+        <CardRow
+          key={card.cardId}
+          card={card}
+          onSelectCard={onDeselect}
+          isRemoveable={true}
+        />
+      )}
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <Form.Label>Select profile to trade for</Form.Label>
         <Select
           items={profiles.map((profile) => profile.email)}
           handleSelect={handleProfileSelect}
-          value={selectedProfile}
+          value={selectedProfile ?? ""}
         />
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
@@ -124,6 +146,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
           handleSelect={handleNationallitySelect}
           value={nationallity}
         />
+      </Form.Group>
+      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
+        <Form.Label>Select league:</Form.Label>
+        <LeagueSelect handleSelect={handleLeagueSelect} value={league} />
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <FormLabel>Max player price: </FormLabel>

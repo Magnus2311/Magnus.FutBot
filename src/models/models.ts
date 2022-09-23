@@ -164,7 +164,12 @@ export interface GroupedType<T> {
 }
 
 export interface BuyPlayer {
-  card: Card;
+  card?: Card;
+  quality: string;
+  rarity: string;
+  position: string;
+  chemistry: string;
+  nationallity: string;
   isBin: boolean;
   count: number;
   price: number;

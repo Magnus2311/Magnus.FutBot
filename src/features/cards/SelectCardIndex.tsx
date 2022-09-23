@@ -10,7 +10,6 @@ export const SelectCardIndex = () => {
   const dispatch = useAppDispatch();
   const { cards } = useAppSelector(selectCards);
   const [selectedCard, setSelectedCard] = useState<Card | undefined>();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [value, setValue] = useState("");
 
   useEffect(() => {
@@ -21,7 +20,6 @@ export const SelectCardIndex = () => {
 
   const selectCard = (card: Card | undefined) => {
     setSelectedCard(card);
-    setIsDropdownOpen(false);
   };
 
   const CustomToggle = React.forwardRef(
@@ -39,17 +37,6 @@ export const SelectCardIndex = () => {
             onChange={(e) => setValue(e.target.value)}
             value={value}
           />
-          {!isDropdownOpen &&
-            [...cards]
-              .sort((a, b) => (a.rating < b.rating ? 1 : -1))
-              .slice(0, 20)
-              .map((card) => (
-                <CardRow
-                  key={card.cardId}
-                  card={card}
-                  onSelectCard={selectCard}
-                />
-              ))}
         </>
       );
     }
@@ -86,31 +73,36 @@ export const SelectCardIndex = () => {
     }
   );
 
-  return !selectedCard ? (
-    <Dropdown onClick={() => setIsDropdownOpen(true)}>
-      <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
+  return (
+    <>
+      <Dropdown>
+        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
 
-      {cards.length > 0 ? (
-        <Dropdown.Menu
-          as={CustomMenu}
-          style={{
-            marginLeft: "-190px",
-            width: "600px",
-            position: "absolute",
-          }}
-        >
-          {cards.map((card) => (
-            <CardRow key={card.cardId} card={card} onSelectCard={selectCard} />
-          ))}
-        </Dropdown.Menu>
-      ) : (
-        <Spinner animation="border" color="blue"></Spinner>
-      )}
-    </Dropdown>
-  ) : (
-    <BuyCardComponent
-      card={selectedCard}
-      onDeselect={() => selectCard(undefined)}
-    />
+        {cards.length > 0 ? (
+          <Dropdown.Menu
+            as={CustomMenu}
+            style={{
+              marginLeft: "-190px",
+              width: "600px",
+              position: "absolute",
+            }}
+          >
+            {cards.slice(0, 20).map((card) => (
+              <CardRow
+                key={card.cardId}
+                card={card}
+                onSelectCard={selectCard}
+              />
+            ))}
+          </Dropdown.Menu>
+        ) : (
+          <Spinner animation="border" color="blue"></Spinner>
+        )}
+      </Dropdown>
+      <BuyCardComponent
+        card={selectedCard}
+        onDeselect={() => selectCard(undefined)}
+      />
+    </>
   );
 };
