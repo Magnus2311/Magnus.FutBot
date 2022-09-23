@@ -5,6 +5,7 @@ interface Props {
   handleSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
   value: string;
 }
+
 export const QualitySelect = ({ handleSelect, value }: Props) => {
   return (
     <Form.Select

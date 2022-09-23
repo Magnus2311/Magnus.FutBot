@@ -1,10 +1,9 @@
 import { HubConnection } from "@microsoft/signalr";
-import { strictEqual } from "assert";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyPlayer as BuyCard, Card } from "../../models/models";
-import { QualitySelect } from "../common/Filters/qualitySelect";
+import { QualitySelect } from "../common/Filters/QualitySelect";
 import { Select } from "../common/Select";
 import { Switch } from "../common/Switch";
 import { onProfilesRequests, selectProfiles } from "../profiles/profileActions";
