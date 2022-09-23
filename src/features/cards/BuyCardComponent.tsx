@@ -4,6 +4,7 @@ import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyPlayer as BuyCard, Card } from "../../models/models";
 import { QualitySelect } from "../common/Filters/QualitySelect";
+import { RaritySelect } from "../common/Filters/RaritySelect";
 import { Select } from "../common/Select";
 import { Switch } from "../common/Switch";
 import { onProfilesRequests, selectProfiles } from "../profiles/profileActions";
@@ -23,7 +24,6 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
     price: 0,
   });
 
-  // test commit
   const [connection, setConnection] = useState<HubConnection | undefined>();
   const dispatch = useAppDispatch();
   const profiles = useAppSelector(selectProfiles).profiles;
@@ -31,6 +31,7 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
     profiles.length > 0 ? profiles[0].email : ""
   );
   const [quality, setQuality] = useState("any");
+  const [rarity, setRarity] = useState("any");
 
   useEffect(() => {
     getCardsConnection(dispatch).then((connection) =>
@@ -53,6 +54,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
 
   const handleQualitySelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setQuality(e.target.value);
+  };
+
+  const handleRaritySelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setRarity(e.target.value);
   };
 
   return (
@@ -79,6 +84,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <Form.Label>Select quality</Form.Label>
         <QualitySelect handleSelect={handleQualitySelect} value={quality} />
+      </Form.Group>
+      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
+        <Form.Label>Select rarity:</Form.Label>
+        <RaritySelect handleSelect={handleRaritySelect} value={rarity} />
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <FormLabel>Max player price: </FormLabel>
