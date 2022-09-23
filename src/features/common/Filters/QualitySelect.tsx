@@ -9,43 +9,14 @@ interface Props {
 export const QualitySelect = ({ handleSelect, value }: Props) => {
   return (
     <Form.Select
-      aria-label="Choose account to buy for: "
+      aria-label="Choose quality:"
       onChange={handleSelect}
       value={value}
     >
-      <option
-        selected
-        style={{
-          backgroundImage:
-            "https://www.ea.com/fifa/ultimate-team/web-app/images/SearchFilters/level/any.png",
-        }}
-      >
-        Any
-      </option>
-      <option
-        style={{
-          backgroundImage:
-            "https://www.ea.com/fifa/ultimate-team/web-app/images/SearchFilters/level/bronze.png",
-        }}
-      >
-        Bronze
-      </option>
-      <option
-        style={{
-          backgroundImage:
-            "https://www.ea.com/fifa/ultimate-team/web-app/images/SearchFilters/level/silver.png",
-        }}
-      >
-        Silver
-      </option>
-      <option
-        style={{
-          backgroundImage:
-            "https://www.ea.com/fifa/ultimate-team/web-app/images/SearchFilters/level/gold.png",
-        }}
-      >
-        Gold
-      </option>
+      <option selected>Any</option>
+      <option>Bronze</option>
+      <option>Silver</option>
+      <option>Gold</option>
     </Form.Select>
   );
 };
