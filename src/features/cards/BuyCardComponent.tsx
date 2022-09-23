@@ -3,6 +3,7 @@ import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyPlayer as BuyCard, Card } from "../../models/models";
+import { PositionSelect } from "../common/Filters/PositionSelect";
 import { QualitySelect } from "../common/Filters/QualitySelect";
 import { RaritySelect } from "../common/Filters/RaritySelect";
 import { Select } from "../common/Select";
@@ -96,7 +97,7 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <Form.Label>Select position:</Form.Label>
-        <RaritySelect handleSelect={handlePositionSelect} value={position} />
+        <PositionSelect handleSelect={handlePositionSelect} value={position} />
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <FormLabel>Max player price: </FormLabel>
