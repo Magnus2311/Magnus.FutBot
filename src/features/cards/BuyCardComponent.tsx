@@ -30,8 +30,9 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
   const [selectedProfile, setSelectedProfile] = useState(
     profiles.length > 0 ? profiles[0].email : ""
   );
-  const [quality, setQuality] = useState("any");
-  const [rarity, setRarity] = useState("any");
+  const [quality, setQuality] = useState("Any");
+  const [rarity, setRarity] = useState("Any");
+  const [position, setPosition] = useState("Any");
 
   useEffect(() => {
     getCardsConnection(dispatch).then((connection) =>
@@ -58,6 +59,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
 
   const handleRaritySelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setRarity(e.target.value);
+  };
+
+  const handlePositionSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setPosition(e.target.value);
   };
 
   return (
@@ -88,6 +93,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <Form.Label>Select rarity:</Form.Label>
         <RaritySelect handleSelect={handleRaritySelect} value={rarity} />
+      </Form.Group>
+      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
+        <Form.Label>Select position:</Form.Label>
+        <RaritySelect handleSelect={handlePositionSelect} value={position} />
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <FormLabel>Max player price: </FormLabel>
