@@ -4,6 +4,7 @@ import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyPlayer as BuyCard, Card } from "../../models/models";
 import { ChemistrySelect } from "../common/Filters/ChemistrySelect";
+import { NationallitySelect } from "../common/Filters/NationallitySelect";
 import { PositionSelect } from "../common/Filters/PositionSelect";
 import { QualitySelect } from "../common/Filters/QualitySelect";
 import { RaritySelect } from "../common/Filters/RaritySelect";
@@ -36,6 +37,7 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
   const [rarity, setRarity] = useState("Any");
   const [position, setPosition] = useState("Any");
   const [chemistry, setChemistry] = useState("Any");
+  const [nationallity, setNationallity] = useState("Any");
 
   useEffect(() => {
     getCardsConnection(dispatch).then((connection) =>
@@ -70,6 +72,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
 
   const handleChemistrySelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setChemistry(e.target.value);
+  };
+
+  const handleNationallitySelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setNationallity(e.target.value);
   };
 
   return (
@@ -110,6 +116,13 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
         <ChemistrySelect
           handleSelect={handleChemistrySelect}
           value={chemistry}
+        />
+      </Form.Group>
+      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
+        <Form.Label>Select nationallity:</Form.Label>
+        <NationallitySelect
+          handleSelect={handleNationallitySelect}
+          value={nationallity}
         />
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
