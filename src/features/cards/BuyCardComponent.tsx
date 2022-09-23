@@ -3,6 +3,7 @@ import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyPlayer as BuyCard, Card } from "../../models/models";
+import { ChemistrySelect } from "../common/Filters/ChemistrySelect";
 import { PositionSelect } from "../common/Filters/PositionSelect";
 import { QualitySelect } from "../common/Filters/QualitySelect";
 import { RaritySelect } from "../common/Filters/RaritySelect";
@@ -34,6 +35,7 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
   const [quality, setQuality] = useState("Any");
   const [rarity, setRarity] = useState("Any");
   const [position, setPosition] = useState("Any");
+  const [chemistry, setChemistry] = useState("Any");
 
   useEffect(() => {
     getCardsConnection(dispatch).then((connection) =>
@@ -64,6 +66,10 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
 
   const handlePositionSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setPosition(e.target.value);
+  };
+
+  const handleChemistrySelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setChemistry(e.target.value);
   };
 
   return (
@@ -98,6 +104,13 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <Form.Label>Select position:</Form.Label>
         <PositionSelect handleSelect={handlePositionSelect} value={position} />
+      </Form.Group>
+      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
+        <Form.Label>Select chemistry:</Form.Label>
+        <ChemistrySelect
+          handleSelect={handleChemistrySelect}
+          value={chemistry}
+        />
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <FormLabel>Max player price: </FormLabel>
