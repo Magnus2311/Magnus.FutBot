@@ -59,6 +59,7 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
     const buyCardDTO = {
       ...buyPlayer,
       email: selectedProfile ?? profiles[0]?.email,
+      card,
       rarity,
       quality,
       position,
@@ -154,7 +155,6 @@ export const BuyCardComponent = ({ card, onDeselect }: Props) => {
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <FormLabel>Max player price: </FormLabel>
         <FormControl
-          autoFocus
           value={buyPlayer.price}
           onChange={(e) =>
             setBuyPlayer({ ...buyPlayer, price: parseInt(e.target.value) })

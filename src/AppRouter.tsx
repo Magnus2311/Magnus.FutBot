@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import About from "./features/About";
+import { ActionsList } from "./features/actions/ActionsList";
 import EmailConfirmation from "./features/authentication/EmailConfirmation";
 import EmailSent from "./features/authentication/EmailSent";
 import AuthIndex from "./features/authentication/Index";
@@ -58,6 +59,12 @@ const AppRouter = () => {
         element={<PrivateOutlet path="/profiles/edit/:email" />}
       >
         <Route path="/profiles/edit/:email" element={<EditProfile />} />
+      </Route>
+      <Route
+        path="/actions/:email/"
+        element={<PrivateOutlet path="/actions/:email/" />}
+      >
+        <Route path="/actions/:email/" element={<ActionsList />} />
       </Route>
       <Route
         path="/registration/email-confirmed"
