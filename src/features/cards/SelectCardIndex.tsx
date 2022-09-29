@@ -1,8 +1,9 @@
-import React, { LegacyRef, useEffect, useState } from "react";
+import { HubConnection } from "@microsoft/signalr";
+import React, { LegacyRef, useCallback, useEffect, useState } from "react";
 import { Dropdown, Form, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Card } from "../../models/models";
-import { selectCards, setupEventsHub } from "./buyActions";
+import { getCardsConnection, selectCards, setupEventsHub } from "./buyActions";
 import { BuyCardComponent } from "./BuyCardComponent";
 import { CardRow } from "./CardRow";
 
@@ -11,12 +12,26 @@ export const SelectCardIndex = () => {
   const { cards } = useAppSelector(selectCards);
   const [selectedCard, setSelectedCard] = useState<Card | undefined>();
   const [value, setValue] = useState("");
+  const [connection, setConnection] = useState<HubConnection | undefined>();
+
+  const searchCards = useCallback(
+    (name: string) => {
+      connection?.invoke("GetCards", name);
+    },
+    [connection]
+  );
 
   useEffect(() => {
-    setupEventsHub(dispatch).then((connection) => {
-      connection.invoke("GetCards");
+    getCardsConnection(dispatch).then((connection) => {
+      setConnection(connection);
+      searchCards(value);
     });
-  }, [dispatch, selectedCard]);
+  }, [dispatch, selectedCard, value, searchCards]);
+
+  const handleCardSearch = (name: string) => {
+    setValue(name);
+    searchCards(name);
+  };
 
   const selectCard = (card: Card | undefined) => {
     setSelectedCard(card);
@@ -34,7 +49,7 @@ export const SelectCardIndex = () => {
               e.preventDefault();
               onClick(e);
             }}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => handleCardSearch(e.target.value)}
             value={value}
           />
         </>
@@ -55,18 +70,13 @@ export const SelectCardIndex = () => {
           aria-labelledby={labeledBy}
         >
           <ul className="list-unstyled">
-            {cards
-              .filter(
-                (card) => !value || card.name.toLowerCase().includes(value)
-              )
-              .slice(0, 20)
-              .map((card) => (
-                <CardRow
-                  key={card.cardId}
-                  card={card}
-                  onSelectCard={selectCard}
-                />
-              ))}
+            {cards.map((card) => (
+              <CardRow
+                key={card.cardId}
+                card={card}
+                onSelectCard={selectCard}
+              />
+            ))}
           </ul>
         </div>
       );
