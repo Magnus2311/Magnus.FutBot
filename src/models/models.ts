@@ -18,6 +18,7 @@ export interface ProfileDTO {
   unassignedCount: number;
   outbidded: number;
   tradePile: TradePile;
+  autoRelist: boolean;
 }
 
 export interface TradePile {
