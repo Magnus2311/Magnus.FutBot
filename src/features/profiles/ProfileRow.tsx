@@ -1,16 +1,17 @@
 import { LoginStatusType, ProfileDTO } from "../../models/models";
-import coin from "../../assets/profiles/coin.png";
-import cancel from "../../assets/profiles/cancel.png";
-import checked from "../../assets/profiles/checked.png";
-import contract from "../../assets/profiles/contract.png";
-import hourglass from "../../assets/profiles/hourglass.png";
-import tasks from "../../assets/profiles/tasks.png";
-import man from "../../assets/profiles/man.png";
 import ImageContent from "./ImageNumber";
-import RefreshImage from "../../assets/refresh.png";
 import { useAppDispatch } from "../../app/hooks";
 import { useNavigate } from "react-router";
 import { getProfileConnection } from "./profileActions";
+
+const coin = require("../../../../assets/profiles/coin.png");
+const checked = require("../../../../assets/profiles/checked.png");
+const contract = require("../../../../assets/profiles/contract.png");
+const hourglass = require("../../../../assets/profiles/hourglass.png");
+const tasks = require("../../../../assets/profiles/tasks.png");
+const man = require("../../../../assets/profiles/man.png");
+const cancel = require("../../../../assets/profiles/cancel.png");
+const RefreshImage = require("../../../../assets/refresh.png");
 
 const templateProfile = {
   email: "iavor.orlyov1@gmail.com",

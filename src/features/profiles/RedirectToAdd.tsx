@@ -1,6 +1,6 @@
 import { FormEvent } from "react";
 import { useNavigate } from "react-router";
-import plus from "../../assets/common/plus.png";
+import plus from "../../../../assets/common/plus.png";
 
 export const RedirectToAdd = () => {
   const navigate = useNavigate();
