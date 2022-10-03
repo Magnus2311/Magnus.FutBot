@@ -184,3 +184,9 @@ export interface SellCardDTO {
   fromBin: number;
   toBin?: number;
 }
+
+export interface TradeAction {
+  id: string;
+  type: string;
+  description: string;
+}

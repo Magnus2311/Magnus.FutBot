@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { reducer as profilesReducer } from "../features/profiles/profileActions";
 import { reducer as playersReducer } from "../features/players/playersActions";
 import { reducer as cardsReducer } from "../features/cards/buyActions";
+import { actionsReducer } from "../features/profiles/actions/tradeActions";
 
 export const store = configureStore({
   reducer: {
     profiles: profilesReducer,
     players: playersReducer,
-    cards: cardsReducer
+    cards: cardsReducer,
+    actions: actionsReducer,
   },
 });
 
