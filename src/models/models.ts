@@ -164,7 +164,7 @@ export interface GroupedType<T> {
   count: number;
 }
 
-export interface BuyPlayer {
+export interface BuyCardDTO {
   card?: Card;
   quality: string;
   rarity: string;
@@ -189,4 +189,20 @@ export interface TradeAction {
   id: string;
   type: string;
   description: string;
+}
+
+export interface BuyAndSellCardDTO {
+  card?: Card;
+  quality: string;
+  rarity: string;
+  position: string;
+  chemistry: string;
+  nationallity: string;
+  isBin: boolean;
+  count: number;
+  price: number;
+  fromBid: number;
+  toBid?: number;
+  fromBin: number;
+  toBin?: number;
 }

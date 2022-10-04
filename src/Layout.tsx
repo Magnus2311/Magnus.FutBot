@@ -56,6 +56,15 @@ const Layout = () => {
             Buy
           </Link>
         </Nav>
+        <Nav className="mr-auto">
+          <Link
+            className="nav-link"
+            to="/cards/buy-and-sell"
+            onClick={handleClick}
+          >
+            Buy & Sell
+          </Link>
+        </Nav>
       </Navbar.Collapse>
       <UserNavMenu />
     </Navbar>

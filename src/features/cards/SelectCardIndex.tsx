@@ -3,14 +3,17 @@ import React, { LegacyRef, useCallback, useEffect, useState } from "react";
 import { Dropdown, Form, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Card } from "../../models/models";
-import { getCardsConnection, selectCards, setupEventsHub } from "./buyActions";
-import { BuyCardComponent } from "./BuyCardComponent";
+import { getCardsConnection, selectCards } from "./buyActions";
 import { CardRow } from "./CardRow";
 
-export const SelectCardIndex = () => {
+interface Props {
+  selectCard: (card: Card | undefined) => void;
+}
+
+export const SelectCardIndex = ({ selectCard }: Props) => {
   const dispatch = useAppDispatch();
   const { cards } = useAppSelector(selectCards);
-  const [selectedCard, setSelectedCard] = useState<Card | undefined>();
+  const [card, setCard] = useState<Card | undefined>();
   const [value, setValue] = useState("");
   const [connection, setConnection] = useState<HubConnection | undefined>();
 
@@ -26,15 +29,16 @@ export const SelectCardIndex = () => {
       setConnection(connection);
       searchCards(value);
     });
-  }, [dispatch, selectedCard, value, searchCards]);
+  }, [dispatch, card, value, searchCards]);
 
   const handleCardSearch = (name: string) => {
     setValue(name);
     searchCards(name);
   };
 
-  const selectCard = (card: Card | undefined) => {
-    setSelectedCard(card);
+  const handleSelectCard = (card: Card | undefined) => {
+    setCard(card);
+    selectCard(card);
   };
 
   const CustomToggle = React.forwardRef(
@@ -74,7 +78,7 @@ export const SelectCardIndex = () => {
               <CardRow
                 key={card.cardId}
                 card={card}
-                onSelectCard={selectCard}
+                onSelectCard={handleSelectCard}
               />
             ))}
           </ul>
@@ -84,35 +88,25 @@ export const SelectCardIndex = () => {
   );
 
   return (
-    <>
-      <Dropdown>
-        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
+    <Dropdown>
+      <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
 
-        {cards.length > 0 ? (
-          <Dropdown.Menu
-            as={CustomMenu}
-            style={{
-              marginLeft: "-190px",
-              width: "600px",
-              position: "absolute",
-            }}
-          >
-            {cards.slice(0, 20).map((card) => (
-              <CardRow
-                key={card.cardId}
-                card={card}
-                onSelectCard={selectCard}
-              />
-            ))}
-          </Dropdown.Menu>
-        ) : (
-          <Spinner animation="border" color="blue"></Spinner>
-        )}
-      </Dropdown>
-      <BuyCardComponent
-        card={selectedCard}
-        onDeselect={() => selectCard(undefined)}
-      />
-    </>
+      {cards.length > 0 ? (
+        <Dropdown.Menu
+          as={CustomMenu}
+          style={{
+            marginLeft: "-190px",
+            width: "600px",
+            position: "absolute",
+          }}
+        >
+          {cards.slice(0, 20).map((card) => (
+            <CardRow key={card.cardId} card={card} onSelectCard={selectCard} />
+          ))}
+        </Dropdown.Menu>
+      ) : (
+        <Spinner animation="border" color="blue"></Spinner>
+      )}
+    </Dropdown>
   );
 };

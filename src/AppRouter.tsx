@@ -7,7 +7,8 @@ import Login from "./features/authentication/Login";
 import PrivateOutlet from "./features/authentication/PrivateOutlet";
 import Registration from "./features/authentication/Registration";
 import ResetPassword from "./features/authentication/ResetPassword";
-import { SelectCardIndex } from "./features/cards/SelectCardIndex";
+import { BuyAndSellComponent } from "./features/cards/BuyAndSellComponent";
+import { BuyCardComponent } from "./features/cards/BuyCardComponent";
 import { SellCardComponent } from "./features/cards/SellCardComponent";
 import Home from "./features/Home";
 import PlayersIndex from "./features/players/PlayersIndex";
@@ -45,7 +46,13 @@ const AppRouter = () => {
         <Route path="/profile/index/:email" element={<CurrentProfile />} />
       </Route>
       <Route path="/cards/buy" element={<PrivateOutlet path="/cards/buy" />}>
-        <Route path="/cards/buy" element={<SelectCardIndex />} />
+        <Route path="/cards/buy" element={<BuyCardComponent />} />
+      </Route>
+      <Route
+        path="/cards/buy-and-sell"
+        element={<PrivateOutlet path="/cards/buy" />}
+      >
+        <Route path="/cards/buy-and-sell" element={<BuyAndSellComponent />} />
       </Route>
       <Route
         path="/sell/:cardId/:email"

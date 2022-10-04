@@ -2,7 +2,7 @@ import { HubConnection } from "@microsoft/signalr";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { BuyCardDTO as BuyCard, Card } from "../../models/models";
+import { BuyAndSellCardDTO, Card } from "../../models/models";
 import { ChemistrySelect } from "../common/Filters/ChemistrySelect";
 import { LeagueSelect } from "../common/Filters/LeagueSelect";
 import { NationallitySelect } from "../common/Filters/NationallitySelect";
@@ -16,10 +16,10 @@ import { getCardsConnection } from "./buyActions";
 import { CardRow } from "./CardRow";
 import { SelectCardIndex } from "./SelectCardIndex";
 
-export const BuyCardComponent = () => {
+export const BuyAndSellComponent = () => {
   const [card, setCard] = useState<Card | undefined>();
 
-  const [buyPlayer, setBuyPlayer] = useState<BuyCard>({
+  const [buySellPlayer, setBuyPlayer] = useState<BuyAndSellCardDTO>({
     card: card,
     quality: "Any",
     rarity: "Any",
@@ -29,6 +29,10 @@ export const BuyCardComponent = () => {
     isBin: false,
     count: 0,
     price: 0,
+    fromBid: 0,
+    fromBin: 0,
+    toBid: 0,
+    toBin: 0,
   });
 
   const [connection, setConnection] = useState<HubConnection | undefined>();
@@ -44,18 +48,11 @@ export const BuyCardComponent = () => {
   const [nationallity, setNationallity] = useState("Any");
   const [league, setLeague] = useState("Any");
 
-  useEffect(() => {
-    getCardsConnection(dispatch).then((connection) =>
-      setConnection(connection)
-    );
-    dispatch(onProfilesRequests());
-  }, [dispatch]);
-
   const handleBtnSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const buyCardDTO = {
-      ...buyPlayer,
+      ...buySellPlayer,
       email: selectedProfile ?? profiles[0]?.email,
       card,
       rarity,
@@ -96,6 +93,13 @@ export const BuyCardComponent = () => {
   const handleLeagueSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setLeague(e.target.value);
   };
+
+  useEffect(() => {
+    getCardsConnection(dispatch).then((connection) =>
+      setConnection(connection)
+    );
+    dispatch(onProfilesRequests());
+  }, [dispatch]);
 
   return (
     <Form
@@ -155,18 +159,18 @@ export const BuyCardComponent = () => {
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <FormLabel>Max player price: </FormLabel>
         <FormControl
-          value={buyPlayer.price}
+          value={buySellPlayer.price}
           onChange={(e) =>
-            setBuyPlayer({ ...buyPlayer, price: parseInt(e.target.value) })
+            setBuyPlayer({ ...buySellPlayer, price: parseInt(e.target.value) })
           }
         />
       </Form.Group>
       <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
         <FormLabel>Player count: </FormLabel>
         <FormControl
-          value={buyPlayer.count}
+          value={buySellPlayer.count}
           onChange={(e) =>
-            setBuyPlayer({ ...buyPlayer, count: parseInt(e.target.value) })
+            setBuyPlayer({ ...buySellPlayer, count: parseInt(e.target.value) })
           }
         />
       </Form.Group>
@@ -174,9 +178,34 @@ export const BuyCardComponent = () => {
         <FormLabel>Is it bin (Buy-in-Now): </FormLabel>
         <Switch
           label=""
-          isChecked={buyPlayer.isBin}
+          isChecked={buySellPlayer.isBin}
           setIsChecked={() =>
-            setBuyPlayer({ ...buyPlayer, isBin: !buyPlayer.isBin })
+            setBuyPlayer({ ...buySellPlayer, isBin: !buySellPlayer.isBin })
+          }
+        />
+      </Form.Group>
+      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
+        <FormLabel>Lowest BID price:</FormLabel>
+        <FormControl
+          autoFocus
+          value={buySellPlayer.fromBid}
+          onChange={(e) =>
+            setBuyPlayer({
+              ...buySellPlayer,
+              fromBid: parseInt(e.target.value),
+            })
+          }
+        />
+      </Form.Group>
+      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
+        <FormLabel>Lowest BIN price:</FormLabel>
+        <FormControl
+          value={buySellPlayer.fromBin}
+          onChange={(e) =>
+            setBuyPlayer({
+              ...buySellPlayer,
+              fromBin: parseInt(e.target.value),
+            })
           }
         />
       </Form.Group>
