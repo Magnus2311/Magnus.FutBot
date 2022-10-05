@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { getCardImages } from "../../helpers/images";
 import { Card } from "../../models/models";
 
@@ -8,7 +9,19 @@ interface Props {
 }
 
 export const CardImage = ({ card, size, onClick }: Props) => {
-  const { clubImg, flagImg, playerImg, revisionImg } = getCardImages(card);
+  const [clubImg, setClubImg] = useState("");
+  const [flagImg, setFlagImg] = useState("");
+  const [playerImg, setPlayerImg] = useState("");
+  const [revisionImg, setRevisionImg] = useState("");
+
+  useEffect(() => {
+    getCardImages(card).then((imgObj) => {
+      setClubImg(imgObj.clubImg);
+      setFlagImg(imgObj.flagImg);
+      setPlayerImg(imgObj.playerImg);
+      setRevisionImg(imgObj.revisionImg);
+    });
+  }, []);
 
   let scale = 0.3;
   let width = 99.6;
