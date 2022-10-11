@@ -63,7 +63,7 @@ export const BuyAndSellComponent = () => {
       league,
     };
 
-    connection?.invoke("BuyCard", buyCardDTO);
+    connection?.invoke("BuyAndSell", buyCardDTO);
   };
 
   const handleProfileSelect = (e: ChangeEvent<HTMLSelectElement>) => {

@@ -27,7 +27,7 @@ export const CardRow = ({
       setRevisionImg(imgObj.revisionImg);
       setLeagueImg(imgObj.leagueImg);
     });
-  }, []);
+  }, [card]);
 
   return (
     <Dropdown.Item

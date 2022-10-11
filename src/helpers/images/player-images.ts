@@ -1,12 +1,17 @@
-import {BlobServiceClient, ContainerClient} from "@azure/storage-blob"
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
-export const playerImages = {
-    logos: async () => await getImages() 
-}
+export const initPlayerImages = {
+  logos: async () => {
+    await getImages();
+  },
+};
+
+export const playerImages: any = {};
 
 const getImages = async () => {
-    const containerName = "player-images";
-  const token = "sp=rl&st=2022-10-05T15:50:59Z&se=2022-10-05T23:50:59Z&spr=https&sv=2021-06-08&sr=c&sig=tVmEc56TRf4KhBz07R1RB9K00adYeXcIAZdrmkETex4%3D";
+  const containerName = "player-images";
+  const token =
+    "sp=rl&st=2022-10-03T06:54:00Z&se=2023-10-06T14:54:00Z&spr=https&sv=2021-06-08&sr=c&sig=34buDEPL6kLjpb6HdlMMcL1jd7p5KEbytjLGsDdRRdE%3D";
   const url = `https://futbotimagesstore.blob.core.windows.net/?${token}`;
 
   const blobService = new BlobServiceClient(url!);
@@ -14,16 +19,12 @@ const getImages = async () => {
     blobService.getContainerClient(containerName);
 
   const getBlobsInContainer = async (containerClient: ContainerClient) => {
-    const returnedBlobUrls: any[] = [];
-
     for await (const blob of containerClient.listBlobsFlat()) {
-        const currentImage: any = {};
-        currentImage[`${blob.name}`] = `https://futbotimagesstore.blob.core.windows.net/${containerName}/${blob.name}?${token}`
-      returnedBlobUrls.push(currentImage);
+      playerImages[
+        `${blob.name.toUpperCase()}`
+      ] = `https://futbotimagesstore.blob.core.windows.net/${containerName}/${blob.name}?${token}`;
     }
-
-    return returnedBlobUrls;
   };
 
-  return await getBlobsInContainer(containerClient);
-}
+  await getBlobsInContainer(containerClient);
+};
