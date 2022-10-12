@@ -56,3 +56,6 @@ export const API_PATH = futbotApi(futbotEnvironment);
 export const SIGNALR_PATH = futbotSignalR(futbotEnvironment);
 export const SSO_API_PATH = ssoApi(ssoEnvironment);
 export const FUTBOT_WEB_ADDRESS = futbotWebAddress(futbotWebEnvironment);
+
+export const sasToken =
+  "?sv=2021-06-08&ss=bfqt&srt=sco&sp=rlax&se=2023-10-12T21:10:12Z&st=2022-10-11T13:10:12Z&spr=https&sig=ur%2BlJ77ellGRP1jZE%2Fo8ruhFpEm5DksvTm2ROQ0Dl6I%3D";

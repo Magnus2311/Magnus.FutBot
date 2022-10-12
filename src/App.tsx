@@ -7,11 +7,6 @@ import Layout from "./Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { initRevisions } from "./helpers/images/revisions";
-import { initClubLogos } from "./helpers/images/club-logos";
-import { initLeagueLogos } from "./helpers/images/league-logos";
-import { initPlayerFlags } from "./helpers/images/player-flags";
-import { initPlayerImages } from "./helpers/images/player-images";
 
 function App() {
   const [user, setUser] = useState<User>({
@@ -23,12 +18,6 @@ function App() {
     const getUserData = async () => {
       const userData = await initUser();
       setUser(userData);
-
-      await initRevisions.logos();
-      await initClubLogos.logos();
-      await initLeagueLogos.logos();
-      await initPlayerFlags.logos();
-      await initPlayerImages.logos();
     };
     getUserData();
   }, [setUser]);

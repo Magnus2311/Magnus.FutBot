@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { getCardImages } from "../../helpers/images";
+import { useState } from "react";
+import { sasToken } from "../../helpers/constants";
 import { Card } from "../../models/models";
 
 interface Props {
@@ -9,19 +9,10 @@ interface Props {
 }
 
 export const CardImage = ({ card, size, onClick }: Props) => {
-  const [clubImg, setClubImg] = useState("");
-  const [flagImg, setFlagImg] = useState("");
-  const [playerImg, setPlayerImg] = useState("");
-  const [revisionImg, setRevisionImg] = useState("");
-
-  useEffect(() => {
-    getCardImages(card).then((imgObj) => {
-      setClubImg(imgObj.clubImg);
-      setFlagImg(imgObj.flagImg);
-      setPlayerImg(imgObj.playerImg);
-      setRevisionImg(imgObj.revisionImg);
-    });
-  }, []);
+  const [clubImg] = useState(`${card.clubLogo}${sasToken}`);
+  const [flagImg] = useState(`${card.nationLogo}${sasToken}`);
+  const [playerImg] = useState(`${card.playerImage}${sasToken}`);
+  const [revisionImg] = useState(`${card.backgroundImage}${sasToken}`);
 
   let scale = 0.3;
   let width = 99.6;

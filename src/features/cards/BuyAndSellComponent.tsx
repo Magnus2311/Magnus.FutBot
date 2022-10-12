@@ -95,9 +95,10 @@ export const BuyAndSellComponent = () => {
   };
 
   useEffect(() => {
-    getCardsConnection(dispatch).then((connection) =>
-      setConnection(connection)
-    );
+    getCardsConnection(dispatch).then((connection) => {
+      setConnection(connection);
+      console.log(123);
+    });
     dispatch(onProfilesRequests());
   }, [dispatch]);
 

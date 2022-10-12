@@ -40,6 +40,10 @@ export interface Card {
   rating: number;
   fullName: string;
   club: string;
+  clubLogo: string;
+  leagueLogo: string;
+  nationLogo: string;
+  backgroundImage: string;
   nation: string;
   league: string;
   playerImage: string;

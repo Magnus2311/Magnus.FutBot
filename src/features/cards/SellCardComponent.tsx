@@ -2,18 +2,17 @@ import { HubConnection } from "@microsoft/signalr";
 import { MouseEvent, useEffect, useState } from "react";
 import { Button, Form, FormControl, FormLabel, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { SellCardDTO } from "../../models/models";
-import { getCardsConnection, selectCards } from "./buyActions";
+import { useAppDispatch } from "../../app/hooks";
+import { Card, SellCardDTO } from "../../models/models";
+import { getCardsConnection } from "./buyActions";
 import { CardRow } from "./CardRow";
 
 export const SellCardComponent = () => {
   const [connection, setConnection] = useState<HubConnection | undefined>();
   const { cardId, email } = useParams();
-  const cards = useAppSelector(selectCards).cards;
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
-  const [cardToSell] = useState(cards.find((c) => c.cardId === cardId));
+  const [cardToSell, setCardToSell] = useState<Card | undefined>();
 
   const [sellCard, setSellCard] = useState<SellCardDTO>({
     card: cardToSell!,
@@ -24,7 +23,7 @@ export const SellCardComponent = () => {
 
   const handleBtnSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const sellCardDTO = { ...sellCard, email: email };
+    const sellCardDTO = { ...sellCard, email: email, card: cardToSell };
     connection?.invoke("SellCard", sellCardDTO);
   };
 
@@ -33,8 +32,10 @@ export const SellCardComponent = () => {
       setConnection(connection)
     );
 
-    connection?.invoke("GetCards");
-  }, [dispatch, connection]);
+    connection
+      ?.invoke("GetCardById", cardId)
+      .then((card: Card) => setCardToSell(card));
+  }, [dispatch, connection, cardId]);
 
   return (
     <Form

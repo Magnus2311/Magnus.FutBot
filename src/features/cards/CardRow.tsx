@@ -1,8 +1,7 @@
 import { Dropdown } from "react-bootstrap";
 import { Card } from "../../models/models";
 import * as Icon from "react-bootstrap-icons";
-import { getCardImages } from "../../helpers/images";
-import { useEffect, useState } from "react";
+import { sasToken } from "../../helpers/constants";
 
 export const CardRow = ({
   card,
@@ -13,21 +12,11 @@ export const CardRow = ({
   onSelectCard: (card: Card | undefined) => void;
   isRemoveable?: boolean;
 }) => {
-  const [clubImg, setClubImg] = useState("");
-  const [flagImg, setFlagImg] = useState("");
-  const [playerImg, setPlayerImg] = useState("");
-  const [revisionImg, setRevisionImg] = useState("");
-  const [leagueImg, setLeagueImg] = useState("");
-
-  useEffect(() => {
-    getCardImages(card).then((imgObj) => {
-      setClubImg(imgObj.clubImg);
-      setFlagImg(imgObj.flagImg);
-      setPlayerImg(imgObj.playerImg);
-      setRevisionImg(imgObj.revisionImg);
-      setLeagueImg(imgObj.leagueImg);
-    });
-  }, [card]);
+  const clubImg = `${card.clubLogo}${sasToken}`;
+  const flagImg = `${card.nationLogo}${sasToken}`;
+  const playerImg = `${card.playerImage}${sasToken}`;
+  const revisionImg = `${card.backgroundImage}${sasToken}`;
+  const leagueImg = `${card.leagueLogo}${sasToken}`;
 
   return (
     <Dropdown.Item
