@@ -3,16 +3,16 @@ import { toast } from "react-toastify";
 import { Action, Reducer } from "redux";
 import { AppThunk, RootState } from "../../../app/store";
 import { SIGNALR_PATH } from "../../../helpers/constants";
-import { TradeAction } from "../../../models/models";
+import { TradeActions } from "../../../models/models";
 import { setupSignalRConnection } from "../../../services/communication/signalRConnection";
 
 export interface ActionsState {
-  actions: TradeAction[];
+  actions: TradeActions;
 }
 
 interface OnActionsLoadedAction {
   type: "ON_ACTIONS_LOADED";
-  actions: TradeAction[];
+  actions: TradeActions;
 }
 
 interface OnActionCanceledAction {
@@ -23,7 +23,7 @@ interface OnActionCanceledAction {
 export type KnownAction = OnActionsLoadedAction | OnActionCanceledAction;
 
 export const onActionsLoadedAction = (
-  actions: TradeAction[]
+  actions: TradeActions
 ): OnActionsLoadedAction => ({
   type: "ON_ACTIONS_LOADED",
   actions,
@@ -43,7 +43,7 @@ export const actionCreators = {
       connection.invoke("GetAllActionsByProfileId", profileId);
     };
   },
-  onActionsLoaded: (actions: TradeAction[]): AppThunk<void, KnownAction> => {
+  onActionsLoaded: (actions: TradeActions): AppThunk<void, KnownAction> => {
     return (dispatch: any) => {
       dispatch(onActionsLoadedAction(actions));
     };
@@ -62,7 +62,11 @@ export const actionCreators = {
 };
 
 const initialState = {
-  actions: [],
+  actions: {
+    buyActions: [],
+    moveActions: [],
+    sellActions: [],
+  },
 } as ActionsState;
 
 export const actionsReducer: Reducer<ActionsState> = (
@@ -74,12 +78,26 @@ export const actionsReducer: Reducer<ActionsState> = (
     case "ON_ACTIONS_LOADED":
       return {
         ...state,
-        actions: [...action.actions],
+        actions: { ...action.actions },
       };
     case "ON_ACTION_REMOVED":
       return {
         ...state,
-        actions: [...state.actions.filter((a) => a.id !== action.actionId)],
+        actions: {
+          buyActions: [
+            ...state.actions.buyActions.filter((a) => a.id !== action.actionId),
+          ],
+          sellActions: [
+            ...state.actions.sellActions.filter(
+              (a) => a.id !== action.actionId
+            ),
+          ],
+          moveActions: [
+            ...state.actions.moveActions.filter(
+              (a) => a.id !== action.actionId
+            ),
+          ],
+        },
       };
     default:
       return state;

@@ -73,7 +73,7 @@ export const CurrentProfile = () => {
           <Accordion.Header>Additional Options</Accordion.Header>
           <Accordion.Body>
             <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-              <FormLabel>Is it bin (Buy-in-Now): </FormLabel>
+              <FormLabel>Relist items every hour: </FormLabel>
               <Switch
                 label=""
                 isChecked={autoRelist}

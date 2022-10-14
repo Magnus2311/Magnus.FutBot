@@ -189,10 +189,39 @@ export interface SellCardDTO {
   toBin?: number;
 }
 
+export interface BuyActionDTO {
+  id: string;
+  priority: number;
+  buyCardDTO: BuyCardDTO;
+  type: string;
+  description: string;
+}
+
+export interface SellActionDTO {
+  id: string;
+  priority: number;
+  sellCardDTO: SellCardDTO;
+  type: string;
+  description: string;
+}
+
+export interface MoveActionDTO {
+  id: string;
+  priority: number;
+  type: string;
+  description: string;
+}
+
 export interface TradeAction {
   id: string;
   type: string;
   description: string;
+}
+
+export interface TradeActions {
+  buyActions: BuyActionDTO[];
+  sellActions: SellActionDTO[];
+  moveActions: MoveActionDTO[];
 }
 
 export interface BuyAndSellCardDTO {
