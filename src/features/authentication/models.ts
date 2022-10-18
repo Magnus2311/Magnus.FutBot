@@ -38,3 +38,9 @@ export interface UserState {
   accessToken: string;
   refreshToken: string;
 }
+
+export enum TradeActionType {
+  Buy,
+  Sell,
+  Move,
+}

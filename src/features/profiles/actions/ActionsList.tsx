@@ -9,6 +9,7 @@ import * as Icon from "react-bootstrap-icons";
 import { BuyAction } from "./BuyAction";
 import { SellAction } from "./SellAction";
 import { MoveAction } from "./MoveAction";
+import { TradeActionType } from "../../authentication/models";
 
 interface Props {
   profileId: string;
@@ -35,8 +36,11 @@ export const ActionsList = ({ profileId }: Props) => {
     dispatch(onActionsRequested(profileId));
   }, [profileId, dispatch]);
 
-  const handleActionCancellation = (actionId: string) => {
-    dispatch(onActionCancel(profileId, actionId));
+  const handleActionCancellation = (
+    actionId: string,
+    actionType: TradeActionType
+  ) => {
+    dispatch(onActionCancel(actionId, actionType));
   };
 
   return (
@@ -47,7 +51,9 @@ export const ActionsList = ({ profileId }: Props) => {
         return (
           <BuyAction
             buyAction={buyAction}
-            onActionCancel={() => handleActionCancellation(buyAction.id)}
+            onActionCancel={() =>
+              handleActionCancellation(buyAction.id, TradeActionType.Buy)
+            }
           />
         );
       })}
@@ -58,7 +64,9 @@ export const ActionsList = ({ profileId }: Props) => {
         return (
           <SellAction
             sellAction={sellAction}
-            onActionCancel={() => handleActionCancellation(sellAction.id)}
+            onActionCancel={() =>
+              handleActionCancellation(sellAction.id, TradeActionType.Sell)
+            }
           />
         );
       })}
@@ -69,7 +77,9 @@ export const ActionsList = ({ profileId }: Props) => {
         return (
           <MoveAction
             moveAction={moveAction}
-            onActionCancel={() => handleActionCancellation(moveAction.id)}
+            onActionCancel={() =>
+              handleActionCancellation(moveAction.id, TradeActionType.Move)
+            }
           />
         );
       })}

@@ -5,6 +5,7 @@ import { AppThunk, RootState } from "../../../app/store";
 import { SIGNALR_PATH } from "../../../helpers/constants";
 import { TradeActions } from "../../../models/models";
 import { setupSignalRConnection } from "../../../services/communication/signalRConnection";
+import { TradeActionType } from "../../authentication/models";
 
 export interface ActionsState {
   actions: TradeActions;
@@ -40,7 +41,11 @@ export const actionCreators = {
   onActionsRequested: (profileId: string): AppThunk<void, KnownAction> => {
     return async (dispatch: any) => {
       const connection = await getActionsConnection(dispatch);
-      connection.invoke("GetAllActionsByProfileId", profileId);
+      connection
+        .invoke("GetAllActionsByProfileId", profileId)
+        .then((tradeActions: TradeActions) => {
+          dispatch(onActionsLoaded(tradeActions));
+        });
     };
   },
   onActionsLoaded: (actions: TradeActions): AppThunk<void, KnownAction> => {
@@ -48,10 +53,10 @@ export const actionCreators = {
       dispatch(onActionsLoadedAction(actions));
     };
   },
-  onActionCancel: (profileId: string, actionId: string) => {
+  onActionCancel: (actionId: string, actionyType: TradeActionType) => {
     return async (dispatch: any) => {
       const connection = await getActionsConnection(dispatch);
-      connection.invoke("CancelActionById", profileId, actionId);
+      connection.invoke("CancelActionById", actionId, actionyType);
     };
   },
   onActionCanceled: (actionId: string) => {

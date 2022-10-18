@@ -1,6 +1,3 @@
-import { Stats } from "fs";
-import { PackageId } from "typescript";
-
 export interface AddProfileDTO {
   email: string;
   password: string;
