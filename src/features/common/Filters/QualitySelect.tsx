@@ -17,6 +17,7 @@ export const QualitySelect = ({ handleSelect, value }: Props) => {
       <option>Bronze</option>
       <option>Silver</option>
       <option>Gold</option>
+      <option>Special</option>
     </Form.Select>
   );
 };
