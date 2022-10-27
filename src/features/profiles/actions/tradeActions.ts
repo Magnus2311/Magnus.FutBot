@@ -53,10 +53,14 @@ export const actionCreators = {
       dispatch(onActionsLoadedAction(actions));
     };
   },
-  onActionCancel: (actionId: string, actionyType: TradeActionType) => {
+  onActionCancel: (
+    profileId: string,
+    actionId: string,
+    actionyType: TradeActionType
+  ) => {
     return async (dispatch: any) => {
       const connection = await getActionsConnection(dispatch);
-      connection.invoke("CancelActionById", actionId, actionyType);
+      connection.invoke("CancelActionById", profileId, actionId, actionyType);
     };
   },
   onActionCanceled: (actionId: string) => {
