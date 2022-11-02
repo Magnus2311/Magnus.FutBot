@@ -11,7 +11,7 @@ const futbotWebEnvironment = Environments.Dev;
 const futbotApi = (environment: Environments) => {
   switch (environment) {
     case Environments.Dev:
-      return "https://localhost:7191/api/";
+      return "https://localhost:7168/api/";
     case Environments.Testing:
       return "https://warehouse-magnus-testing.azurewebsites.net/";
     case Environments.Production:
@@ -22,7 +22,7 @@ const futbotApi = (environment: Environments) => {
 const futbotSignalR = (environment: Environments) => {
   switch (environment) {
     case Environments.Dev:
-      return "https://localhost:7191/hubs";
+      return "https://localhost:7168/hubs";
     case Environments.Testing:
       return "https://warehouse-magnus-testing.azurewebsites.net/";
     case Environments.Production:
