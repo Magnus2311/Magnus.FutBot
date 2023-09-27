@@ -147,7 +147,7 @@ export const CurrentProfile = () => {
         <hr></hr>
       </Container>
       <h3>Transfer List:</h3>
-      {groupBy(currentProfile?.tradePile.transferList ?? [], "name").map(
+      {/* {groupBy(currentProfile?.tradePile.transferList ?? [], "name").map(
         ({ item, count }) => {
           return (
             <div>
@@ -163,7 +163,7 @@ export const CurrentProfile = () => {
             </div>
           );
         }
-      )}
+      )} */}
       <div style={{ display: "flex" }}>
         <h3
           style={{
@@ -183,7 +183,7 @@ export const CurrentProfile = () => {
           Send to Transfer List
         </Button>
       </div>
-      {groupBy(currentProfile?.tradePile.transferTargets ?? [], "name").map(
+      {/* {groupBy(currentProfile?.tradePile.transferTargets ?? [], "name").map(
         ({ item, count }) => {
           return (
             <div>
@@ -196,7 +196,7 @@ export const CurrentProfile = () => {
             </div>
           );
         }
-      )}
+      )} */}
       <div style={{ display: "flex" }}>
         <h3
           style={{
@@ -216,7 +216,7 @@ export const CurrentProfile = () => {
           Send to Transfer List
         </Button>
       </div>
-      {groupBy(currentProfile?.tradePile.unassignedItems ?? [], "name").map(
+      {/* {groupBy(currentProfile?.tradePile.unassignedItems ?? [], "name").map(
         ({ item, count }) => {
           return (
             <div>
@@ -229,7 +229,7 @@ export const CurrentProfile = () => {
             </div>
           );
         }
-      )}
+      )} */}
     </Form>
   );
 };
