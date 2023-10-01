@@ -147,23 +147,28 @@ export const CurrentProfile = () => {
         <hr></hr>
       </Container>
       <h3>Transfer List:</h3>
-      {/* {groupBy(currentProfile?.tradePile.transferList ?? [], "name").map(
-        ({ item, count }) => {
-          return (
-            <div>
-              <CardImage
+      {(currentProfile?.tradePile.transferList ?? []).map((card) => {
+        return (
+          <div>
+            {/* <CardImage
                 size="small"
                 card={item.possibleCards[0]}
                 onClick={() => {
                   navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
                 }}
-              />
-              <div>Count: {count} / 100</div>
-              <hr></hr>
+              /> */}
+            <div
+              onClick={() => {
+                navigation(`/sell/${card.card.eaId}/${email}`);
+              }}
+            >
+              {card.card.name}
             </div>
-          );
-        }
-      )} */}
+            {/* <div>Count: {count} / 100</div> */}
+            <hr></hr>
+          </div>
+        );
+      })}
       <div style={{ display: "flex" }}>
         <h3
           style={{

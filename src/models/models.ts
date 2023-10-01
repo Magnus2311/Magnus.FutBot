@@ -26,12 +26,13 @@ export interface TradePile {
 }
 
 export interface TransferCard {
-  possibleCards: Card[];
+  card: Card;
   playerCardStatus: PlayerCardStatus;
   bougthFor: number;
 }
 
 export interface Card {
+  eaId: number;
   cardId: string;
   name: string;
   rating: number;

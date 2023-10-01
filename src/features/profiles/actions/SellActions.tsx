@@ -27,7 +27,7 @@ export const SellActions = ({ profileId, sellActions }: Props) => {
       {sellActions.map((sellAction) => {
         return (
           <>
-            {sellAction.sellCardDTO.card ? (
+            {/* {sellAction.sellCardDTO.card ? (
               <div>
                 <Icon.PlusCircleFill size={20} color="green" />
                 Player: {sellAction.sellCardDTO.card?.name}
@@ -45,7 +45,7 @@ export const SellActions = ({ profileId, sellActions }: Props) => {
             ) : (
               <Spinner animation="border" />
             )}
-            <hr />
+            <hr /> */}
           </>
         );
       })}

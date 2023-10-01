@@ -33,7 +33,7 @@ export const SellCardComponent = () => {
     );
 
     connection
-      ?.invoke("GetCardById", cardId)
+      ?.invoke("GetCardById", parseInt(cardId ?? "-1"))
       .then((card: Card) => setCardToSell(card));
   }, [dispatch, connection, cardId]);
 
