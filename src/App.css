@@ -63,8 +63,8 @@ body {
 body {
   --border-radius: 5px;
 }
-  
-@media (prefers-color-scheme: dark) {
+
+@media (prefers-color-scheme: light) {
   body {
     --text-color: #fff;
     --bkg-color: #212121;
@@ -96,7 +96,7 @@ body {
   }
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   body {
     --text-color: #222;
     --bkg-color: #fff;
