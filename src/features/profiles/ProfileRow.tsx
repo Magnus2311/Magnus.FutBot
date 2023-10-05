@@ -15,11 +15,6 @@ const RefreshImage = require("../../../../assets/refresh.png");
 
 const templateProfile = {
   email: "iavor.orlyov1@gmail.com",
-  wonTargetsCount: 37,
-  activeBidsCount: 11,
-  unassignedCount: 3,
-  transferListCount: 72,
-  outbidded: 3,
   coins: 2486919,
   status: LoginStatusType.Successful,
 } as ProfileDTO;
@@ -81,30 +76,32 @@ const ProfileRow = ({
         />
       </div>
       <div style={{ placeItems: "center", display: "flex" }}>
+        <ImageContent src={cancel} alt="Outbidded count" content={0} />
+        <ImageContent src={checked} alt="Won targets count" content={0} />
         <ImageContent
-          src={cancel}
-          alt="Outbidded count"
-          content={profile.outbidded}
-        />
-        <ImageContent
-          src={checked}
-          alt="Won targets count"
-          content={profile.wonTargetsCount}
+          src={contract}
+          alt="Sold Items"
+          content={profile.tradePile.transferList.soldItems.length}
         />
         <ImageContent
           src={contract}
-          alt="Transfer list count"
-          content={profile.transferListCount}
+          alt="Unsold Items"
+          content={profile.tradePile.transferList.unsoldItems.length}
         />
         <ImageContent
-          src={hourglass}
-          alt="Active bids count"
-          content={profile.activeBidsCount}
+          src={contract}
+          alt="Available Items"
+          content={profile.tradePile.transferList.availableItems.length}
+        />
+        <ImageContent
+          src={contract}
+          alt="Active Items"
+          content={profile.tradePile.transferList.activeTransfers.length}
         />
         <ImageContent
           src={tasks}
           alt="Unassigned count"
-          content={profile.unassignedCount}
+          content={profile.tradePile.unassignedItems.length}
         />
       </div>
     </div>

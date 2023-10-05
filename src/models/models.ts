@@ -9,26 +9,27 @@ export interface ProfileDTO {
   password: string;
   coins: number;
   status: LoginStatusType;
-  activeBidsCount: number;
-  wonTargetsCount: number;
-  transferListCount: number;
-  unassignedCount: number;
-  outbidded: number;
   tradePile: TradePile;
   autoRelist: boolean;
 }
 
 export interface TradePile {
-  transferList: TransferCard[];
+  transferList: TransferList;
   unassignedItems: TransferCard[];
   transferTargets: TransferCard[];
   clubItems: TransferCard[];
 }
 
+export interface TransferList {
+  soldItems: TransferCard[];
+  unsoldItems: TransferCard[];
+  availableItems: TransferCard[];
+  activeTransfers: TransferCard[];
+}
+
 export interface TransferCard {
   card: Card;
-  playerCardStatus: PlayerCardStatus;
-  bougthFor: number;
+  count: number;
 }
 
 export interface Card {

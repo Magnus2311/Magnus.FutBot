@@ -63,6 +63,12 @@ export const actionCreators = {
       connection.invoke("CancelActionById", profileId, actionId, actionyType);
     };
   },
+  onAllActionsCanceled: (profileId: string) => {
+    return async (dispatch: any) => {
+      const connection = await getActionsConnection(dispatch);
+      connection.invoke("CancelAllActionsById", profileId);
+    };
+  },
   onActionCanceled: (actionId: string) => {
     return async (dispatch: any) => {
       dispatch(onActionCanceledAction(actionId));
@@ -118,6 +124,7 @@ export const {
   onActionsLoaded,
   onActionsRequested,
   onActionCancel,
+  onAllActionsCanceled,
 } = actionCreators;
 
 export const selectActions = (state: RootState) => state.actions;

@@ -120,34 +120,29 @@ export const CurrentProfile = () => {
             </Row>
           </Col>
         </Row>
-        <Row style={{ width: "100%" }}>
-          <Col>
-            <div>Active Bids: {currentProfile?.activeBidsCount}</div>
-          </Col>
-          <Col>
-            <div>Outbidded: {currentProfile?.outbidded}</div>
-          </Col>
-        </Row>
+        <Row style={{ width: "100%" }}></Row>
         <Row style={{ width: "100%" }}>
           <Col>
             <div>Status: {currentProfile?.status}</div>
           </Col>
           <Col>
-            <div>Transfer List: {currentProfile?.transferListCount}</div>
+            <div>
+              Transfer List:{" "}
+              {currentProfile?.tradePile.transferList.activeTransfers.length}
+            </div>
           </Col>
         </Row>
         <Row style={{ width: "100%" }}>
           <Col>
-            <div>Unassigned: {currentProfile?.unassignedCount}</div>
-          </Col>
-          <Col>
-            <div>Won Targets: {currentProfile?.wonTargetsCount}</div>
+            <div>
+              Unassigned: {currentProfile?.tradePile.unassignedItems.length}
+            </div>
           </Col>
         </Row>
         <hr></hr>
       </Container>
-      <h3>Transfer List:</h3>
-      {(currentProfile?.tradePile.transferList ?? []).map((card) => {
+      <h3>Unassigned Items:</h3>
+      {(currentProfile?.tradePile.unassignedItems ?? []).map((transferCard) => {
         return (
           <div>
             {/* <CardImage
@@ -159,16 +154,116 @@ export const CurrentProfile = () => {
               /> */}
             <div
               onClick={() => {
-                navigation(`/sell/${card.card.eaId}/${email}`);
+                navigation(`/sell/${transferCard.card.eaId}/${email}`);
               }}
             >
-              {card.card.name}
+              {transferCard.card.name}
             </div>
-            {/* <div>Count: {count} / 100</div> */}
+            <div>Count: {transferCard.count}</div>
             <hr></hr>
           </div>
         );
       })}
+      <h3>Sold Items:</h3>
+      {(currentProfile?.tradePile.transferList.soldItems ?? []).map(
+        (transferCard) => {
+          return (
+            <div>
+              {/* <CardImage
+                size="small"
+                card={item.possibleCards[0]}
+                onClick={() => {
+                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
+                }}
+              /> */}
+              <div
+                onClick={() => {
+                  navigation(`/sell/${transferCard.card.eaId}/${email}`);
+                }}
+              >
+                {transferCard.card.name}
+              </div>
+              <div>Count: {transferCard.count} / 100</div>
+              <hr></hr>
+            </div>
+          );
+        }
+      )}
+      <h3>Unsold Items:</h3>
+      {(currentProfile?.tradePile.transferList.unsoldItems ?? []).map(
+        (transferCard) => {
+          return (
+            <div>
+              {/* <CardImage
+                size="small"
+                card={item.possibleCards[0]}
+                onClick={() => {
+                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
+                }}
+              /> */}
+              <div
+                onClick={() => {
+                  navigation(`/sell/${transferCard.card.eaId}/${email}`);
+                }}
+              >
+                {transferCard.card.name}
+              </div>
+              <div>Count: {transferCard.count} / 100</div>
+              <hr></hr>
+            </div>
+          );
+        }
+      )}
+      <h3>Available Items:</h3>
+      {(currentProfile?.tradePile.transferList.availableItems ?? []).map(
+        (transferCard) => {
+          return (
+            <div>
+              {/* <CardImage
+                size="small"
+                card={item.possibleCards[0]}
+                onClick={() => {
+                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
+                }}
+              /> */}
+              <div
+                onClick={() => {
+                  navigation(`/sell/${transferCard.card.eaId}/${email}`);
+                }}
+              >
+                {transferCard.card.name}
+              </div>
+              <div>Count: {transferCard.count} / 100</div>
+              <hr></hr>
+            </div>
+          );
+        }
+      )}
+      <h3>Active Items:</h3>
+      {(currentProfile?.tradePile.transferList.activeTransfers ?? []).map(
+        (transferCard) => {
+          return (
+            <div>
+              {/* <CardImage
+                size="small"
+                card={item.possibleCards[0]}
+                onClick={() => {
+                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
+                }}
+              /> */}
+              <div
+                onClick={() => {
+                  navigation(`/sell/${transferCard.card.eaId}/${email}`);
+                }}
+              >
+                {transferCard.card.name}
+              </div>
+              <div>Count: {transferCard.count} / 100</div>
+              <hr></hr>
+            </div>
+          );
+        }
+      )}
       <div style={{ display: "flex" }}>
         <h3
           style={{
