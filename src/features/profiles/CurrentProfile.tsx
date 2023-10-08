@@ -1,5 +1,5 @@
 import { HubConnection } from "@microsoft/signalr";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import {
   Accordion,
   Button,
@@ -11,9 +11,7 @@ import {
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { groupBy } from "../../helpers/additionalFunctions";
 import { getCardsConnection } from "../cards/buyActions";
-import { CardImage } from "../common/CardImage";
 import {
   getProfileConnection,
   onProfilesRequests,
@@ -60,6 +58,13 @@ export const CurrentProfile = () => {
       setAutoRelist(profile!.autoRelist);
     }
   }, [dispatch, profiles.length, currentProfile, email, profiles]);
+
+  const handleRelistAll = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const profileDTO = currentProfile;
+    cardsConnection?.invoke("RelistAllForProfile", profileDTO);
+  };
 
   return (
     <Form
@@ -141,6 +146,7 @@ export const CurrentProfile = () => {
         </Row>
         <hr></hr>
       </Container>
+      <Button onClick={handleRelistAll}>Relist all</Button>
       <h3>Unassigned Items:</h3>
       {(currentProfile?.tradePile.unassignedItems ?? []).map((transferCard) => {
         return (
