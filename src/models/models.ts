@@ -238,3 +238,21 @@ export interface BuyAndSellCardDTO {
   fromBin: number;
   toBin?: number;
 }
+
+export enum TradeHistoryActionType {
+  Buy,
+  Sell,
+  BuyAndSell,
+}
+
+export interface TradeDTO {
+  id: string;
+  userId: string;
+  profileId: string;
+  isDeleted: boolean;
+  createdDate: Date;
+  buyCardDTO: BuyCardDTO;
+  sellCardDTO: SellCardDTO;
+  buyAndSellCardDTO: BuyAndSellCardDTO;
+  tradeHistoryActionType: TradeHistoryActionType;
+}

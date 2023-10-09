@@ -3,6 +3,7 @@ import { reducer as profilesReducer } from "../features/profiles/profileActions"
 import { reducer as playersReducer } from "../features/players/playersActions";
 import { reducer as cardsReducer } from "../features/cards/buyActions";
 import { actionsReducer } from "../features/profiles/actions/tradeActions";
+import { tradesReducer } from "../features/history/tradeHistoryActions";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     players: playersReducer,
     cards: cardsReducer,
     actions: actionsReducer,
+    trades: tradesReducer,
   },
 });
 
