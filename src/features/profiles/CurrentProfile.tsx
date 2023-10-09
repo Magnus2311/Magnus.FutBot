@@ -32,12 +32,10 @@ export const CurrentProfile = () => {
   const { profiles } = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   const { email } = useParams();
-  const [currentProfile, setCurrentProfile] = useState(
+  const [profile, setProfile] = useState(
     profiles.find((p) => p.email.toLowerCase() === email?.toLowerCase())
   );
-  const [autoRelist, setAutoRelist] = useState(
-    currentProfile?.autoRelist ?? false
-  );
+  const [autoRelist, setAutoRelist] = useState(profile?.autoRelist ?? false);
 
   useEffect(() => {
     getCardsConnection(dispatch).then((connection) =>
@@ -48,22 +46,22 @@ export const CurrentProfile = () => {
     );
     if (profiles.length === 0) {
       dispatch(onProfilesRequests());
-    } else if (currentProfile) {
+    } else if (profile) {
       // dispatch(onProfileRefreshRequested(currentProfile.id));
     } else {
       const profile = profiles.find(
         (p) => p.email.toLowerCase() === email?.toLowerCase()
       );
-      setCurrentProfile(profile);
+      setProfile(profile);
       setAutoRelist(profile!.autoRelist);
     }
-  }, [dispatch, profiles.length, currentProfile, email, profiles]);
+  }, [dispatch, profiles.length, profile, email, profiles]);
 
   const handleRelistAll = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const profileDTO = currentProfile;
-    cardsConnection?.invoke("RelistAllForProfile", profileDTO);
+    const profileDTO = profile;
+    cardsConnection?.invoke("RelistAllForProfile", profileDTO?.email);
   };
 
   return (
@@ -86,7 +84,7 @@ export const CurrentProfile = () => {
                   const newValue = !autoRelist;
                   setAutoRelist(newValue);
                   const profileData = {
-                    profileId: currentProfile?.id,
+                    profileId: profile?.id,
                     autoRelist: newValue,
                   };
                   profilesConnection?.invoke("SetAutoRelist", profileData);
@@ -95,11 +93,11 @@ export const CurrentProfile = () => {
             </Form.Group>
           </Accordion.Body>
         </Accordion.Item>
-        {currentProfile && (
+        {profile && (
           <Accordion.Item eventKey="1">
             <Accordion.Header>Current Actions</Accordion.Header>
             <Accordion.Body>
-              <ActionsList profileId={currentProfile.id} />
+              <ActionsList profileId={profile.id} />
             </Accordion.Body>
           </Accordion.Item>
         )}
@@ -109,7 +107,7 @@ export const CurrentProfile = () => {
           <Col>
             <Row>
               <Col>
-                <h4>{currentProfile?.email}</h4>
+                <h4>{profile?.email}</h4>
               </Col>
               <Col>
                 <Icon.Pen
@@ -121,34 +119,32 @@ export const CurrentProfile = () => {
               </Col>
             </Row>
             <Row>
-              <div>Coins: {currentProfile?.coins}</div>
+              <div>Coins: {profile?.coins}</div>
             </Row>
           </Col>
         </Row>
         <Row style={{ width: "100%" }}></Row>
         <Row style={{ width: "100%" }}>
           <Col>
-            <div>Status: {currentProfile?.status}</div>
+            <div>Status: {profile?.status}</div>
           </Col>
           <Col>
             <div>
               Transfer List:{" "}
-              {currentProfile?.tradePile.transferList.activeTransfers.length}
+              {profile?.tradePile.transferList.activeTransfers.length}
             </div>
           </Col>
         </Row>
         <Row style={{ width: "100%" }}>
           <Col>
-            <div>
-              Unassigned: {currentProfile?.tradePile.unassignedItems.length}
-            </div>
+            <div>Unassigned: {profile?.tradePile.unassignedItems.length}</div>
           </Col>
         </Row>
         <hr></hr>
       </Container>
       <Button onClick={handleRelistAll}>Relist all</Button>
       <h3>Unassigned Items:</h3>
-      {(currentProfile?.tradePile.unassignedItems ?? []).map((transferCard) => {
+      {(profile?.tradePile.unassignedItems ?? []).map((transferCard) => {
         return (
           <div>
             {/* <CardImage
@@ -171,32 +167,30 @@ export const CurrentProfile = () => {
         );
       })}
       <h3>Sold Items:</h3>
-      {(currentProfile?.tradePile.transferList.soldItems ?? []).map(
-        (transferCard) => {
-          return (
-            <div>
-              {/* <CardImage
+      {(profile?.tradePile.transferList.soldItems ?? []).map((transferCard) => {
+        return (
+          <div>
+            {/* <CardImage
                 size="small"
                 card={item.possibleCards[0]}
                 onClick={() => {
                   navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
                 }}
               /> */}
-              <div
-                onClick={() => {
-                  navigation(`/sell/${transferCard.card.eaId}/${email}`);
-                }}
-              >
-                {transferCard.card.name}
-              </div>
-              <div>Count: {transferCard.count} / 100</div>
-              <hr></hr>
+            <div
+              onClick={() => {
+                navigation(`/sell/${transferCard.card.eaId}/${email}`);
+              }}
+            >
+              {transferCard.card.name}
             </div>
-          );
-        }
-      )}
+            <div>Count: {transferCard.count} / 100</div>
+            <hr></hr>
+          </div>
+        );
+      })}
       <h3>Unsold Items:</h3>
-      {(currentProfile?.tradePile.transferList.unsoldItems ?? []).map(
+      {(profile?.tradePile.transferList.unsoldItems ?? []).map(
         (transferCard) => {
           return (
             <div>
@@ -221,7 +215,7 @@ export const CurrentProfile = () => {
         }
       )}
       <h3>Available Items:</h3>
-      {(currentProfile?.tradePile.transferList.availableItems ?? []).map(
+      {(profile?.tradePile.transferList.availableItems ?? []).map(
         (transferCard) => {
           return (
             <div>
@@ -246,7 +240,7 @@ export const CurrentProfile = () => {
         }
       )}
       <h3>Active Items:</h3>
-      {(currentProfile?.tradePile.transferList.activeTransfers ?? []).map(
+      {(profile?.tradePile.transferList.activeTransfers ?? []).map(
         (transferCard) => {
           return (
             <div>
