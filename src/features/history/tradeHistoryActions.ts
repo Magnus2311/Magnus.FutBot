@@ -4,6 +4,7 @@ import { TradeDTO } from "../../models/models";
 import { AppThunk, RootState } from "../../app/store";
 import { setupSignalRConnection } from "../../services/communication/signalRConnection";
 import { SIGNALR_PATH } from "../../helpers/constants";
+import { authenticatedGet } from "../../services/communication/connectionServices";
 
 export interface ActionsState {
   trades: TradeDTO[];
@@ -36,12 +37,15 @@ export const onTradeAddedAction = (trade: TradeDTO): OnTradedAddedAction => ({
 export const actionCreators = {
   onTradesRequested: (profileId: string): AppThunk<void, KnownAction> => {
     return async (dispatch: any) => {
-      const connection = await getActionsConnection(dispatch);
-      connection
-        .invoke("GetAllTradesByProfileId", profileId)
-        .then((trades: TradeDTO[]) => {
-          dispatch(onTradesLoadedAction(trades));
-        });
+      authenticatedGet<TradeDTO[]>("trades").then((trades: TradeDTO[]) => {
+        dispatch(onTradesLoadedAction(trades));
+      });
+      // const connection = await getActionsConnection(dispatch);
+      // connection
+      //   .invoke("GetAllTradesByProfileId", profileId)
+      //   .then((trades: TradeDTO[]) => {
+      //     dispatch(onTradesLoadedAction(trades));
+      //   });
     };
   },
   onTradeAdded: (trade: TradeDTO): AppThunk<void, KnownAction> => {

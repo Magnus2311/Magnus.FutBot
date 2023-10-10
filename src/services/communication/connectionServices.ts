@@ -92,7 +92,7 @@ export async function authenticatedPost<T>(url: string, data: any): Promise<T> {
 
 export const authenticatedGet = async <T>(url: string) => {
   const searchParams = new URLSearchParams({
-    accessToken: (await getAccessToken()) ?? "",
+    access_token: (await getAccessToken()) ?? "",
   });
 
   const response = await fetch(`${API_PATH}${url}` + searchParams);
