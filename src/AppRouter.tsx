@@ -16,6 +16,7 @@ import { AddProfile } from "./features/profiles/AddProfile";
 import { CurrentProfile } from "./features/profiles/CurrentProfile";
 import { EditProfile } from "./features/profiles/EditProfile";
 import { IndexProfiles } from "./features/profiles/IndexProfiles";
+import TradesIndex from "./features/history/TradesIndex";
 
 const AppRouter = () => {
   return (
@@ -73,6 +74,7 @@ const AppRouter = () => {
       <Route path="/auth/email-sent/" element={<EmailSent />} />
       <Route path="/auth/reset-password" element={<ResetPassword />} />
       <Route path="/players" element={<PlayersIndex />} />
+      <Route path="/trades/index/:email" element={<TradesIndex />} />
     </Routes>
   );
 };

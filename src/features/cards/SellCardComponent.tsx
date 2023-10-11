@@ -1,13 +1,19 @@
 import { HubConnection } from "@microsoft/signalr";
 import { MouseEvent, useEffect, useState } from "react";
 import { Button, Form, FormControl, FormLabel, Spinner } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useAppDispatch } from "../../app/hooks";
 import { Card, SellCardDTO } from "../../models/models";
 import { getCardsConnection } from "./buyActions";
 import { CardRow } from "./CardRow";
 
+interface NavigationState {
+  sellCardDTO?: SellCardDTO;
+}
 export const SellCardComponent = () => {
+  const locationState = useLocation().state as NavigationState;
+  const incomingSellPlayerDTO = locationState?.sellCardDTO;
+
   const [connection, setConnection] = useState<HubConnection | undefined>();
   const { cardId, email } = useParams();
   const navigation = useNavigate();
@@ -16,14 +22,20 @@ export const SellCardComponent = () => {
 
   const [sellCard, setSellCard] = useState<SellCardDTO>({
     card: cardToSell!,
+    email: "",
     count: 0,
     fromBid: 0,
     fromBin: 0,
+    ...incomingSellPlayerDTO,
   });
 
   const handleBtnSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const sellCardDTO = { ...sellCard, email: email, card: cardToSell };
+    const sellCardDTO = {
+      ...sellCard,
+      email: email ?? incomingSellPlayerDTO?.email,
+      card: cardToSell,
+    };
     connection?.invoke("SellCard", sellCardDTO);
   };
 
@@ -33,7 +45,10 @@ export const SellCardComponent = () => {
     );
 
     connection
-      ?.invoke("GetCardById", parseInt(cardId ?? "-1"))
+      ?.invoke(
+        "GetCardById",
+        parseInt(cardId ?? incomingSellPlayerDTO?.card.cardId ?? "")
+      )
       .then((card: Card) => setCardToSell(card));
   }, [dispatch, connection, cardId]);
 

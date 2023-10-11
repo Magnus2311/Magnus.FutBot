@@ -1,9 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { onTradesRequested, selectTrades } from "./tradeHistoryActions";
 import { useEffect, useState } from "react";
-import { selectProfiles } from "../profiles/profileActions";
-import { TradeHistoryActionType } from "../../models/models";
+import { onProfilesRequests, selectProfiles } from "../profiles/profileActions";
+import { ProfileDTO, TradeHistoryActionType } from "../../models/models";
 import {
   BuyAndSellComponent,
   BuyTradeComponent,
@@ -15,16 +15,25 @@ const TradesIndex = () => {
   const { trades } = useAppSelector(selectTrades);
   const dispatch = useAppDispatch();
   const { email } = useParams();
-  const [profile] = useState(
-    profiles.find((p) => p.email.toLowerCase() === email?.toLowerCase())
-  );
+  const [profile, setProfile] = useState<ProfileDTO>();
 
   useEffect(() => {
-    profile && dispatch(onTradesRequested(profile.id));
-  }, [dispatch, profile]);
+    const tempProfile = profiles.find(
+      (p) => p.email.toLowerCase() === email?.toLowerCase()
+    );
+
+    if (tempProfile) {
+      setProfile(tempProfile);
+      profile && dispatch(onTradesRequested(profile.id));
+    }
+  }, [dispatch, profile, profiles]);
+
+  useEffect(() => {
+    (!profiles || profiles.length === 0) && dispatch(onProfilesRequests());
+  }, [profiles]);
 
   return (
-    <div>
+    <div style={{ width: "80%" }}>
       <h2>Trades history:</h2>
       {trades.map((trade) => {
         if (trade.tradeHistoryActionType === TradeHistoryActionType.Buy)

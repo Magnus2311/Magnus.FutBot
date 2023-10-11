@@ -57,6 +57,12 @@ export const CurrentProfile = () => {
     }
   }, [dispatch, profiles.length, profile, email, profiles]);
 
+  const handleTradesRequest = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    navigation(`/trades/index/${profile?.email}`);
+  };
+
   const handleRelistAll = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -142,6 +148,7 @@ export const CurrentProfile = () => {
         </Row>
         <hr></hr>
       </Container>
+      <Button onClick={handleTradesRequest}>Trades</Button>
       <Button onClick={handleRelistAll}>Relist all</Button>
       <h3>Unassigned Items:</h3>
       {(profile?.tradePile.unassignedItems ?? []).map((transferCard) => {

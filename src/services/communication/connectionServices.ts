@@ -90,12 +90,18 @@ export async function authenticatedPost<T>(url: string, data: any): Promise<T> {
   return {} as T;
 }
 
-export const authenticatedGet = async <T>(url: string) => {
-  const searchParams = new URLSearchParams({
-    access_token: (await getAccessToken()) ?? "",
+export async function authenticatedGet<T>(
+  url: string,
+  headers: any = []
+): Promise<T> {
+  const response = await fetch(`${API_PATH}${url}`, {
+    method: "GET",
+    headers: {
+      Authorization: await getAccessToken(),
+      ...headers,
+    },
   });
 
-  const response = await fetch(`${API_PATH}${url}` + searchParams);
   if (response.ok) {
     try {
       return (await response.json()) as T;
@@ -105,4 +111,4 @@ export const authenticatedGet = async <T>(url: string) => {
   }
 
   return [] as unknown as T;
-};
+}

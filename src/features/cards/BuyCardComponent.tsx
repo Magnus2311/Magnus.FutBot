@@ -2,7 +2,7 @@ import { HubConnection } from "@microsoft/signalr";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { BuyCardDTO as BuyCard, Card } from "../../models/models";
+import { BuyCardDTO as BuyCard, BuyCardDTO, Card } from "../../models/models";
 import { ChemistrySelect } from "../common/Filters/ChemistrySelect";
 import { LeagueSelect } from "../common/Filters/LeagueSelect";
 import { NationallitySelect } from "../common/Filters/NationallitySelect";
@@ -15,9 +15,18 @@ import { onProfilesRequests, selectProfiles } from "../profiles/profileActions";
 import { getCardsConnection } from "./buyActions";
 import { CardRow } from "./CardRow";
 import { SelectCardIndex } from "./SelectCardIndex";
+import { useLocation } from "react-router-dom";
+
+interface NavigationState {
+  buyCardDTO?: BuyCardDTO;
+}
 
 export const BuyCardComponent = () => {
-  const [card, setCard] = useState<Card | undefined>();
+  const locationState = useLocation().state as NavigationState;
+  const incomingBuyPlayerDTO = locationState?.buyCardDTO;
+  const [card, setCard] = useState<Card | undefined>(
+    incomingBuyPlayerDTO?.card
+  );
 
   const [buyPlayer, setBuyPlayer] = useState<BuyCard>({
     card: card,
@@ -26,17 +35,20 @@ export const BuyCardComponent = () => {
     position: "Any",
     chemistry: "Any",
     nationallity: "Any",
+    email: "",
     isBin: false,
     count: 0,
     price: 0,
+    ...incomingBuyPlayerDTO,
   });
+
+  const [selectedProfile, setSelectedProfile] = useState(
+    incomingBuyPlayerDTO?.email
+  );
 
   const [connection, setConnection] = useState<HubConnection | undefined>();
   const dispatch = useAppDispatch();
   const profiles = useAppSelector(selectProfiles).profiles;
-  const [selectedProfile, setSelectedProfile] = useState(
-    profiles.length > 0 ? profiles[0].email : undefined
-  );
   const [quality, setQuality] = useState("Any");
   const [rarity, setRarity] = useState("Any");
   const [position, setPosition] = useState("Any");

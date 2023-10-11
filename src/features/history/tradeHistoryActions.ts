@@ -37,9 +37,11 @@ export const onTradeAddedAction = (trade: TradeDTO): OnTradedAddedAction => ({
 export const actionCreators = {
   onTradesRequested: (profileId: string): AppThunk<void, KnownAction> => {
     return async (dispatch: any) => {
-      authenticatedGet<TradeDTO[]>("trades").then((trades: TradeDTO[]) => {
-        dispatch(onTradesLoadedAction(trades));
-      });
+      authenticatedGet<TradeDTO[]>(`trades?profileId=${profileId}`).then(
+        (trades: TradeDTO[]) => {
+          dispatch(onTradesLoadedAction(trades));
+        }
+      );
       // const connection = await getActionsConnection(dispatch);
       // connection
       //   .invoke("GetAllTradesByProfileId", profileId)
@@ -68,7 +70,7 @@ export const tradesReducer: Reducer<ActionsState> = (
     case "ON_TRADES_LOADED":
       return {
         ...state,
-        trades: { ...action.trades },
+        trades: [...action.trades],
       };
     case "ON_TRADE_ADDED_ACTION":
       return {

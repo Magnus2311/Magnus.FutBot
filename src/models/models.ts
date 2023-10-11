@@ -177,6 +177,7 @@ export interface BuyCardDTO {
   isBin: boolean;
   count: number;
   price: number;
+  email: string;
 }
 
 export interface SellCardDTO {
@@ -186,6 +187,7 @@ export interface SellCardDTO {
   toBid?: number;
   fromBin: number;
   toBin?: number;
+  email: string;
 }
 
 export interface BuyActionDTO {
@@ -237,6 +239,7 @@ export interface BuyAndSellCardDTO {
   toBid?: number;
   fromBin: number;
   toBin?: number;
+  email: string;
 }
 
 export enum TradeHistoryActionType {

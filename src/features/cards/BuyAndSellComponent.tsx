@@ -15,17 +15,28 @@ import { onProfilesRequests, selectProfiles } from "../profiles/profileActions";
 import { getCardsConnection } from "./buyActions";
 import { CardRow } from "./CardRow";
 import { SelectCardIndex } from "./SelectCardIndex";
+import { useLocation } from "react-router";
+
+interface NavigationState {
+  buySellPlayerInc?: BuyAndSellCardDTO;
+}
 
 export const BuyAndSellComponent = () => {
-  const [card, setCard] = useState<Card | undefined>();
+  const locationState = useLocation().state as NavigationState;
+  const incomingBuySellPlayer = locationState?.buySellPlayerInc;
+
+  const [card, setCard] = useState<Card | undefined>(
+    incomingBuySellPlayer?.card
+  );
 
   const [buySellPlayer, setBuyPlayer] = useState<BuyAndSellCardDTO>({
-    card: card,
+    card: undefined,
     quality: "Any",
     rarity: "Any",
     position: "Any",
     chemistry: "Any",
     nationallity: "Any",
+    email: "",
     isBin: false,
     count: 0,
     price: 0,
@@ -33,13 +44,14 @@ export const BuyAndSellComponent = () => {
     fromBin: 0,
     toBid: 0,
     toBin: 0,
+    ...incomingBuySellPlayer,
   });
 
   const [connection, setConnection] = useState<HubConnection | undefined>();
   const dispatch = useAppDispatch();
   const profiles = useAppSelector(selectProfiles).profiles;
   const [selectedProfile, setSelectedProfile] = useState(
-    profiles.length > 0 ? profiles[0].email : undefined
+    incomingBuySellPlayer && incomingBuySellPlayer.email
   );
   const [quality, setQuality] = useState("Any");
   const [rarity, setRarity] = useState("Any");
