@@ -4,14 +4,14 @@ import { useAppDispatch } from "../../app/hooks";
 import { useNavigate } from "react-router";
 import { getProfileConnection } from "./profileActions";
 
-const coin = require("../../../../assets/profiles/coin.png");
-const checked = require("../../../../assets/profiles/checked.png");
-const contract = require("../../../../assets/profiles/contract.png");
-const hourglass = require("../../../../assets/profiles/hourglass.png");
-const tasks = require("../../../../assets/profiles/tasks.png");
-const man = require("../../../../assets/profiles/man.png");
-const cancel = require("../../../../assets/profiles/cancel.png");
-const RefreshImage = require("../../../../assets/refresh.png");
+import coin from "../../assets/coin.png";
+import checked from "../../assets/coin.png";
+import contract from "../../assets/coin.png";
+import hourglass from "../../assets/coin.png";
+import tasks from "../../assets/coin.png";
+import man from "../../assets/coin.png";
+import cancel from "../../assets/coin.png";
+import RefreshImage from "../../assets/coin.png";
 
 const templateProfile = {
   email: "iavor.orlyov1@gmail.com",

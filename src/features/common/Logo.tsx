@@ -1,4 +1,4 @@
-import logo from "../../../../assets/logos/fut-bot-logo.png";
+import logo from "../../assets/coin.png";
 
 interface Props {
   style?: React.CSSProperties;
