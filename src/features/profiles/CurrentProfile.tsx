@@ -1,14 +1,20 @@
-import { HubConnection } from "@microsoft/signalr";
-import { MouseEvent, useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import {
-  Accordion,
-  Button,
-  Col,
   Container,
-  Form,
-  FormLabel,
-  Row,
-} from "react-bootstrap";
+  Grid,
+  Typography,
+  IconButton,
+  Divider,
+  Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Switch,
+  FormControlLabel,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import EditIcon from "@mui/icons-material/Edit";
+import { HubConnection } from "@microsoft/signalr";
 import { useNavigate, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getCardsConnection } from "../cards/buyActions";
@@ -17,8 +23,6 @@ import {
   onProfilesRequests,
   selectProfiles,
 } from "./profileActions";
-import * as Icon from "react-bootstrap-icons";
-import { Switch } from "../common/Switch";
 import { ActionsList } from "./actions/ActionsList";
 
 export const CurrentProfile = () => {
@@ -28,7 +32,7 @@ export const CurrentProfile = () => {
   const [profilesConnection, setProfilesConnection] = useState<
     HubConnection | undefined
   >();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const { profiles } = useAppSelector(selectProfiles);
   const dispatch = useAppDispatch();
   const { email } = useParams();
@@ -59,34 +63,86 @@ export const CurrentProfile = () => {
 
   const handleTradesRequest = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    navigation(`/trades/index/${profile?.email}`);
+    navigate(`/trades/index/${profile?.email}`);
   };
 
   const handleRelistAll = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    cardsConnection?.invoke("RelistAllForProfile", profile?.email);
+  };
 
-    const profileDTO = profile;
-    cardsConnection?.invoke("RelistAllForProfile", profileDTO?.email);
+  type TransferListKeys =
+    | "unassignedItems"
+    | "soldItems"
+    | "unsoldItems"
+    | "availableItems"
+    | "activeTransfers";
+
+  const transferListMap: Record<string, TransferListKeys> = {
+    unassigneditems: "unassignedItems",
+    solditems: "soldItems",
+    unsolditems: "unsoldItems",
+    availableitems: "availableItems",
+    activetransfers: "activeTransfers",
   };
 
   return (
-    <Form
-      style={{
-        width: "clamp(400px, 60%, 100%)",
-        textAlign: "center",
-      }}
-    >
-      <Accordion defaultActiveKey="0">
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Additional Options</Accordion.Header>
-          <Accordion.Body>
-            <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-              <FormLabel>Relist items every hour: </FormLabel>
+    <Container maxWidth="md" style={{ marginTop: "20px" }}>
+      {/* Profile Information */}
+      <Grid
+        container
+        spacing={2}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Grid
+          item
+          xs={12}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Typography variant="h4">{profile?.email}</Typography>
+          <IconButton onClick={() => navigate(`/profiles/edit/${email}`)}>
+            <EditIcon />
+          </IconButton>
+        </Grid>
+
+        {/* Coins and Status */}
+        <Grid item xs={6}>
+          <Typography>Coins: {profile?.coins}</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography>Status: {profile?.status}</Typography>
+        </Grid>
+
+        {/* Transfer List and Unassigned Items */}
+        <Grid item xs={6}>
+          <Typography>
+            Transfer List:{" "}
+            {profile?.tradePile.transferList.activeTransfers.length}
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography>
+            Unassigned: {profile?.tradePile.unassignedItems.length}
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <Divider style={{ margin: "20px 0" }} />
+
+      {/* Additional Options Accordion */}
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography>Additional Options</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <FormControlLabel
+            control={
               <Switch
-                label=""
-                isChecked={autoRelist}
-                setIsChecked={() => {
+                checked={autoRelist}
+                onChange={() => {
                   const newValue = !autoRelist;
                   setAutoRelist(newValue);
                   const profileData = {
@@ -96,247 +152,105 @@ export const CurrentProfile = () => {
                   profilesConnection?.invoke("SetAutoRelist", profileData);
                 }}
               />
-            </Form.Group>
-          </Accordion.Body>
-        </Accordion.Item>
-        {profile && (
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>Current Actions</Accordion.Header>
-            <Accordion.Body>
-              <ActionsList profileId={profile.id} />
-            </Accordion.Body>
-          </Accordion.Item>
-        )}
+            }
+            label="Relist items every hour"
+          />
+        </AccordionDetails>
       </Accordion>
-      <Container style={{ textAlign: "left" }}>
-        <Row style={{ width: "100%", textAlign: "center" }}>
-          <Col>
-            <Row>
-              <Col>
-                <h4>{profile?.email}</h4>
-              </Col>
-              <Col>
-                <Icon.Pen
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    navigation(`/profiles/edit/${email}`);
-                  }}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <div>Coins: {profile?.coins}</div>
-            </Row>
-          </Col>
-        </Row>
-        <Row style={{ width: "100%" }}></Row>
-        <Row style={{ width: "100%" }}>
-          <Col>
-            <div>Status: {profile?.status}</div>
-          </Col>
-          <Col>
-            <div>
-              Transfer List:{" "}
-              {profile?.tradePile.transferList.activeTransfers.length}
-            </div>
-          </Col>
-        </Row>
-        <Row style={{ width: "100%" }}>
-          <Col>
-            <div>Unassigned: {profile?.tradePile.unassignedItems.length}</div>
-          </Col>
-        </Row>
-        <hr></hr>
-      </Container>
-      <Button onClick={handleTradesRequest}>Trades</Button>
-      <Button onClick={handleRelistAll}>Relist all</Button>
-      <h3>Unassigned Items:</h3>
-      {(profile?.tradePile.unassignedItems ?? []).map((transferCard) => {
-        return (
-          <div>
-            {/* <CardImage
-                size="small"
-                card={item.possibleCards[0]}
-                onClick={() => {
-                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
-                }}
-              /> */}
+
+      {/* Current Actions Accordion */}
+      {profile && (
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Current Actions</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ActionsList profileId={profile.id} />
+          </AccordionDetails>
+        </Accordion>
+      )}
+
+      {/* Action Buttons */}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleTradesRequest}
+        style={{ marginTop: "20px" }}
+      >
+        Trades
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={handleRelistAll}
+        style={{ marginTop: "20px", marginLeft: "10px" }}
+      >
+        Relist all
+      </Button>
+
+      {/* Trade Pile Sections */}
+      {[
+        "Unassigned Items",
+        "Sold Items",
+        "Unsold Items",
+        "Available Items",
+        "Active Transfers",
+      ].map((sectionTitle, index) => (
+        <div key={index}>
+          <Typography variant="h5" style={{ marginTop: "20px" }}>
+            {sectionTitle}:
+          </Typography>
+          {(
+            profile?.tradePile.transferList[
+              transferListMap[sectionTitle.toLowerCase().replace(" ", "")]
+            ] ?? []
+          ).map((transferCard, idx) => (
             <div
-              onClick={() => {
-                navigation(`/sell/${transferCard.card.eaId}/${email}`);
-              }}
+              key={idx}
+              onClick={() =>
+                navigate(`/sell/${transferCard.card.eaId}/${email}`)
+              }
+              style={{ cursor: "pointer" }}
             >
-              {transferCard.card.name}
+              <Typography>{transferCard.card.name}</Typography>
+              <Typography>Count: {transferCard.count}</Typography>
+              <Divider style={{ margin: "10px 0" }} />
             </div>
-            <div>Count: {transferCard.count}</div>
-            <hr></hr>
-          </div>
-        );
-      })}
-      <h3>Sold Items:</h3>
-      {(profile?.tradePile.transferList.soldItems ?? []).map((transferCard) => {
-        return (
-          <div>
-            {/* <CardImage
-                size="small"
-                card={item.possibleCards[0]}
-                onClick={() => {
-                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
-                }}
-              /> */}
-            <div
-              onClick={() => {
-                navigation(`/sell/${transferCard.card.eaId}/${email}`);
-              }}
-            >
-              {transferCard.card.name}
-            </div>
-            <div>Count: {transferCard.count} / 100</div>
-            <hr></hr>
-          </div>
-        );
-      })}
-      <h3>Unsold Items:</h3>
-      {(profile?.tradePile.transferList.unsoldItems ?? []).map(
-        (transferCard) => {
-          return (
-            <div>
-              {/* <CardImage
-                size="small"
-                card={item.possibleCards[0]}
-                onClick={() => {
-                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
-                }}
-              /> */}
-              <div
-                onClick={() => {
-                  navigation(`/sell/${transferCard.card.eaId}/${email}`);
-                }}
-              >
-                {transferCard.card.name}
-              </div>
-              <div>Count: {transferCard.count} / 100</div>
-              <hr></hr>
-            </div>
-          );
-        }
-      )}
-      <h3>Available Items:</h3>
-      {(profile?.tradePile.transferList.availableItems ?? []).map(
-        (transferCard) => {
-          return (
-            <div>
-              {/* <CardImage
-                size="small"
-                card={item.possibleCards[0]}
-                onClick={() => {
-                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
-                }}
-              /> */}
-              <div
-                onClick={() => {
-                  navigation(`/sell/${transferCard.card.eaId}/${email}`);
-                }}
-              >
-                {transferCard.card.name}
-              </div>
-              <div>Count: {transferCard.count} / 100</div>
-              <hr></hr>
-            </div>
-          );
-        }
-      )}
-      <h3>Active Items:</h3>
-      {(profile?.tradePile.transferList.activeTransfers ?? []).map(
-        (transferCard) => {
-          return (
-            <div>
-              {/* <CardImage
-                size="small"
-                card={item.possibleCards[0]}
-                onClick={() => {
-                  navigation(`/sell/${item.possibleCards[0].cardId}/${email}`);
-                }}
-              /> */}
-              <div
-                onClick={() => {
-                  navigation(`/sell/${transferCard.card.eaId}/${email}`);
-                }}
-              >
-                {transferCard.card.name}
-              </div>
-              <div>Count: {transferCard.count} / 100</div>
-              <hr></hr>
-            </div>
-          );
-        }
-      )}
-      <div style={{ display: "flex" }}>
-        <h3
-          style={{
-            flex: 2,
-            textAlign: "left",
-          }}
-        >
+          ))}
+        </div>
+      ))}
+
+      {/* Transfer Targets Section */}
+      <div style={{ display: "flex", marginTop: "20px" }}>
+        <Typography variant="h5" style={{ flex: 2, textAlign: "left" }}>
           Transfer Targets:
-        </h3>
+        </Typography>
         <Button
+          variant="contained"
           onClick={(e) => {
             e.preventDefault();
-
             cardsConnection?.invoke("SendTransferTargetsToTransferList", email);
           }}
         >
           Send to Transfer List
         </Button>
       </div>
-      {/* {groupBy(currentProfile?.tradePile.transferTargets ?? [], "name").map(
-        ({ item, count }) => {
-          return (
-            <div>
-              <div>{item.possibleCards[0].name}</div>
-              <div>{item.playerCardStatus}</div>
-              <div>{item.possibleCards[0].playerType}</div>
-              <div>{item.possibleCards[0].rating}</div>
-              <div>Count: {count} / 50</div>
-              <hr></hr>
-            </div>
-          );
-        }
-      )} */}
-      <div style={{ display: "flex" }}>
-        <h3
-          style={{
-            flex: 2,
-            textAlign: "left",
-          }}
-        >
+
+      {/* Unassigned Items Section */}
+      <div style={{ display: "flex", marginTop: "20px" }}>
+        <Typography variant="h5" style={{ flex: 2, textAlign: "left" }}>
           Unassigned items:
-        </h3>
+        </Typography>
         <Button
+          variant="contained"
           onClick={(e) => {
             e.preventDefault();
-
             cardsConnection?.invoke("SendUnassignedItemsToTransferList", email);
           }}
         >
           Send to Transfer List
         </Button>
       </div>
-      {/* {groupBy(currentProfile?.tradePile.unassignedItems ?? [], "name").map(
-        ({ item, count }) => {
-          return (
-            <div>
-              <div>{item.possibleCards[0].name}</div>
-              <div>{item.playerCardStatus}</div>
-              <div>{item.possibleCards[0].playerType}</div>
-              <div>{item.possibleCards[0].rating}</div>
-              <div>Count: {count}</div>
-              <hr></hr>
-            </div>
-          );
-        }
-      )} */}
-    </Form>
+    </Container>
   );
 };

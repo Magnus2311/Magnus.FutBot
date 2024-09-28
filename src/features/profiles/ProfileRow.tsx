@@ -1,23 +1,13 @@
-import { LoginStatusType, ProfileDTO } from "../../models/models";
+import { ProfileDTO } from "../../models/models";
 import ImageContent from "./ImageNumber";
-import { useAppDispatch } from "../../app/hooks";
 import { useNavigate } from "react-router";
-import { getProfileConnection } from "./profileActions";
-
 import coin from "../../assets/coin.png";
 import checked from "../../assets/coin.png";
 import contract from "../../assets/coin.png";
-import hourglass from "../../assets/coin.png";
 import tasks from "../../assets/coin.png";
 import man from "../../assets/coin.png";
 import cancel from "../../assets/coin.png";
 import RefreshImage from "../../assets/coin.png";
-
-const templateProfile = {
-  email: "iavor.orlyov1@gmail.com",
-  coins: 2486919,
-  status: LoginStatusType.Successful,
-} as ProfileDTO;
 
 const ProfileRow = ({
   profile,
@@ -26,7 +16,6 @@ const ProfileRow = ({
   profile: ProfileDTO;
   onRefresh: (profileId: string) => void;
 }) => {
-  const dispatch = useAppDispatch();
   const navigation = useNavigate();
 
   return (
@@ -69,9 +58,7 @@ const ProfileRow = ({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            getProfileConnection(dispatch).then((connection) => {
-              connection.invoke("OnProfileRefresh", profile.id);
-            });
+            onRefresh(profile.id);
           }}
         />
       </div>

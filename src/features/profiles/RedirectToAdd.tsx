@@ -16,7 +16,7 @@ export const RedirectToAdd = () => {
       src={plus}
       onClick={handleAdd}
       alt="Add profile"
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", height: "60px", width: "60px" }}
     />
   );
 };

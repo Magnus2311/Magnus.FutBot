@@ -21,10 +21,11 @@ export interface TradePile {
 }
 
 export interface TransferList {
-  soldItems: TransferCard[];
-  unsoldItems: TransferCard[];
-  availableItems: TransferCard[];
-  activeTransfers: TransferCard[];
+  unassignedItems: Array<TransferCard>;
+  soldItems: Array<TransferCard>;
+  unsoldItems: Array<TransferCard>;
+  availableItems: Array<TransferCard>;
+  activeTransfers: Array<TransferCard>;
 }
 
 export interface TransferCard {

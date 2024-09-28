@@ -16,7 +16,12 @@ const ImageNumber = ({
         flex: 1,
       }}
     >
-      <img src={src} alt={alt} style={{ marginRight: "6px" }} /> : {content}
+      <img
+        src={src}
+        alt={alt}
+        style={{ marginRight: "6px", height: "40px", width: "40px" }}
+      />{" "}
+      : {content}
     </div>
   );
 };
