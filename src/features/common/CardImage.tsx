@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { sasToken } from "../../helpers/constants";
 import { Card } from "../../models/models";
 
 interface Props {
@@ -9,10 +7,9 @@ interface Props {
 }
 
 export const CardImage = ({ card, size, onClick }: Props) => {
-  const [clubImg] = useState(`${card.clubLogo}${sasToken}`);
-  const [flagImg] = useState(`${card.nationLogo}${sasToken}`);
-  const [playerImg] = useState(`${card.playerImage}${sasToken}`);
-  const [revisionImg] = useState(`${card.backgroundImage}${sasToken}`);
+  const clubImg = `${card.team.imageUrl}`;
+  const flagImg = `${card.nationality.imageUrl}`;
+  const playerImg = `${card.shieldUrl}`;
 
   let scale = 0.3;
   let width = 99.6;
@@ -38,11 +35,6 @@ export const CardImage = ({ card, size, onClick }: Props) => {
       onClick={onClick}
     >
       <div style={{ position: "relative", scale: `${scale}` }}>
-        <img
-          alt={card.name}
-          src={revisionImg}
-          style={{ position: "absolute", top: 0, left: 0 }}
-        />
         <img
           alt={card.name}
           src={clubImg}

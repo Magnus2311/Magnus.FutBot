@@ -38,14 +38,8 @@ export interface Card {
   name: string;
   rating: number;
   fullName: string;
-  club: string;
-  clubLogo: string;
-  leagueLogo: string;
-  nationLogo: string;
   backgroundImage: string;
-  nation: string;
   league: string;
-  playerImage: string;
   revision: string;
   assetId: number;
   clubId: number;
@@ -54,6 +48,22 @@ export interface Card {
   playerCardStatus: PlayerCardStatus;
   playerType: PlayerCardType;
   nationId: number;
+  shieldUrl: string;
+  team: Team;
+  nationality: Nationality;
+}
+
+export interface Nationality {
+  id: number;
+  label: string;
+  imageUrl: string;
+}
+
+export interface Team {
+  id: number;
+  label: string;
+  imageUrl: string;
+  isPopular: boolean;
 }
 
 export interface PlayerStats {

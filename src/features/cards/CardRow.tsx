@@ -1,7 +1,6 @@
 import { Dropdown } from "react-bootstrap";
 import { Card } from "../../models/models";
 import * as Icon from "react-bootstrap-icons";
-import { sasToken } from "../../helpers/constants";
 
 export const CardRow = ({
   card,
@@ -12,11 +11,9 @@ export const CardRow = ({
   onSelectCard: (card: Card | undefined) => void;
   isRemoveable?: boolean;
 }) => {
-  const clubImg = `${card.clubLogo}${sasToken}`;
-  const flagImg = `${card.nationLogo}${sasToken}`;
-  const playerImg = `${card.playerImage}${sasToken}`;
-  const revisionImg = `${card.backgroundImage}${sasToken}`;
-  const leagueImg = `${card.leagueLogo}${sasToken}`;
+  const clubImg = `${card.team.imageUrl}`;
+  const flagImg = `${card.nationality.imageUrl}`;
+  const playerImg = `${card.shieldUrl}`;
 
   return (
     <Dropdown.Item
@@ -32,36 +29,26 @@ export const CardRow = ({
       }}
     >
       <img
-        style={{ height: "50px", width: "40px" }}
-        src={revisionImg}
-        alt={card.revision}
-      />
-      <img
-        style={{ height: "40px", width: "40px" }}
+        style={{ height: "60px", width: "50px" }}
         src={playerImg}
         alt={card.name}
       />
       <h5 style={{ flex: 3, margin: "0 auto" }}>{card.name}</h5>
       <h6 style={{ flex: 1, margin: "0 auto" }}>{card.rating}</h6>
       <img
-        style={{ height: "15px", width: "25px", marginLeft: "15px" }}
+        style={{ height: "40px", width: "40px", marginLeft: "15px" }}
         src={flagImg}
-        alt={card.nation}
+        alt={card.nationality.label}
       />
       <img
         style={{
-          height: "30px",
-          width: "30px",
+          height: "40px",
+          width: "40px",
           marginLeft: "10px",
           marginRight: "10px",
         }}
         src={clubImg}
-        alt={card.club}
-      />
-      <img
-        style={{ height: "25px", width: "25px" }}
-        src={leagueImg}
-        alt={card.league}
+        alt={card.team.label}
       />
       {isRemoveable && (
         <Icon.XCircle
