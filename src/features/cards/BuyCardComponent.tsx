@@ -1,6 +1,15 @@
 import { HubConnection } from "@microsoft/signalr";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import { Button, Form, FormControl, FormLabel } from "react-bootstrap";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Grid,
+  MenuItem,
+  Switch,
+  TextField,
+  FormControlLabel,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyCardDTO as BuyCard, BuyCardDTO, Card } from "../../models/models";
 import { ChemistrySelect } from "../common/Filters/ChemistrySelect";
@@ -10,7 +19,6 @@ import { PositionSelect } from "../common/Filters/PositionSelect";
 import { QualitySelect } from "../common/Filters/QualitySelect";
 import { RaritySelect } from "../common/Filters/RaritySelect";
 import { Select } from "../common/Select";
-import { Switch } from "../common/Switch";
 import { onProfilesRequests, selectProfiles } from "../profiles/profileActions";
 import { getCardsConnection } from "./buyActions";
 import { CardRow } from "./CardRow";
@@ -81,36 +89,36 @@ export const BuyCardComponent = () => {
     connection?.invoke("BuyCard", buyCardDTO);
   };
 
-  const handleProfileSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedProfile(e.target.value);
+  const handleProfileSelect = (e: ChangeEvent<{ value: unknown }>) => {
+    setSelectedProfile(e.target.value as string);
   };
 
-  const handleQualitySelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setQuality(e.target.value);
+  const handleQualitySelect = (e: ChangeEvent<{ value: unknown }>) => {
+    setQuality(e.target.value as string);
   };
 
-  const handleRaritySelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setRarity(e.target.value);
+  const handleRaritySelect = (e: ChangeEvent<{ value: unknown }>) => {
+    setRarity(e.target.value as string);
   };
 
-  const handlePositionSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setPosition(e.target.value);
+  const handlePositionSelect = (e: ChangeEvent<{ value: unknown }>) => {
+    setPosition(e.target.value as string);
   };
 
-  const handleChemistrySelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setChemistry(e.target.value);
+  const handleChemistrySelect = (e: ChangeEvent<{ value: unknown }>) => {
+    setChemistry(e.target.value as string);
   };
 
-  const handleNationallitySelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setNationallity(e.target.value);
+  const handleNationallitySelect = (e: ChangeEvent<{ value: unknown }>) => {
+    setNationallity(e.target.value as string);
   };
 
-  const handleLeagueSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setLeague(e.target.value);
+  const handleLeagueSelect = (e: ChangeEvent<{ value: unknown }>) => {
+    setLeague(e.target.value as string);
   };
 
   return (
-    <Form
+    <form
       style={{
         width: "clamp(400px, 60%, 100%)",
         textAlign: "center",
@@ -126,77 +134,123 @@ export const BuyCardComponent = () => {
       ) : (
         <SelectCardIndex selectCard={setCard} />
       )}
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <Form.Label>Select profile to trade for</Form.Label>
-        <Select
-          items={profiles.map((profile) => profile.email)}
-          handleSelect={handleProfileSelect}
-          value={selectedProfile ?? ""}
-        />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <Form.Label>Select quality</Form.Label>
-        <QualitySelect handleSelect={handleQualitySelect} value={quality} />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <Form.Label>Select rarity:</Form.Label>
-        <RaritySelect handleSelect={handleRaritySelect} value={rarity} />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <Form.Label>Select position:</Form.Label>
-        <PositionSelect handleSelect={handlePositionSelect} value={position} />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <Form.Label>Select chemistry:</Form.Label>
-        <ChemistrySelect
-          handleSelect={handleChemistrySelect}
-          value={chemistry}
-        />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <Form.Label>Select nationallity:</Form.Label>
-        <NationallitySelect
-          handleSelect={handleNationallitySelect}
-          value={nationallity}
-        />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <Form.Label>Select league:</Form.Label>
-        <LeagueSelect handleSelect={handleLeagueSelect} value={league} />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <FormLabel>Max player price: </FormLabel>
-        <FormControl
-          value={buyPlayer.price}
-          onChange={(e) =>
-            setBuyPlayer({ ...buyPlayer, price: parseInt(e.target.value) })
-          }
-        />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <FormLabel>Player count: </FormLabel>
-        <FormControl
-          value={buyPlayer.count}
-          onChange={(e) =>
-            setBuyPlayer({ ...buyPlayer, count: parseInt(e.target.value) })
-          }
-        />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <FormLabel>Is it bin (Buy-in-Now): </FormLabel>
-        <Switch
-          label=""
-          isChecked={buyPlayer.isBin}
-          setIsChecked={() =>
-            setBuyPlayer({ ...buyPlayer, isBin: !buyPlayer.isBin })
-          }
-        />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "15px" }}>
-        <Button onClick={handleBtnSubmit} style={{ width: "100%" }}>
-          Buy Player
-        </Button>
-      </Form.Group>
-    </Form>
+
+      <Grid
+        container
+        spacing={2}
+        style={{ marginTop: "10px", textAlign: "left" }}
+      >
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <FormLabel>Select profile to trade for</FormLabel>
+            <Select
+              items={profiles.map((p) => p.email)}
+              handleSelect={handleProfileSelect}
+              value={selectedProfile ?? ""}
+            />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <FormLabel>Select quality</FormLabel>
+            <QualitySelect handleSelect={handleQualitySelect} value={quality} />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <FormLabel>Select rarity</FormLabel>
+            <RaritySelect handleSelect={handleRaritySelect} value={rarity} />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <FormLabel>Select position</FormLabel>
+            <PositionSelect
+              handleSelect={handlePositionSelect}
+              value={position}
+            />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <FormLabel>Select chemistry</FormLabel>
+            <ChemistrySelect
+              handleSelect={handleChemistrySelect}
+              value={chemistry}
+            />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <FormLabel>Select nationality</FormLabel>
+            <NationallitySelect
+              handleSelect={handleNationallitySelect}
+              value={nationallity}
+            />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <FormLabel>Select league</FormLabel>
+            <LeagueSelect handleSelect={handleLeagueSelect} value={league} />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6} sx={{ marginTop: "20px" }}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={buyPlayer.isBin}
+                onChange={() =>
+                  setBuyPlayer({ ...buyPlayer, isBin: !buyPlayer.isBin })
+                }
+              />
+            }
+            label="Is it BIN (Buy Now)"
+            labelPlacement="start"
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <FormLabel>Max player price</FormLabel>
+            <TextField
+              value={buyPlayer.price}
+              onChange={(e) =>
+                setBuyPlayer({ ...buyPlayer, price: parseInt(e.target.value) })
+              }
+            />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <FormLabel>Player count</FormLabel>
+            <TextField
+              value={buyPlayer.count}
+              onChange={(e) =>
+                setBuyPlayer({ ...buyPlayer, count: parseInt(e.target.value) })
+              }
+            />
+          </FormControl>
+        </Grid>
+      </Grid>
+
+      <Button
+        onClick={handleBtnSubmit}
+        variant="contained"
+        color="primary"
+        fullWidth
+        style={{ marginTop: "15px" }}
+      >
+        Buy Player
+      </Button>
+    </form>
   );
 };

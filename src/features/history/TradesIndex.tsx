@@ -9,6 +9,7 @@ import {
   BuyTradeComponent,
   SellTradeComponent,
 } from "./TradeComponent";
+import { Grid } from "@mui/material";
 
 const TradesIndex = () => {
   const { profiles } = useAppSelector(selectProfiles);
@@ -33,15 +34,21 @@ const TradesIndex = () => {
   }, [profiles]);
 
   return (
-    <div style={{ width: "80%" }}>
+    <div style={{ width: "80%", margin: "0 auto" }}>
       <h2>Trades history:</h2>
-      {trades.map((trade) => {
-        if (trade.tradeHistoryActionType === TradeHistoryActionType.Buy)
-          return <BuyTradeComponent key={trade.id} trade={trade} />;
-        else if (trade.tradeHistoryActionType === TradeHistoryActionType.Sell)
-          return <SellTradeComponent key={trade.id} trade={trade} />;
-        else return <BuyAndSellComponent key={trade.id} trade={trade} />;
-      })}
+      <Grid container spacing={2}>
+        {trades.map((trade) => (
+          <Grid item xs={12} sm={6} md={4} key={trade.id}>
+            {trade.tradeHistoryActionType === TradeHistoryActionType.Buy ? (
+              <BuyTradeComponent trade={trade} />
+            ) : trade.tradeHistoryActionType === TradeHistoryActionType.Sell ? (
+              <SellTradeComponent trade={trade} />
+            ) : (
+              <BuyAndSellComponent trade={trade} />
+            )}
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };
