@@ -24,6 +24,15 @@ import {
   selectProfiles,
 } from "./profileActions";
 import { ActionsList } from "./actions/ActionsList";
+import TransferCardRow from "./TransferCardRow";
+import TransferCardSection from "./TransferCardSection";
+
+export type TransferListKeys =
+  | "unassignedItems"
+  | "soldItems"
+  | "unsoldItems"
+  | "availableItems"
+  | "activeTransfers";
 
 export const CurrentProfile = () => {
   const [cardsConnection, setCardsConnection] = useState<
@@ -70,13 +79,6 @@ export const CurrentProfile = () => {
     e.preventDefault();
     cardsConnection?.invoke("RelistAllForProfile", profile?.email);
   };
-
-  type TransferListKeys =
-    | "unassignedItems"
-    | "soldItems"
-    | "unsoldItems"
-    | "availableItems"
-    | "activeTransfers";
 
   const transferListMap: Record<string, TransferListKeys> = {
     unassigneditems: "unassignedItems",
@@ -171,22 +173,23 @@ export const CurrentProfile = () => {
       )}
 
       {/* Action Buttons */}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleTradesRequest}
-        style={{ marginTop: "20px" }}
+      <Grid
+        container
+        justifyContent="center"
+        style={{ marginTop: "20px", marginBottom: "20px" }}
       >
-        Trades
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={handleRelistAll}
-        style={{ marginTop: "20px", marginLeft: "10px" }}
-      >
-        Relist all
-      </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleTradesRequest}
+          style={{ marginRight: "10px" }} // Add some space between buttons if needed
+        >
+          Trades
+        </Button>
+        <Button variant="contained" color="secondary" onClick={handleRelistAll}>
+          Relist all
+        </Button>
+      </Grid>
 
       {/* Trade Pile Sections */}
       {[
@@ -195,29 +198,13 @@ export const CurrentProfile = () => {
         "Unsold Items",
         "Available Items",
         "Active Transfers",
-      ].map((sectionTitle, index) => (
-        <div key={index}>
-          <Typography variant="h5" style={{ marginTop: "20px" }}>
-            {sectionTitle}:
-          </Typography>
-          {(
-            profile?.tradePile.transferList[
-              transferListMap[sectionTitle.toLowerCase().replace(" ", "")]
-            ] ?? []
-          ).map((transferCard, idx) => (
-            <div
-              key={idx}
-              onClick={() =>
-                navigate(`/sell/${transferCard.card.eaId}/${email}`)
-              }
-              style={{ cursor: "pointer" }}
-            >
-              <Typography>{transferCard.card.name}</Typography>
-              <Typography>Count: {transferCard.count}</Typography>
-              <Divider style={{ margin: "10px 0" }} />
-            </div>
-          ))}
-        </div>
+      ].map((sectionTitle) => (
+        <TransferCardSection
+          email={email!}
+          profile={profile!}
+          sectionTitle={sectionTitle}
+          transferListMap={transferListMap}
+        />
       ))}
 
       {/* Transfer Targets Section */}

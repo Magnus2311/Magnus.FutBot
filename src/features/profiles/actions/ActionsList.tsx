@@ -27,7 +27,10 @@ export const ActionsList = ({ profileId }: Props) => {
 
   return (
     <>
-      <Button onClick={handleDeactivateAllActions}>
+      <Button
+        onClick={handleDeactivateAllActions}
+        style={{ marginBottom: "20px", marginTop: "-10px" }}
+      >
         Deactivate All Actions
       </Button>
       <BuyActions profileId={profileId} buyActions={actions.buyActions} />

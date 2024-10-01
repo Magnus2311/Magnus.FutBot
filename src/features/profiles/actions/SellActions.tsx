@@ -1,9 +1,10 @@
 import { SellActionDTO } from "../../../models/models";
-import * as Icon from "react-bootstrap-icons";
 import { useAppDispatch } from "../../../app/hooks";
 import { TradeActionType } from "../../authentication/models";
 import { onActionCancel } from "./tradeActions";
 import { Spinner } from "react-bootstrap";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Props {
   profileId: string;
@@ -27,25 +28,27 @@ export const SellActions = ({ profileId, sellActions }: Props) => {
       {sellActions.map((sellAction) => {
         return (
           <>
-            {/* {sellAction.sellCardDTO.card ? (
+            {sellAction.sellCardDTO.card ? (
               <div>
-                <Icon.PlusCircleFill size={20} color="green" />
+                <ShoppingCartIcon style={{ color: "red", marginRight: 8 }} />
                 Player: {sellAction.sellCardDTO.card?.name}
-                Rating: {sellAction.sellCardDTO.card?.rating}
+                Rating: {sellAction.sellCardDTO.card?.overallRating}
                 Priority: {sellAction.priority}
-                <Icon.XCircleFill
-                  color="red"
+                <DeleteIcon
+                  color="error"
                   style={{ marginLeft: 20, cursor: "pointer" }}
-                  size={20}
                   onClick={() =>
-                    handleActionCancellation(sellAction.id, TradeActionType.Buy)
+                    handleActionCancellation(
+                      sellAction.id,
+                      TradeActionType.Sell
+                    )
                   }
                 />
               </div>
             ) : (
               <Spinner animation="border" />
             )}
-            <hr /> */}
+            <hr />
           </>
         );
       })}

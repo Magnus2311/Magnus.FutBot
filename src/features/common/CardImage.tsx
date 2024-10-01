@@ -75,7 +75,7 @@ export const CardImage = ({ card, size, onClick }: Props) => {
             color: "gold",
           }}
         >
-          {card.rating}
+          {card.overallRating}
         </p>
         <hr
           style={{

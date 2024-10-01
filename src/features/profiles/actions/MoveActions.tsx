@@ -1,8 +1,9 @@
 import { MoveActionDTO } from "../../../models/models";
-import * as Icon from "react-bootstrap-icons";
 import { useAppDispatch } from "../../../app/hooks";
 import { TradeActionType } from "../../authentication/models";
 import { onActionCancel } from "./tradeActions";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Props {
   profileId: string;
@@ -27,12 +28,10 @@ export const MoveActions = ({ profileId, moveActions }: Props) => {
         return (
           <>
             <div>
-              <Icon.PlusCircleFill size={20} color="green" />
+              <ShoppingCartIcon style={{ color: "yellow", marginRight: 8 }} />
               Priority: {moveAction.priority}
-              <Icon.XCircleFill
-                color="red"
+              <DeleteIcon
                 style={{ marginLeft: 20, cursor: "pointer" }}
-                size={20}
                 onClick={() =>
                   handleActionCancellation(moveAction.id, TradeActionType.Move)
                 }

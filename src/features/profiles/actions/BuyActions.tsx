@@ -1,6 +1,7 @@
 import { BuyActionDTO } from "../../../models/models";
-import * as Icon from "react-bootstrap-icons";
-import { Spinner } from "react-bootstrap";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { CircularProgress } from "@mui/material";
 import { useAppDispatch } from "../../../app/hooks";
 import { TradeActionType } from "../../authentication/models";
 import { onActionCancel } from "./tradeActions";
@@ -28,22 +29,25 @@ export const BuyActions = ({ profileId, buyActions }: Props) => {
         return (
           <>
             {buyAction.buyCardDTO.card ? (
-              <div>
-                <Icon.PlusCircleFill size={20} color="green" />
-                Player: {buyAction.buyCardDTO.card?.name}
-                Rating: {buyAction.buyCardDTO.card?.rating}
-                Priority: {buyAction.priority}
-                <Icon.XCircleFill
-                  color="red"
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <ShoppingCartIcon style={{ color: "green", marginRight: 8 }} />
+                <span>Player: {buyAction.buyCardDTO.card.name}</span>
+                <span style={{ marginLeft: 10 }}>
+                  Rating: {buyAction.buyCardDTO.card.overallRating}
+                </span>
+                <span style={{ marginLeft: 10 }}>
+                  Priority: {buyAction.priority}
+                </span>
+                <DeleteIcon
+                  color="error"
                   style={{ marginLeft: 20, cursor: "pointer" }}
-                  size={20}
                   onClick={() =>
                     handleActionCancellation(buyAction.id, TradeActionType.Buy)
                   }
                 />
               </div>
             ) : (
-              <Spinner animation="border" />
+              <CircularProgress size={20} />
             )}
             <hr />
           </>

@@ -34,7 +34,7 @@ export const CardRow = ({
         alt={card.name}
       />
       <h5 style={{ flex: 3, margin: "0 auto" }}>{card.name}</h5>
-      <h6 style={{ flex: 1, margin: "0 auto" }}>{card.rating}</h6>
+      <h6 style={{ flex: 1, margin: "0 auto" }}>{card.overallRating}</h6>
       <img
         style={{ height: "40px", width: "40px", marginLeft: "15px" }}
         src={flagImg}

@@ -37,7 +37,7 @@ export interface Card {
   eaId: number;
   cardId: string;
   name: string;
-  rating: number;
+  overallRating: number;
   fullName: string;
   backgroundImage: string;
   league: string;
