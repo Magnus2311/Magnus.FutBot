@@ -24,7 +24,6 @@ import {
   selectProfiles,
 } from "./profileActions";
 import { ActionsList } from "./actions/ActionsList";
-import TransferCardRow from "./TransferCardRow";
 import TransferCardSection from "./TransferCardSection";
 
 export type TransferListKeys =
@@ -78,6 +77,11 @@ export const CurrentProfile = () => {
   const handleRelistAll = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     cardsConnection?.invoke("RelistAllForProfile", profile?.email);
+  };
+
+  const handleClearSold = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    cardsConnection?.invoke("ClearSoldItemsForProfile", profile?.email);
   };
 
   const transferListMap: Record<string, TransferListKeys> = {
@@ -187,6 +191,9 @@ export const CurrentProfile = () => {
           Trades
         </Button>
         <Button variant="contained" color="secondary" onClick={handleRelistAll}>
+          Relist all
+        </Button>
+        <Button variant="contained" color="info" onClick={handleClearSold}>
           Relist all
         </Button>
       </Grid>
