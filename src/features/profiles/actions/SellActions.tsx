@@ -28,7 +28,7 @@ export const SellActions = ({ profileId, sellActions }: Props) => {
       {sellActions.map((sellAction) => {
         return (
           <>
-            {sellAction.sellCardDTO.card ? (
+            {sellAction.sellCardDTO && sellAction.sellCardDTO.card ? (
               <div>
                 <ShoppingCartIcon style={{ color: "red", marginRight: 8 }} />
                 Player: {sellAction.sellCardDTO.card?.name}
