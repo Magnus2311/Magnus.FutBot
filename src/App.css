@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -63,7 +63,7 @@ body {
 body {
   --border-radius: 5px;
 }
-
+/* 
 @media (prefers-color-scheme: light) {
   body {
     --text-color: #fff;
@@ -125,7 +125,7 @@ body {
     --bkg-color: #0062cc !important;
     --btn-border-color: #005cbf !important;
   }
-}
+} */
 
 .fut-btn {
   border: 1px solid transparent;
@@ -267,4 +267,4 @@ form {
 nav > div > div > a {
   color: var(--text-color) !important;
   text-decoration: none !important;
-}
+} 

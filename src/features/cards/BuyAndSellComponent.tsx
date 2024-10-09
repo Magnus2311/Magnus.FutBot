@@ -5,7 +5,6 @@ import {
   FormControl,
   FormLabel,
   Grid,
-  MenuItem,
   Switch,
   TextField,
   FormControlLabel,
@@ -14,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyAndSellCardDTO, Card } from "../../models/models";
 import { ChemistrySelect } from "../common/Filters/ChemistrySelect";
 import { LeagueSelect } from "../common/Filters/LeagueSelect";
-import { NationallitySelect } from "../common/Filters/NationallitySelect";
+import { NationalitySelect } from "../common/Filters/NationallitySelect";
 import { PositionSelect } from "../common/Filters/PositionSelect";
 import { QualitySelect } from "../common/Filters/QualitySelect";
 import { RaritySelect } from "../common/Filters/RaritySelect";
@@ -59,7 +58,8 @@ export const BuyAndSellComponent = () => {
   const dispatch = useAppDispatch();
   const profiles = useAppSelector(selectProfiles).profiles;
   const [selectedProfile, setSelectedProfile] = useState(
-    incomingBuySellPlayer && incomingBuySellPlayer.email
+    (incomingBuySellPlayer && incomingBuySellPlayer.email) ||
+      (profiles && profiles[0] ? profiles[0].email : "")
   );
   const [quality, setQuality] = useState("Any");
   const [rarity, setRarity] = useState("Any");
@@ -121,6 +121,10 @@ export const BuyAndSellComponent = () => {
     dispatch(onProfilesRequests());
   }, [dispatch]);
 
+  useEffect(() => {
+    profiles && profiles[0] && setSelectedProfile(profiles[0].email);
+  }, [profiles]);
+
   return (
     <form
       style={{
@@ -146,32 +150,28 @@ export const BuyAndSellComponent = () => {
       >
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select profile to trade for</FormLabel>
             <Select
               items={profiles.map((p) => p.email)}
               handleSelect={handleProfileSelect}
               value={selectedProfile ?? ""}
-            ></Select>
+            />
           </FormControl>
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select quality</FormLabel>
             <QualitySelect handleSelect={handleQualitySelect} value={quality} />
           </FormControl>
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select rarity</FormLabel>
             <RaritySelect handleSelect={handleRaritySelect} value={rarity} />
           </FormControl>
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select position</FormLabel>
             <PositionSelect
               handleSelect={handlePositionSelect}
               value={position}
@@ -181,7 +181,6 @@ export const BuyAndSellComponent = () => {
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select chemistry</FormLabel>
             <ChemistrySelect
               handleSelect={handleChemistrySelect}
               value={chemistry}
@@ -191,8 +190,7 @@ export const BuyAndSellComponent = () => {
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select nationality</FormLabel>
-            <NationallitySelect
+            <NationalitySelect
               handleSelect={handleNationallitySelect}
               value={nationallity}
             />
@@ -201,7 +199,6 @@ export const BuyAndSellComponent = () => {
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select league</FormLabel>
             <LeagueSelect handleSelect={handleLeagueSelect} value={league} />
           </FormControl>
         </Grid>

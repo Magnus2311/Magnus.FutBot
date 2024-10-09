@@ -1,29 +1,35 @@
 import { ChangeEvent } from "react";
-import { Form } from "react-bootstrap";
+import { TextField, MenuItem } from "@mui/material";
 
 interface Props {
-  handleSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
 
 export const RaritySelect = ({ handleSelect, value }: Props) => {
   return (
-    <Form.Select
-      aria-label="Choose rarity:"
-      onChange={handleSelect}
+    <TextField
+      select
+      label="Choose rarity"
       value={value}
+      onChange={handleSelect}
+      fullWidth
     >
-      <option selected>Any</option>
-      <option>Common</option>
-      <option>Rare</option>
-      <option>CONMEBOL optionBERTADORES</option>
-      <option>CONMEBOL SUDAMERICANA</option>
-      <option>FUT Heroes</option>
-      <option>Icon</option>
-      <option>Ones to Watch</option>
-      <option>Team of the Week</option>
-      <option>UEFA Champions League Road to the Final</option>
-      <option>UEFA Europa League Road to the Final</option>
-    </Form.Select>
+      <MenuItem value="Any">Any</MenuItem>
+      <MenuItem value="Common">Common</MenuItem>
+      <MenuItem value="Rare">Rare</MenuItem>
+      <MenuItem value="CONMEBOL Libertadores">CONMEBOL Libertadores</MenuItem>
+      <MenuItem value="CONMEBOL SUDAMERICANA">CONMEBOL SUDAMERICANA</MenuItem>
+      <MenuItem value="FUT Heroes">FUT Heroes</MenuItem>
+      <MenuItem value="Icon">Icon</MenuItem>
+      <MenuItem value="Ones to Watch">Ones to Watch</MenuItem>
+      <MenuItem value="Team of the Week">Team of the Week</MenuItem>
+      <MenuItem value="UEFA Champions League Road to the Final">
+        UEFA Champions League Road to the Final
+      </MenuItem>
+      <MenuItem value="UEFA Europa League Road to the Final">
+        UEFA Europa League Road to the Final
+      </MenuItem>
+    </TextField>
   );
 };

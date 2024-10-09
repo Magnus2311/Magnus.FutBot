@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import {
   Button,
-  Form,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  Spinner,
-} from "react-bootstrap";
+  TextField,
+  CircularProgress,
+  Box,
+  Typography,
+} from "@mui/material";
 import { useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { ProfileDTO } from "../../models/models";
@@ -17,7 +16,7 @@ import {
 } from "./profileActions";
 
 export const EditProfile = () => {
-  const { email } = useParams();
+  const { email } = useParams<{ email: string }>();
   const dispatch = useAppDispatch();
   const profiles = useAppSelector(selectProfiles).profiles;
   const [profile, setProfile] = useState<ProfileDTO | undefined>();
@@ -28,47 +27,53 @@ export const EditProfile = () => {
     dispatch(onProfilesRequests());
   }, [dispatch, email, profiles]);
 
+  const handleEditProfile = async () => {
+    const connection = await getProfileConnection(dispatch);
+    const editProfileDTO = {
+      email: profile?.email,
+      password: newPassword,
+    };
+
+    connection.invoke("EditProfile", editProfileDTO);
+  };
+
   return profile ? (
-    <Form>
-      <FormGroup>
-        <FormLabel>Email:</FormLabel>
-        <FormControl disabled readOnly value={email} />
-      </FormGroup>
+    <Box component="form" sx={{ mt: 2 }}>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h6">Email:</Typography>
+        <TextField fullWidth disabled value={email} />
+      </Box>
 
-      <FormGroup>
-        <FormLabel>Old Password:</FormLabel>
-        <FormControl disabled readOnly value={profile.password} />
-      </FormGroup>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h6">Old Password:</Typography>
+        <TextField fullWidth disabled value={profile.password} />
+      </Box>
 
-      <FormGroup>
-        <FormLabel>New Password:</FormLabel>
-        <FormControl
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h6">New Password:</Typography>
+        <TextField
+          fullWidth
           value={newPassword}
-          onChange={(e) => {
-            setNewPassword(e.target.value);
-          }}
+          onChange={(e) => setNewPassword(e.target.value)}
         />
-      </FormGroup>
+      </Box>
 
       <Button
+        variant="contained"
+        color="primary"
+        fullWidth
         onClick={(e) => {
           e.preventDefault();
-
-          getProfileConnection(dispatch).then((connection) => {
-            const editProfileDTO = {
-              email: profile.email,
-              password: newPassword,
-            };
-
-            connection.invoke("EditProfile", editProfileDTO);
-          });
+          handleEditProfile();
         }}
-        style={{ marginTop: "10px", width: "100%" }}
+        sx={{ mt: 2 }}
       >
         Edit Profile
       </Button>
-    </Form>
+    </Box>
   ) : (
-    <Spinner animation="border" />
+    <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+      <CircularProgress />
+    </Box>
   );
 };

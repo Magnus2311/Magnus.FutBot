@@ -1,39 +1,45 @@
 import { ChangeEvent } from "react";
-import { Form } from "react-bootstrap";
+import { TextField, MenuItem } from "@mui/material";
 
 interface Props {
-  handleSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
 
 export const ChemistrySelect = ({ handleSelect, value }: Props) => {
   return (
-    <Form.Select onChange={handleSelect} value={value}>
-      <option>Any</option>
-      <option>BASIC</option>
-      <option>SNIPER</option>
-      <option>FINISHER</option>
-      <option>DEADEYE</option>
-      <option>MARKSMAN</option>
-      <option>HAWK</option>
-      <option>ARTIST</option>
-      <option>ARCHITECT</option>
-      <option>POWERHOUSE</option>
-      <option>MAESTRO</option>
-      <option>ENGINE</option>
-      <option>SENTINEL</option>
-      <option>GUARDIAN</option>
-      <option>GLADIATOR</option>
-      <option>BACKBONE</option>
-      <option>ANCHOR</option>
-      <option>HUNTER</option>
-      <option>CATALYST</option>
-      <option>SHADOW</option>
-      <option>WALL</option>
-      <option>SHIELD</option>
-      <option>CAT</option>
-      <option>GLOVE</option>
-      <option>GK BASIC</option>
-    </Form.Select>
+    <TextField
+      select
+      label="Choose chemistry"
+      value={value}
+      onChange={handleSelect}
+      fullWidth
+    >
+      <MenuItem value="Any">Any</MenuItem>
+      <MenuItem value="BASIC">BASIC</MenuItem>
+      <MenuItem value="SNIPER">SNIPER</MenuItem>
+      <MenuItem value="FINISHER">FINISHER</MenuItem>
+      <MenuItem value="DEADEYE">DEADEYE</MenuItem>
+      <MenuItem value="MARKSMAN">MARKSMAN</MenuItem>
+      <MenuItem value="HAWK">HAWK</MenuItem>
+      <MenuItem value="ARTIST">ARTIST</MenuItem>
+      <MenuItem value="ARCHITECT">ARCHITECT</MenuItem>
+      <MenuItem value="POWERHOUSE">POWERHOUSE</MenuItem>
+      <MenuItem value="MAESTRO">MAESTRO</MenuItem>
+      <MenuItem value="ENGINE">ENGINE</MenuItem>
+      <MenuItem value="SENTINEL">SENTINEL</MenuItem>
+      <MenuItem value="GUARDIAN">GUARDIAN</MenuItem>
+      <MenuItem value="GLADIATOR">GLADIATOR</MenuItem>
+      <MenuItem value="BACKBONE">BACKBONE</MenuItem>
+      <MenuItem value="ANCHOR">ANCHOR</MenuItem>
+      <MenuItem value="HUNTER">HUNTER</MenuItem>
+      <MenuItem value="CATALYST">CATALYST</MenuItem>
+      <MenuItem value="SHADOW">SHADOW</MenuItem>
+      <MenuItem value="WALL">WALL</MenuItem>
+      <MenuItem value="SHIELD">SHIELD</MenuItem>
+      <MenuItem value="CAT">CAT</MenuItem>
+      <MenuItem value="GLOVE">GLOVE</MenuItem>
+      <MenuItem value="GK BASIC">GK BASIC</MenuItem>
+    </TextField>
   );
 };

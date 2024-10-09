@@ -1,6 +1,6 @@
-import { Dropdown } from "react-bootstrap";
+import { MenuItem, Typography, IconButton, Box } from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 import { Card } from "../../models/models";
-import * as Icon from "react-bootstrap-icons";
 
 export const CardRow = ({
   card,
@@ -15,14 +15,20 @@ export const CardRow = ({
   const flagImg = `${card.nationality.imageUrl}`;
   const playerImg = `${card.shieldUrl}`;
 
+  const isNameTooLong = card.name.length > 20; // Customize this threshold based on design requirements
+
   return (
-    <Dropdown.Item
+    <MenuItem
       key={card.cardId}
-      eventKey="1"
-      style={{
-        width: "clamp(50%, 600px, 100%)",
+      sx={{
+        width: "600px", // Wider than container
         display: "inline-flex",
-        placeItems: "center",
+        alignItems: "center",
+        justifyContent: "space-between", // Spread out content
+        margin: "0 auto", // Center the item horizontally
+        position: "relative", // Relative positioning for centering
+        left: "50%", // Move the component halfway from the left
+        transform: "translateX(-50%)", // Shift it back by half its width
       }}
       onClick={() => {
         if (!isRemoveable) onSelectCard(card);
@@ -33,8 +39,32 @@ export const CardRow = ({
         src={playerImg}
         alt={card.name}
       />
-      <h5 style={{ flex: 3, margin: "0 auto" }}>{card.name}</h5>
-      <h6 style={{ flex: 1, margin: "0 auto" }}>{card.overallRating}</h6>
+      <Box
+        sx={{
+          flex: 3,
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          marginLeft: "1rem",
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{
+            fontSize: isNameTooLong ? "16px" : "18px",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            width: "100%",
+            textAlign: "left",
+          }}
+        >
+          {card.name}
+        </Typography>
+      </Box>
+      <Typography variant="h6" sx={{ flex: 1, textAlign: "center" }}>
+        {card.overallRating}
+      </Typography>
       <img
         style={{ height: "40px", width: "40px", marginLeft: "15px" }}
         src={flagImg}
@@ -51,13 +81,13 @@ export const CardRow = ({
         alt={card.team.label}
       />
       {isRemoveable && (
-        <Icon.XCircle
-          size={25}
-          color="red"
+        <IconButton
           onClick={() => onSelectCard(undefined)}
-          style={{ marginLeft: "40px" }}
-        />
+          sx={{ marginLeft: "40px" }}
+        >
+          <CloseIcon color="error" />
+        </IconButton>
       )}
-    </Dropdown.Item>
+    </MenuItem>
   );
 };

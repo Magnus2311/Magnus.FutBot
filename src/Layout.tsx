@@ -1,73 +1,93 @@
-import { useState } from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { useState, MouseEvent } from "react";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import { Menu as MenuIcon } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import UserNavMenu from "./features/authentication/UserNavMenu";
 import Logo from "./features/common/Logo";
 
 const Layout = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const handleClick = () => {
-    if (isExpanded) setIsExpanded(!isExpanded);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleMenuClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleOpenning = () => {
-    setIsExpanded(!isExpanded);
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
-    <Navbar
-      bg="light"
-      expand="lg"
-      style={{
-        minWidth: "380px",
-        position: "fixed",
-        top: "0",
-        width: "100%",
-        height: "50px",
-      }}
-      expanded={isExpanded}
-    >
-      <Link className="navbar-brand" to="/" onClick={handleClick}>
-        <div style={{ display: "flex", placeItems: "center" }}>
-          <Logo style={{ marginLeft: "10px" }} />
-          <p style={{ paddingLeft: "10px", margin: "0 auto" }}>
-            Magnus Fut Bot
-          </p>
-        </div>
-      </Link>
-      <Navbar.Toggle
-        aria-controls="basic-navbar-nav"
-        style={{ position: "fixed", left: "10rem", top: "0.5rem" }}
-        onClick={handleOpenning}
-      />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Link className="nav-link" to="/profile/index" onClick={handleClick}>
-            Profiles
-          </Link>
-        </Nav>
-        <Nav className="mr-auto">
-          <Link className="nav-link" to="/players" onClick={handleClick}>
-            Players
-          </Link>
-        </Nav>
-        <Nav className="mr-auto">
-          <Link className="nav-link" to="/cards/buy" onClick={handleClick}>
-            Buy
-          </Link>
-        </Nav>
-        <Nav className="mr-auto">
-          <Link
-            className="nav-link"
-            to="/cards/buy-and-sell"
-            onClick={handleClick}
-          >
-            Buy & Sell
-          </Link>
-        </Nav>
-      </Navbar.Collapse>
-      <UserNavMenu />
-    </Navbar>
+    <AppBar position="fixed" sx={{ minWidth: "380px", height: "50px" }}>
+      <Toolbar>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Logo style={{ marginLeft: "10px" }} />
+            <Typography variant="h6" sx={{ paddingLeft: "10px" }}>
+              Magnus Fut Bot
+            </Typography>
+          </div>
+        </Link>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={handleMenuClick}
+          sx={{ marginLeft: "auto" }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={isMenuOpen}
+          onClose={handleMenuClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleMenuClose}>
+            <Link
+              to="/profile/index"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              Profiles
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Link
+              to="/players"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              Players
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Link
+              to="/cards/buy"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              Buy
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Link
+              to="/cards/buy-and-sell"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              Buy & Sell
+            </Link>
+          </MenuItem>
+        </Menu>
+        <UserNavMenu />
+      </Toolbar>
+    </AppBar>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Spinner } from "react-bootstrap";
+import { CircularProgress } from "@mui/material";
 import { Navigate, Outlet } from "react-router-dom";
 import { isAuthenticated } from "./authenticationService";
 
@@ -8,8 +8,8 @@ interface Props {
 }
 
 const PrivateOutlet = ({ path }: Props) => {
-  const [authenticated, setAuthenticated] = useState(true);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [authenticated, setAuthenticated] = useState<boolean>(true);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const startAuthentication = async () => {
@@ -19,7 +19,8 @@ const PrivateOutlet = ({ path }: Props) => {
     };
 
     startAuthentication();
-  });
+  }, []);
+
   return isLoaded ? (
     authenticated ? (
       <Outlet />
@@ -27,7 +28,7 @@ const PrivateOutlet = ({ path }: Props) => {
       <Navigate to={`/auth/login?returnAfterLogin=${path}`} />
     )
   ) : (
-    <Spinner animation="border" variant="primary" />
+    <CircularProgress color="primary" />
   );
 };
 

@@ -1,20 +1,16 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
-import { NavItem, NavLink } from "react-bootstrap";
+import { MenuItem, ListItemText } from "@mui/material";
 
 const NotLoggedNavMenu = () => {
   return (
     <>
-      <NavItem>
-        <NavLink as={Link} className="text-dark" to="/auth/registration">
-          Register
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink as={Link} className="text-dark" to="/auth/login">
-          Login
-        </NavLink>
-      </NavItem>
+      <MenuItem component={Link} to="/auth/registration">
+        <ListItemText primary="Register" />
+      </MenuItem>
+      <MenuItem component={Link} to="/auth/login">
+        <ListItemText primary="Login" />
+      </MenuItem>
     </>
   );
 };

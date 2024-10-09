@@ -1,6 +1,12 @@
 import { HubConnection } from "@microsoft/signalr";
-import { MouseEvent, useEffect, useState } from "react";
-import { Button, Form, FormControl, FormLabel, Spinner } from "react-bootstrap";
+import { MouseEvent, ChangeEvent, useEffect, useState } from "react";
+import {
+  Button,
+  TextField,
+  CircularProgress,
+  Box,
+  Typography,
+} from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useAppDispatch } from "../../app/hooks";
 import { Card, SellCardDTO } from "../../models/models";
@@ -10,6 +16,7 @@ import { CardRow } from "./CardRow";
 interface NavigationState {
   sellCardDTO?: SellCardDTO;
 }
+
 export const SellCardComponent = () => {
   const locationState = useLocation().state as NavigationState;
   const incomingSellPlayerDTO = locationState?.sellCardDTO;
@@ -50,11 +57,24 @@ export const SellCardComponent = () => {
         parseInt(cardId ?? incomingSellPlayerDTO?.card.cardId ?? "")
       )
       .then((card: Card) => setCardToSell(card));
-  }, [dispatch, connection, cardId]);
+  }, [dispatch, connection, cardId, incomingSellPlayerDTO?.card.cardId]);
+
+  const handleCountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSellCard({ ...sellCard, count: parseInt(e.target.value) });
+  };
+
+  const handleBidChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSellCard({ ...sellCard, fromBid: parseInt(e.target.value) });
+  };
+
+  const handleBinChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSellCard({ ...sellCard, fromBin: parseInt(e.target.value) });
+  };
 
   return (
-    <Form
-      style={{
+    <Box
+      component="form"
+      sx={{
         width: "clamp(400px, 60%, 100%)",
         textAlign: "center",
       }}
@@ -68,42 +88,48 @@ export const SellCardComponent = () => {
           isRemoveable={true}
         />
       ) : (
-        <Spinner animation="border" />
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <CircularProgress />
+        </Box>
       )}
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <FormLabel>How many cards to sell:</FormLabel>
-        <FormControl
+      <Box sx={{ mt: 2, textAlign: "left" }}>
+        <Typography variant="h6">How many cards to sell:</Typography>
+        <TextField
+          fullWidth
           autoFocus
           value={sellCard.count}
-          onChange={(e) =>
-            setSellCard({ ...sellCard, count: parseInt(e.target.value) })
-          }
+          onChange={handleCountChange}
+          type="number"
         />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <FormLabel>Lowest BID price:</FormLabel>
-        <FormControl
-          autoFocus
+      </Box>
+      <Box sx={{ mt: 2, textAlign: "left" }}>
+        <Typography variant="h6">Lowest BID price:</Typography>
+        <TextField
+          fullWidth
           value={sellCard.fromBid}
-          onChange={(e) =>
-            setSellCard({ ...sellCard, fromBid: parseInt(e.target.value) })
-          }
+          onChange={handleBidChange}
+          type="number"
         />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "10px", textAlign: "left" }}>
-        <FormLabel>Lowest BIN price:</FormLabel>
-        <FormControl
+      </Box>
+      <Box sx={{ mt: 2, textAlign: "left" }}>
+        <Typography variant="h6">Lowest BIN price:</Typography>
+        <TextField
+          fullWidth
           value={sellCard.fromBin}
-          onChange={(e) =>
-            setSellCard({ ...sellCard, fromBin: parseInt(e.target.value) })
-          }
+          onChange={handleBinChange}
+          type="number"
         />
-      </Form.Group>
-      <Form.Group style={{ marginTop: "15px" }}>
-        <Button onClick={handleBtnSubmit} style={{ width: "100%" }}>
+      </Box>
+      <Box sx={{ mt: 3 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleBtnSubmit}
+        >
           Sell Card
         </Button>
-      </Form.Group>
-    </Form>
+      </Box>
+    </Box>
   );
 };

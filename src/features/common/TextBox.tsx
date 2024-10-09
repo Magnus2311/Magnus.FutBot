@@ -1,6 +1,5 @@
-import React, { ChangeEvent, FunctionComponent } from "react";
-import { Alert } from "./Alert";
-import "./TextBox.css";
+import { ChangeEvent, FunctionComponent, Ref } from "react";
+import { TextField, Box, Typography } from "@mui/material";
 
 interface TextBoxProps {
   label: string;
@@ -9,12 +8,6 @@ interface TextBoxProps {
   type?: string;
   value?: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  ref?:
-    | string
-    | ((instance: HTMLInputElement | null) => void)
-    | React.RefObject<HTMLInputElement>
-    | null
-    | undefined;
   autoFocus?: boolean;
   disabled?: boolean;
   validation?: {
@@ -22,6 +15,7 @@ interface TextBoxProps {
     alertMessage: string;
   };
   handleBlur?: () => void;
+  inputRef?: Ref<HTMLInputElement>;
 }
 
 const TextBox: FunctionComponent<TextBoxProps> = ({
@@ -31,33 +25,35 @@ const TextBox: FunctionComponent<TextBoxProps> = ({
   handleChange,
   type,
   value,
-  ref,
   autoFocus,
   disabled,
   validation,
   handleBlur,
+  inputRef,
 }) => {
   return (
-    <div className={`form-group`} style={{ marginBottom: "10px" }}>
-      <label>{label}</label>
-      <input
-        className={`form-control${
-          validation?.isValid ? "" : " invalid-content"
-        }`}
+    <Box sx={{ marginBottom: "10px" }}>
+      <Typography variant="h6" sx={{ textAlign: "left" }}>
+        {label}
+      </Typography>
+      <TextField
+        fullWidth
+        variant="outlined"
         type={type ? type : "text"}
         name={name}
-        ref={ref}
+        inputRef={inputRef}
         placeholder={placeholder}
         onChange={handleChange}
         value={value}
         autoFocus={autoFocus}
         disabled={disabled}
         onBlur={handleBlur}
+        error={validation?.isValid === false}
+        helperText={
+          validation?.isValid === false ? validation.alertMessage : ""
+        }
       />
-      {validation?.isValid === false && (
-        <Alert content={validation.alertMessage} type="danger" />
-      )}
-    </div>
+    </Box>
   );
 };
 

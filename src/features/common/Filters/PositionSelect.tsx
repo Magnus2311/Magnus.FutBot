@@ -1,33 +1,39 @@
 import { ChangeEvent } from "react";
-import { Form } from "react-bootstrap";
+import { TextField, MenuItem } from "@mui/material";
 
 interface Props {
-  handleSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
 
 export const PositionSelect = ({ handleSelect, value }: Props) => {
   return (
-    <Form.Select onChange={handleSelect} value={value}>
-      <option selected>Any</option>
-      <option>Defenders</option>
-      <option>Midfielders</option>
-      <option>Attackers</option>
-      <option>GK</option>
-      <option>RWB</option>
-      <option>RB</option>
-      <option>CB</option>
-      <option>LB</option>
-      <option>LWB</option>
-      <option>CDM</option>
-      <option>RM</option>
-      <option>CM</option>
-      <option>LM</option>
-      <option>CAM</option>
-      <option>CF</option>
-      <option>RW</option>
-      <option>ST</option>
-      <option>LW</option>
-    </Form.Select>
+    <TextField
+      select
+      label="Choose position"
+      value={value}
+      onChange={handleSelect}
+      fullWidth
+    >
+      <MenuItem value="Any">Any</MenuItem>
+      <MenuItem value="Defenders">Defenders</MenuItem>
+      <MenuItem value="Midfielders">Midfielders</MenuItem>
+      <MenuItem value="Attackers">Attackers</MenuItem>
+      <MenuItem value="GK">GK</MenuItem>
+      <MenuItem value="RWB">RWB</MenuItem>
+      <MenuItem value="RB">RB</MenuItem>
+      <MenuItem value="CB">CB</MenuItem>
+      <MenuItem value="LB">LB</MenuItem>
+      <MenuItem value="LWB">LWB</MenuItem>
+      <MenuItem value="CDM">CDM</MenuItem>
+      <MenuItem value="RM">RM</MenuItem>
+      <MenuItem value="CM">CM</MenuItem>
+      <MenuItem value="LM">LM</MenuItem>
+      <MenuItem value="CAM">CAM</MenuItem>
+      <MenuItem value="CF">CF</MenuItem>
+      <MenuItem value="RW">RW</MenuItem>
+      <MenuItem value="ST">ST</MenuItem>
+      <MenuItem value="LW">LW</MenuItem>
+    </TextField>
   );
 };

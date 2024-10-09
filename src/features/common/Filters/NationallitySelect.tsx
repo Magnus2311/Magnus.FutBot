@@ -1,181 +1,175 @@
 import { ChangeEvent } from "react";
-import { Form } from "react-bootstrap";
+import { TextField, MenuItem } from "@mui/material";
 
 interface Props {
-  handleSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
 
-export const NationallitySelect = ({ handleSelect, value }: Props) => {
+export const NationalitySelect = ({ handleSelect, value }: Props) => {
   return (
-    <Form.Select onChange={handleSelect} value={value}>
-      <option selected>Any</option>
-      <option>Argentina</option>
-      <option>Brazil</option>
-      <option>England</option>
-      <option>France</option>
-      <option>Germany</option>
-      <option>Netherlands</option>
-      <option>Italy</option>
-      <option>Portugal</option>
-      <option>Spain</option>
-      <option>Afghanist.</option>
-      <option>Albania</option>
-      <option>Algeria</option>
-      <option>Andorra</option>
-      <option>Angola</option>
-      <option>Antigua B.</option>
-      <option>Argentina</option>
-      <option>Armenia</option>
-      <option>Austraoptiona</option>
-      <option>Austria</option>
-      <option>Azerbaijan</option>
-      <option>Belarus</option>
-      <option>Belgium</option>
-      <option>Benin</option>
-      <option>Bermuda</option>
-      <option>Booptionvia</option>
-      <option>Bosnia-H.</option>
-      <option>Brazil</option>
-      <option>Bulgaria</option>
-      <option>Burk. Faso</option>
-      <option>Burundi</option>
-      <option>Cameroon</option>
-      <option>Canada</option>
-      <option>Cape Verde</option>
-      <option>CAR</option>
-      <option>Chad</option>
-      <option>Chile</option>
-      <option>China PR</option>
-      <option>Chinese Taipei</option>
-      <option>Colombia</option>
-      <option>Comoros</option>
-      <option>Congo</option>
-      <option>Costa Rica</option>
-      <option>Croatia</option>
-      <option>Cuba</option>
-      <option>Cyprus</option>
-      <option>Czech Rep.</option>
-      <option>Denmark</option>
-      <option>Dom. Rep.</option>
-      <option>DR Congo</option>
-      <option>E. Guinea</option>
-      <option>Ecuador</option>
-      <option>Egypt</option>
-      <option>El Salvad.</option>
-      <option>England</option>
-      <option>Estonia</option>
-      <option>Ethiopia</option>
-      <option>Faroe Isl.</option>
-      <option>Fiji</option>
-      <option>Finland</option>
-      <option>France</option>
-      <option>Gabon</option>
-      <option>Gambia</option>
-      <option>Georgia</option>
-      <option>Germany</option>
-      <option>Ghana</option>
-      <option>Gibraltar</option>
-      <option>Greece</option>
-      <option>Grenada</option>
-      <option>Guam</option>
-      <option>Guatemala</option>
-      <option>Guinea</option>
-      <option>Guinea-Bis</option>
-      <option>Guyana</option>
-      <option>Haiti</option>
-      <option>Honduras</option>
-      <option>Hong Kong</option>
-      <option>Hungary</option>
-      <option>Iceland</option>
-      <option>India</option>
-      <option>Indonesia</option>
-      <option>Iran</option>
-      <option>Iraq</option>
-      <option>Ireland</option>
-      <option>Israel</option>
-      <option>Italy</option>
-      <option>Ivory Coast</option>
-      <option>Jamaica</option>
-      <option>Japan</option>
-      <option>Kazakhstan</option>
-      <option>Kenya</option>
-      <option>Korea DPR</option>
-      <option>Korea Rep.</option>
-      <option>Kosovo</option>
-      <option>Latvia</option>
-      <option>Lebanon</option>
-      <option>optionberia</option>
-      <option>optionbya</option>
-      <option>optionechten.</option>
-      <option>optionthuania</option>
-      <option>Luxemburg</option>
-      <option>Macedonia</option>
-      <option>Madagascar</option>
-      <option>Malaysia</option>
-      <option>Maoption</option>
-      <option>Malta</option>
-      <option>Mauritania</option>
-      <option>Mauritius</option>
-      <option>Mexico</option>
-      <option>Moldova</option>
-      <option>Montenegro</option>
-      <option>Montserrat</option>
-      <option>Morocco</option>
-      <option>Mozambique</option>
-      <option>N. Ireland</option>
-      <option>N.Antilles</option>
-      <option>Namibia</option>
-      <option>Netherlands</option>
-      <option>New Zealand</option>
-      <option>Niger</option>
-      <option>Nigeria</option>
-      <option>Norway</option>
-      <option>Panama</option>
-      <option>Papua New Guinea</option>
-      <option>Paraguay</option>
-      <option>Peru</option>
-      <option>Phioptionppines</option>
-      <option>Poland</option>
-      <option>Portugal</option>
-      <option>Puerto Rico</option>
-      <option>Romania</option>
-      <option>Russia</option>
-      <option>S. Africa</option>
-      <option>São Tomé &amp; Príncipe</option>
-      <option>Saudi Ara.</option>
-      <option>Scotland</option>
-      <option>Senegal</option>
-      <option>Serbia</option>
-      <option>Sierra L.</option>
-      <option>Singapore</option>
-      <option>Slovakia</option>
-      <option>Slovenia</option>
-      <option>South Sudan</option>
-      <option>Spain</option>
-      <option>St Kitts Nevis</option>
-      <option>St Lucia</option>
-      <option>Sudan</option>
-      <option>Suriname</option>
-      <option>Sweden</option>
-      <option>Switzerl.</option>
-      <option>Syria</option>
-      <option>Tanzania</option>
-      <option>Thailand</option>
-      <option>Togo</option>
-      <option>Trinidad</option>
-      <option>Tunisia</option>
-      <option>Turkey</option>
-      <option>Uganda</option>
-      <option>Ukraine</option>
-      <option>United Arab Emirates</option>
-      <option>Uruguay</option>
-      <option>USA</option>
-      <option>Uzbekistan</option>
-      <option>Venezuela</option>
-      <option>Wales</option>
-      <option>Zambia</option>
-      <option>Zimbabwe</option>
-    </Form.Select>
+    <TextField
+      select
+      label="Choose nationality"
+      value={value}
+      onChange={handleSelect}
+      fullWidth
+    >
+      <MenuItem value="Any">Any</MenuItem>
+      <MenuItem value="Argentina">Argentina</MenuItem>
+      <MenuItem value="Brazil">Brazil</MenuItem>
+      <MenuItem value="England">England</MenuItem>
+      <MenuItem value="France">France</MenuItem>
+      <MenuItem value="Germany">Germany</MenuItem>
+      <MenuItem value="Netherlands">Netherlands</MenuItem>
+      <MenuItem value="Italy">Italy</MenuItem>
+      <MenuItem value="Portugal">Portugal</MenuItem>
+      <MenuItem value="Spain">Spain</MenuItem>
+      <MenuItem value="Afghanistan">Afghanistan</MenuItem>
+      <MenuItem value="Albania">Albania</MenuItem>
+      <MenuItem value="Algeria">Algeria</MenuItem>
+      <MenuItem value="Andorra">Andorra</MenuItem>
+      <MenuItem value="Angola">Angola</MenuItem>
+      <MenuItem value="Antigua B.">Antigua B.</MenuItem>
+      <MenuItem value="Armenia">Armenia</MenuItem>
+      <MenuItem value="Australia">Australia</MenuItem>
+      <MenuItem value="Austria">Austria</MenuItem>
+      <MenuItem value="Azerbaijan">Azerbaijan</MenuItem>
+      <MenuItem value="Belarus">Belarus</MenuItem>
+      <MenuItem value="Belgium">Belgium</MenuItem>
+      <MenuItem value="Benin">Benin</MenuItem>
+      <MenuItem value="Bermuda">Bermuda</MenuItem>
+      <MenuItem value="Bolivia">Bolivia</MenuItem>
+      <MenuItem value="Bosnia-H.">Bosnia-H.</MenuItem>
+      <MenuItem value="Bulgaria">Bulgaria</MenuItem>
+      <MenuItem value="Burkina Faso">Burkina Faso</MenuItem>
+      <MenuItem value="Burundi">Burundi</MenuItem>
+      <MenuItem value="Cameroon">Cameroon</MenuItem>
+      <MenuItem value="Canada">Canada</MenuItem>
+      <MenuItem value="Cape Verde">Cape Verde</MenuItem>
+      <MenuItem value="CAR">CAR</MenuItem>
+      <MenuItem value="Chad">Chad</MenuItem>
+      <MenuItem value="Chile">Chile</MenuItem>
+      <MenuItem value="China PR">China PR</MenuItem>
+      <MenuItem value="Chinese Taipei">Chinese Taipei</MenuItem>
+      <MenuItem value="Colombia">Colombia</MenuItem>
+      <MenuItem value="Comoros">Comoros</MenuItem>
+      <MenuItem value="Congo">Congo</MenuItem>
+      <MenuItem value="Costa Rica">Costa Rica</MenuItem>
+      <MenuItem value="Croatia">Croatia</MenuItem>
+      <MenuItem value="Cuba">Cuba</MenuItem>
+      <MenuItem value="Cyprus">Cyprus</MenuItem>
+      <MenuItem value="Czech Republic">Czech Republic</MenuItem>
+      <MenuItem value="Denmark">Denmark</MenuItem>
+      <MenuItem value="Dominican Republic">Dominican Republic</MenuItem>
+      <MenuItem value="DR Congo">DR Congo</MenuItem>
+      <MenuItem value="Ecuador">Ecuador</MenuItem>
+      <MenuItem value="Egypt">Egypt</MenuItem>
+      <MenuItem value="El Salvador">El Salvador</MenuItem>
+      <MenuItem value="Estonia">Estonia</MenuItem>
+      <MenuItem value="Ethiopia">Ethiopia</MenuItem>
+      <MenuItem value="Faroe Islands">Faroe Islands</MenuItem>
+      <MenuItem value="Fiji">Fiji</MenuItem>
+      <MenuItem value="Finland">Finland</MenuItem>
+      <MenuItem value="Gabon">Gabon</MenuItem>
+      <MenuItem value="Gambia">Gambia</MenuItem>
+      <MenuItem value="Georgia">Georgia</MenuItem>
+      <MenuItem value="Ghana">Ghana</MenuItem>
+      <MenuItem value="Gibraltar">Gibraltar</MenuItem>
+      <MenuItem value="Greece">Greece</MenuItem>
+      <MenuItem value="Grenada">Grenada</MenuItem>
+      <MenuItem value="Guam">Guam</MenuItem>
+      <MenuItem value="Guatemala">Guatemala</MenuItem>
+      <MenuItem value="Guinea">Guinea</MenuItem>
+      <MenuItem value="Guinea-Bissau">Guinea-Bissau</MenuItem>
+      <MenuItem value="Guyana">Guyana</MenuItem>
+      <MenuItem value="Haiti">Haiti</MenuItem>
+      <MenuItem value="Honduras">Honduras</MenuItem>
+      <MenuItem value="Hong Kong">Hong Kong</MenuItem>
+      <MenuItem value="Hungary">Hungary</MenuItem>
+      <MenuItem value="Iceland">Iceland</MenuItem>
+      <MenuItem value="India">India</MenuItem>
+      <MenuItem value="Indonesia">Indonesia</MenuItem>
+      <MenuItem value="Iran">Iran</MenuItem>
+      <MenuItem value="Iraq">Iraq</MenuItem>
+      <MenuItem value="Ireland">Ireland</MenuItem>
+      <MenuItem value="Israel">Israel</MenuItem>
+      <MenuItem value="Ivory Coast">Ivory Coast</MenuItem>
+      <MenuItem value="Jamaica">Jamaica</MenuItem>
+      <MenuItem value="Japan">Japan</MenuItem>
+      <MenuItem value="Kazakhstan">Kazakhstan</MenuItem>
+      <MenuItem value="Kenya">Kenya</MenuItem>
+      <MenuItem value="Korea DPR">Korea DPR</MenuItem>
+      <MenuItem value="Korea Republic">Korea Republic</MenuItem>
+      <MenuItem value="Kosovo">Kosovo</MenuItem>
+      <MenuItem value="Latvia">Latvia</MenuItem>
+      <MenuItem value="Lebanon">Lebanon</MenuItem>
+      <MenuItem value="Liberia">Liberia</MenuItem>
+      <MenuItem value="Libya">Libya</MenuItem>
+      <MenuItem value="Liechtenstein">Liechtenstein</MenuItem>
+      <MenuItem value="Lithuania">Lithuania</MenuItem>
+      <MenuItem value="Luxembourg">Luxembourg</MenuItem>
+      <MenuItem value="Macedonia">Macedonia</MenuItem>
+      <MenuItem value="Madagascar">Madagascar</MenuItem>
+      <MenuItem value="Malaysia">Malaysia</MenuItem>
+      <MenuItem value="Malta">Malta</MenuItem>
+      <MenuItem value="Mauritania">Mauritania</MenuItem>
+      <MenuItem value="Mauritius">Mauritius</MenuItem>
+      <MenuItem value="Mexico">Mexico</MenuItem>
+      <MenuItem value="Moldova">Moldova</MenuItem>
+      <MenuItem value="Montenegro">Montenegro</MenuItem>
+      <MenuItem value="Morocco">Morocco</MenuItem>
+      <MenuItem value="Mozambique">Mozambique</MenuItem>
+      <MenuItem value="Northern Ireland">Northern Ireland</MenuItem>
+      <MenuItem value="Netherlands">Netherlands</MenuItem>
+      <MenuItem value="New Zealand">New Zealand</MenuItem>
+      <MenuItem value="Niger">Niger</MenuItem>
+      <MenuItem value="Nigeria">Nigeria</MenuItem>
+      <MenuItem value="Norway">Norway</MenuItem>
+      <MenuItem value="Panama">Panama</MenuItem>
+      <MenuItem value="Papua New Guinea">Papua New Guinea</MenuItem>
+      <MenuItem value="Paraguay">Paraguay</MenuItem>
+      <MenuItem value="Peru">Peru</MenuItem>
+      <MenuItem value="Philippines">Philippines</MenuItem>
+      <MenuItem value="Poland">Poland</MenuItem>
+      <MenuItem value="Portugal">Portugal</MenuItem>
+      <MenuItem value="Puerto Rico">Puerto Rico</MenuItem>
+      <MenuItem value="Romania">Romania</MenuItem>
+      <MenuItem value="Russia">Russia</MenuItem>
+      <MenuItem value="South Africa">South Africa</MenuItem>
+      <MenuItem value="São Tomé and Príncipe">São Tomé and Príncipe</MenuItem>
+      <MenuItem value="Saudi Arabia">Saudi Arabia</MenuItem>
+      <MenuItem value="Scotland">Scotland</MenuItem>
+      <MenuItem value="Senegal">Senegal</MenuItem>
+      <MenuItem value="Serbia">Serbia</MenuItem>
+      <MenuItem value="Sierra Leone">Sierra Leone</MenuItem>
+      <MenuItem value="Singapore">Singapore</MenuItem>
+      <MenuItem value="Slovakia">Slovakia</MenuItem>
+      <MenuItem value="Slovenia">Slovenia</MenuItem>
+      <MenuItem value="South Sudan">South Sudan</MenuItem>
+      <MenuItem value="St Kitts and Nevis">St Kitts and Nevis</MenuItem>
+      <MenuItem value="St Lucia">St Lucia</MenuItem>
+      <MenuItem value="Sudan">Sudan</MenuItem>
+      <MenuItem value="Suriname">Suriname</MenuItem>
+      <MenuItem value="Sweden">Sweden</MenuItem>
+      <MenuItem value="Switzerland">Switzerland</MenuItem>
+      <MenuItem value="Syria">Syria</MenuItem>
+      <MenuItem value="Tanzania">Tanzania</MenuItem>
+      <MenuItem value="Thailand">Thailand</MenuItem>
+      <MenuItem value="Togo">Togo</MenuItem>
+      <MenuItem value="Trinidad and Tobago">Trinidad and Tobago</MenuItem>
+      <MenuItem value="Tunisia">Tunisia</MenuItem>
+      <MenuItem value="Turkey">Turkey</MenuItem>
+      <MenuItem value="Uganda">Uganda</MenuItem>
+      <MenuItem value="Ukraine">Ukraine</MenuItem>
+      <MenuItem value="United Arab Emirates">United Arab Emirates</MenuItem>
+      <MenuItem value="Uruguay">Uruguay</MenuItem>
+      <MenuItem value="USA">USA</MenuItem>
+      <MenuItem value="Uzbekistan">Uzbekistan</MenuItem>
+      <MenuItem value="Venezuela">Venezuela</MenuItem>
+      <MenuItem value="Wales">Wales</MenuItem>
+      <MenuItem value="Zambia">Zambia</MenuItem>
+      <MenuItem value="Zimbabwe">Zimbabwe</MenuItem>
+    </TextField>
   );
 };

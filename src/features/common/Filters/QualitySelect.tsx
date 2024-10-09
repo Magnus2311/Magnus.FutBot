@@ -1,23 +1,25 @@
 import { ChangeEvent } from "react";
-import { Form } from "react-bootstrap";
+import { TextField, MenuItem } from "@mui/material";
 
 interface Props {
-  handleSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
 
 export const QualitySelect = ({ handleSelect, value }: Props) => {
   return (
-    <Form.Select
-      aria-label="Choose quality:"
-      onChange={handleSelect}
+    <TextField
+      select
+      label="Choose quality"
       value={value}
+      onChange={handleSelect}
+      fullWidth
     >
-      <option selected>Any</option>
-      <option>Bronze</option>
-      <option>Silver</option>
-      <option>Gold</option>
-      <option>Special</option>
-    </Form.Select>
+      <MenuItem value="Any">Any</MenuItem>
+      <MenuItem value="Bronze">Bronze</MenuItem>
+      <MenuItem value="Silver">Silver</MenuItem>
+      <MenuItem value="Gold">Gold</MenuItem>
+      <MenuItem value="Special">Special</MenuItem>
+    </TextField>
   );
 };

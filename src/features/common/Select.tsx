@@ -1,22 +1,26 @@
 import { ChangeEvent } from "react";
-import Form from "react-bootstrap/Form";
+import { TextField, MenuItem } from "@mui/material";
 
 interface Props {
   items: string[];
-  handleSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
 
 export const Select = ({ items, handleSelect, value }: Props) => {
   return (
-    <Form.Select
-      aria-label="Choose account to buy for: "
-      onChange={handleSelect}
+    <TextField
+      select
+      placeholder="Choose account to buy for" // Use placeholder instead of label
       value={value}
+      onChange={handleSelect}
+      fullWidth
     >
       {items.map((item) => (
-        <option>{item}</option>
+        <MenuItem key={item} value={item}>
+          {item}
+        </MenuItem>
       ))}
-    </Form.Select>
+    </TextField>
   );
 };

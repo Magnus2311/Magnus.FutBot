@@ -11,7 +11,7 @@ import TextBox from "../common/TextBox";
 import { useNavigate } from "react-router";
 import Logo from "../common/Logo";
 import { useSearchParams } from "react-router-dom";
-import { Button } from "../common/Button";
+import { Button, Typography, Box, Alert } from "@mui/material";
 
 interface Props {
   username?: string;
@@ -116,18 +116,23 @@ const Login = ({ username }: Props) => {
     <>
       <Logo style={{ height: "64px", width: "64px" }} />
       {username ? (
-        <h5 style={{ color: "#97db48" }}>Email confirmed successfully!</h5>
+        <Typography variant="h5" sx={{ color: "#97db48" }}>
+          Email confirmed successfully!
+        </Typography>
       ) : (
         <>
-          <h3>Welcome back</h3>
-          <h5>Login and continue to enjoy our site</h5>
+          <Typography variant="h3">Welcome back</Typography>
+          <Typography variant="h5">
+            Login and continue to enjoy our site
+          </Typography>
         </>
       )}
 
       {isWrongCredentials && (
-        <h6 style={{ color: "red" }}>E-mail or password are wrong!</h6>
+        <Alert severity="error">E-mail or password are wrong!</Alert>
       )}
-      <form onSubmit={handleSubmit} className="add-form">
+
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
         <TextBox
           type="text"
           name="username"
@@ -146,28 +151,34 @@ const Login = ({ username }: Props) => {
           value={currentUser.password}
           autoFocus={isWrongCredentials || !!username}
         />
-        <Button disabled={!isLoginActive}>Login</Button>
-        <button
-          className="btn btn-secondary"
-          disabled={
-            !currentUser || !currentUser.username || currentUser.username === ""
-          }
-          style={{ width: "100%", marginTop: "1rem" }}
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          disabled={!isLoginActive}
+        >
+          Login
+        </Button>
+        <Button
+          variant="outlined"
+          fullWidth
+          sx={{ mt: 2 }}
           onClick={handleResetPassword}
+          disabled={!currentUser.username}
         >
           Reset your password
-        </button>
-        <button
-          className="btn btn-secondary"
-          disabled={
-            !currentUser || !currentUser.username || currentUser.username === ""
-          }
-          style={{ width: "100%", marginTop: "1rem" }}
+        </Button>
+        <Button
+          variant="outlined"
+          fullWidth
+          sx={{ mt: 2 }}
           onClick={handleResendConfirmationEmail}
+          disabled={!currentUser.username}
         >
           Resend confirmation email
-        </button>
-      </form>
+        </Button>
+      </Box>
     </>
   );
 };

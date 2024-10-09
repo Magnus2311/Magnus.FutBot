@@ -5,7 +5,6 @@ import {
   FormControl,
   FormLabel,
   Grid,
-  MenuItem,
   Switch,
   TextField,
   FormControlLabel,
@@ -14,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BuyCardDTO as BuyCard, BuyCardDTO, Card } from "../../models/models";
 import { ChemistrySelect } from "../common/Filters/ChemistrySelect";
 import { LeagueSelect } from "../common/Filters/LeagueSelect";
-import { NationallitySelect } from "../common/Filters/NationallitySelect";
+import { NationalitySelect } from "../common/Filters/NationallitySelect";
 import { PositionSelect } from "../common/Filters/PositionSelect";
 import { QualitySelect } from "../common/Filters/QualitySelect";
 import { RaritySelect } from "../common/Filters/RaritySelect";
@@ -50,13 +49,15 @@ export const BuyCardComponent = () => {
     ...incomingBuyPlayerDTO,
   });
 
+  const profiles = useAppSelector(selectProfiles).profiles;
+
   const [selectedProfile, setSelectedProfile] = useState(
-    incomingBuyPlayerDTO?.email
+    (incomingBuyPlayerDTO && incomingBuyPlayerDTO.email) ||
+      (profiles && profiles[0] ? profiles[0].email : "")
   );
 
   const [connection, setConnection] = useState<HubConnection | undefined>();
   const dispatch = useAppDispatch();
-  const profiles = useAppSelector(selectProfiles).profiles;
   const [quality, setQuality] = useState("Any");
   const [rarity, setRarity] = useState("Any");
   const [position, setPosition] = useState("Any");
@@ -117,6 +118,10 @@ export const BuyCardComponent = () => {
     setLeague(e.target.value as string);
   };
 
+  useEffect(() => {
+    profiles && profiles[0] && setSelectedProfile(profiles[0].email);
+  }, [profiles]);
+
   return (
     <form
       style={{
@@ -142,7 +147,6 @@ export const BuyCardComponent = () => {
       >
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select profile to trade for</FormLabel>
             <Select
               items={profiles.map((p) => p.email)}
               handleSelect={handleProfileSelect}
@@ -153,21 +157,18 @@ export const BuyCardComponent = () => {
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select quality</FormLabel>
             <QualitySelect handleSelect={handleQualitySelect} value={quality} />
           </FormControl>
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select rarity</FormLabel>
             <RaritySelect handleSelect={handleRaritySelect} value={rarity} />
           </FormControl>
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select position</FormLabel>
             <PositionSelect
               handleSelect={handlePositionSelect}
               value={position}
@@ -177,7 +178,6 @@ export const BuyCardComponent = () => {
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select chemistry</FormLabel>
             <ChemistrySelect
               handleSelect={handleChemistrySelect}
               value={chemistry}
@@ -187,8 +187,7 @@ export const BuyCardComponent = () => {
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select nationality</FormLabel>
-            <NationallitySelect
+            <NationalitySelect
               handleSelect={handleNationallitySelect}
               value={nationallity}
             />
@@ -197,7 +196,6 @@ export const BuyCardComponent = () => {
 
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <FormLabel>Select league</FormLabel>
             <LeagueSelect handleSelect={handleLeagueSelect} value={league} />
           </FormControl>
         </Grid>

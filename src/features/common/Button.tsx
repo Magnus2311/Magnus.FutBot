@@ -1,4 +1,5 @@
 import { FormEvent } from "react";
+import { Button as MUIButton } from "@mui/material";
 
 interface Props {
   children: React.ReactNode | React.ReactNode[];
@@ -16,8 +17,9 @@ export const Button = ({
   onClick,
 }: Props) => {
   return (
-    <button
-      className={className ?? "btn btn-primary btn-xl"}
+    <MUIButton
+      variant="contained"
+      className={className}
       style={{
         ...style,
         width: style?.width ?? "100%",
@@ -25,8 +27,9 @@ export const Button = ({
       }}
       disabled={disabled}
       onClick={onClick}
+      fullWidth
     >
       {children}
-    </button>
+    </MUIButton>
   );
 };

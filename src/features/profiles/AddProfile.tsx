@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { Spinner } from "react-bootstrap";
+import { CircularProgress, Box } from "@mui/material";
 import { Navigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Alert } from "../common/Alert";
@@ -51,13 +51,9 @@ export const AddProfile = () => {
         <Alert content="Wrong credentials" type="danger" />
       )}
       {profilesState.status === "pending" && (
-        <div style={{ width: "100%", display: "grid" }}>
-          <Spinner
-            animation="border"
-            variant="primary"
-            style={{ margin: "0 auto" }}
-          />
-        </div>
+        <Box sx={{ width: "100%", display: "grid", placeItems: "center" }}>
+          <CircularProgress />
+        </Box>
       )}
       {profilesState.status === "confirmation-key-required" && (
         <>
@@ -73,7 +69,7 @@ export const AddProfile = () => {
         </>
       )}
       {profilesState.status === "unknown-error" && (
-        <Alert content="Unknown error occured!" type="danger" />
+        <Alert content="Unknown error occurred!" type="danger" />
       )}
       {profilesState.status === "successfully-added" && (
         <Navigate to={"/profile/index"} />

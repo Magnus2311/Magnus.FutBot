@@ -1,6 +1,13 @@
 import { HubConnection } from "@microsoft/signalr";
-import React, { LegacyRef, useCallback, useEffect, useState } from "react";
-import { Dropdown, Form, Spinner } from "react-bootstrap";
+import React, { useCallback, useEffect, useState, useRef } from "react";
+import {
+  TextField,
+  CircularProgress,
+  Popper,
+  Paper,
+  MenuItem,
+  Box,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Card } from "../../models/models";
 import { getCardsConnection, selectCards } from "./buyActions";
@@ -13,9 +20,12 @@ interface Props {
 export const SelectCardIndex = ({ selectCard }: Props) => {
   const dispatch = useAppDispatch();
   const { cards } = useAppSelector(selectCards);
-  const [card, setCard] = useState<Card | undefined>();
   const [value, setValue] = useState("");
   const [connection, setConnection] = useState<HubConnection | undefined>();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const popperRef = useRef<HTMLDivElement>(null); // Ref for the Popper
+  const [open, setOpen] = useState(false);
 
   const searchCards = useCallback(
     (name: string) => {
@@ -29,84 +39,93 @@ export const SelectCardIndex = ({ selectCard }: Props) => {
       setConnection(connection);
       searchCards(value);
     });
-  }, [dispatch, card, value, searchCards]);
+  }, [dispatch, value, searchCards]);
 
   const handleCardSearch = (name: string) => {
     setValue(name);
     searchCards(name);
   };
 
-  const handleSelectCard = (card: Card | undefined) => {
-    setCard(card);
-    selectCard(card);
+  const handlePopperOpen = (event: React.MouseEvent<HTMLInputElement>) => {
+    setAnchorEl(event.currentTarget);
+    setOpen(true);
   };
 
-  const CustomToggle = React.forwardRef(
-    ({ onClick }: any, ref: LegacyRef<HTMLAnchorElement>) => {
-      return (
-        <>
-          <Form.Control
-            autoFocus
-            className="mx-6 my-4 w-1"
-            placeholder="Choose the card you wanna buy ..."
-            onClick={(e) => {
-              e.preventDefault();
-              onClick(e);
-            }}
-            onChange={(e) => handleCardSearch(e.target.value)}
-            value={value}
-          />
-        </>
-      );
-    }
-  );
+  const handlePopperClose = () => {
+    setOpen(false);
+  };
 
-  const CustomMenu = React.forwardRef(
-    (
-      { style, className, "aria-labelledby": labeledBy }: any,
-      ref: LegacyRef<HTMLDivElement>
-    ) => {
-      return (
-        <div
-          ref={ref}
-          style={style}
-          className={className}
-          aria-labelledby={labeledBy}
-        >
-          <ul className="list-unstyled">
-            {cards.map((card) => (
-              <CardRow
-                key={card.cardId}
-                card={card}
-                onSelectCard={handleSelectCard}
-              />
-            ))}
-          </ul>
-        </div>
-      );
+  // Close the Popper when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popperRef.current &&
+        !popperRef.current.contains(event.target as Node) &&
+        anchorEl &&
+        !anchorEl.contains(event.target as Node)
+      ) {
+        handlePopperClose();
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
     }
-  );
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open, anchorEl]);
 
   return (
-    <Dropdown>
-      <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
-
-      {cards.length > 0 ? (
-        <Dropdown.Menu
-          as={CustomMenu}
-          style={{
-            marginLeft: "-190px",
+    <Box>
+      <TextField
+        fullWidth
+        autoFocus
+        inputRef={inputRef}
+        placeholder="Choose the card you want to buy ..."
+        onChange={(e) => handleCardSearch(e.target.value)}
+        onClick={handlePopperOpen}
+        value={value}
+      />
+      <Popper
+        open={open}
+        anchorEl={anchorEl}
+        placement="bottom-start"
+        style={{ zIndex: 2, width: "600px" }}
+        disablePortal
+        modifiers={[
+          {
+            name: "offset",
+            options: {
+              offset: [-75, 5],
+            },
+          },
+        ]}
+        ref={popperRef}
+      >
+        <Paper
+          elevation={3}
+          sx={{
             width: "600px",
-            position: "absolute",
+            backgroundColor: "white",
           }}
         >
-          {cards.slice(0, 20).map((card) => (
-            <CardRow key={card.cardId} card={card} onSelectCard={selectCard} />
-          ))}
-        </Dropdown.Menu>
-      ) : (
-        <Spinner animation="border" color="blue"></Spinner>
-      )}
-    </Dropdown>
+          {cards.length > 0 ? (
+            cards.slice(0, 20).map((card) => (
+              <MenuItem key={card.cardId} onClick={handlePopperClose}>
+                <CardRow card={card} onSelectCard={selectCard} />
+              </MenuItem>
+            ))
+          ) : (
+            <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
+              <CircularProgress color="primary" />
+            </Box>
+          )}
+        </Paper>
+      </Popper>
+    </Box>
   );
 };

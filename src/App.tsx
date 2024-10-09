@@ -4,7 +4,6 @@ import AppRouter from "./AppRouter";
 import { AuthContext, User } from "./features/authentication/AuthContext";
 import { initUser } from "./features/authentication/authenticationService";
 import Layout from "./Layout";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
